@@ -13,8 +13,7 @@ from .agents import CurriculumAgent
 from .agents import SkillManager
 
 # add llama
-from langchain.schema import AIMessage
-from .agents.llama import chat_completion
+from .agents.llama import call_with_messages
 
 
 # TODO: remove event memory
@@ -155,6 +154,7 @@ class Voyager:
             ckpt_dir=skill_library_dir if skill_library_dir else ckpt_dir,
             resume=True if resume or skill_library_dir else False,
         )
+        self.skills = [[], []]
         self.recorder = U.EventRecorder(ckpt_dir=ckpt_dir, resume=resume)
         self.resume = resume
 
@@ -185,13 +185,13 @@ class Voyager:
             "bot.chat(`/time set ${getNextTime()}`);\n"
             + f"bot.chat('/difficulty {difficulty}');"
         )
-        skills = self.skill_manager.retrieve_skills(query=self.context)
+        self.skills = self.skill_manager.retrieve_skills(query=self.context)
         print(
-            f"\033[33mRender Action Agent system message with {len(skills)} skills\033[0m"
+            f"\033[33mRender Action Agent system message with {len(self.skills[0])} skills\033[0m"
         )
-        system_message = self.action_agent.render_system_message(skills=skills)
+        system_message = self.action_agent.render_system_message()
         human_message = self.action_agent.render_human_message(
-            events=events, code="", task=self.task, context=context, critique=""
+            events=events, code="", task=self.task, context=context, critique="", skills=self.skills[1]
         )
         self.messages = [system_message, human_message]
         print(
@@ -207,23 +207,14 @@ class Voyager:
     def step(self):
         if self.action_agent_rollout_num_iter < 0:
             raise ValueError("Agent must be reset before stepping")
-        # change
-        messages = {"messages": 
-            [{'role': 'system', 'content': self.messages[0].content}, 
-                {'role': 'user', 'content': self.messages[1].content},
-            ]
-        }
         # ai_message = self.action_agent.llm(self.messages)
-        ai_message = chat_completion(messages)
-        # 原来chatgpt返回的AIMessage是被AIMessage类“包裹的”，我们也要还原
-        # 就是把原来给chatgpt的参数转化成llama的参数格式，把llama的输出转化成原来chatgpt输出的格式
-        ai_message = AIMessage(content=ai_message)
-
+        # modify llama
+        ai_message = call_with_messages(self.messages)
         print(f"\033[34m****Action Agent ai message****\n{ai_message.content}\033[0m")
         self.conversations.append(
             (self.messages[0].content, self.messages[1].content, ai_message.content)
         )
-        parsed_result = self.action_agent.process_ai_message(message=ai_message)
+        parsed_result = self.action_agent.process_ai_message(message=ai_message, skills=self.skills[0])
         success = False
         if isinstance(parsed_result, dict):
             code = parsed_result["program_code"] + "\n" + parsed_result["exec_code"]
@@ -257,21 +248,21 @@ class Voyager:
                 )
                 events[-1][1]["inventory"] = new_events[-1][1]["inventory"]
                 events[-1][1]["voxels"] = new_events[-1][1]["voxels"]
-            new_skills = self.skill_manager.retrieve_skills(
-                query=self.context
-                + "\n\n"
-                + self.action_agent.summarize_chatlog(events)
-            )
-            system_message = self.action_agent.render_system_message(skills=new_skills)
-            human_message = self.action_agent.render_human_message(
-                events=events,
-                code=parsed_result["program_code"],
-                task=self.task,
-                context=self.context,
-                critique=critique,
-            )
+            # new_skills = self.skill_manager.retrieve_skills(
+            #     query=self.context
+            #     + "\n\n"
+            #     + self.action_agent.summarize_chatlog(events)
+            # )
+            # system_message = self.action_agent.render_system_message(skills=new_skills)
+            # human_message = self.action_agent.render_human_message(
+            #     events=events,
+            #     code=parsed_result["program_code"],
+            #     task=self.task,
+            #     context=self.context,
+            #     critique=critique,
+            # )
             self.last_events = copy.deepcopy(events)
-            self.messages = [system_message, human_message]
+            # self.messages = [system_message, human_message]
         else:
             assert isinstance(parsed_result, str)
             self.recorder.record([], self.task)

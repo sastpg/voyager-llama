@@ -12,7 +12,7 @@ from langchain.schema import HumanMessage, SystemMessage
 from langchain.vectorstores import Chroma
 
 # llama
-from .llama import chat_completion
+from voyager.agents.llm import call_with_messages
 
 
 class CurriculumAgent:
@@ -491,19 +491,13 @@ class CurriculumAgent:
         return HumanMessage(content=content)
 
     def run_qa_step2_answer_questions(self, question):
-        # messages = [
-        #     self.render_system_message_qa_step2_answer_questions(),
-        #     self.render_human_message_qa_step2_answer_questions(question=question),
-        # ]
-        # 修改 messages 格式
-        messages = {"messages":
-                    [{'role': 'system', 'content': self.render_system_message_qa_step2_answer_questions().content}, 
-                     {'role': 'user', 'content': self.render_human_message_qa_step2_answer_questions(question=question).content},
-                    ]
-                }
+        messages = [
+            self.render_system_message_qa_step2_answer_questions(),
+            self.render_human_message_qa_step2_answer_questions(question=question),
+        ]
         print(f"\033[35mCurriculum Agent Question: {question}\033[0m")
         # qa_answer = self.qa_llm(messages).content
         # 修改调用
-        qa_answer = chat_completion(messages)
+        qa_answer = call_with_messages(messages).content
         print(f"\033[31mCurriculum Agent {qa_answer}\033[0m")
         return qa_answer
