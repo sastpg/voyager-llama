@@ -115,19 +115,19 @@
 
 Mine wood log:
 
-<html>
-
+<div>
     <video id="video" controls="" preload="none" poster="">
-      <source id="webm" src="./images/MineWoodLog.webm" type="video/webm">
-	</videos>
-</html>
+  <source id="webm" src="./images/MineWoodLog.webm" type="video/webm">
+</videos>
+</div>
+
 
 
 Craft a crafting table:
 
-<html>
-    <video id="video" controls="" preload="none" poster="">
+<div>
+<video id="video" controls="" preload="none" poster="">
       <source id="webm" src="./images/CraftTable.webm" type="video/webm">
 	</videos>
-</html>
+</div>
 
