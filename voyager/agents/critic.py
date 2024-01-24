@@ -2,7 +2,7 @@ from voyager.prompts import load_prompt
 from voyager.utils.json_utils import fix_and_parse_json
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
-from voyager.agents.llm import call_with_messages
+from voyager.agents.llama import call_with_messages
 
 class CriticAgent:
     def __init__(
@@ -43,19 +43,19 @@ class CriticAgent:
 
         observation = ""
 
-        observation += f"Biome: {biome}\n\n"
+        # observation += f"Biome: {biome}\n\n"
 
-        observation += f"Time: {time_of_day}\n\n"
+        # observation += f"Time: {time_of_day}\n\n"
 
-        if voxels:
-            observation += f"Nearby blocks: {', '.join(voxels)}\n\n"
-        else:
-            observation += f"Nearby blocks: None\n\n"
+        # if voxels:
+        #     observation += f"Nearby blocks: {', '.join(voxels)}\n\n"
+        # else:
+        #     observation += f"Nearby blocks: None\n\n"
 
-        observation += f"Health: {health:.1f}/20\n\n"
-        observation += f"Hunger: {hunger:.1f}/20\n\n"
+        # observation += f"Health: {health:.1f}/20\n\n"
+        # observation += f"Hunger: {hunger:.1f}/20\n\n"
 
-        observation += f"Position: x={position['x']:.1f}, y={position['y']:.1f}, z={position['z']:.1f}\n\n"
+        # observation += f"Position: x={position['x']:.1f}, y={position['y']:.1f}, z={position['z']:.1f}\n\n"
 
         observation += f"Equipment: {equipment}\n\n"
 
@@ -68,10 +68,10 @@ class CriticAgent:
 
         observation += f"Task: {task}\n\n"
 
-        if context:
-            observation += f"Context: {context}\n\n"
-        else:
-            observation += f"Context: None\n\n"
+        # if context:
+        #     observation += f"Context: {context}\n\n"
+        # else:
+        #     observation += f"Context: None\n\n"
 
         print(f"\033[31m****Critic Agent human message****\n{observation}\033[0m")
         return HumanMessage(content=observation)

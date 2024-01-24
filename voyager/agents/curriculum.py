@@ -12,7 +12,7 @@ from langchain.schema import HumanMessage, SystemMessage
 from langchain.vectorstores import Chroma
 
 # llama
-from voyager.agents.llm import call_with_messages
+from voyager.agents.llama import call_with_messages
 
 
 class CurriculumAgent:
