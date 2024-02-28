@@ -121,7 +121,12 @@ class SkillManager:
             f"\033[33mSkill Manager retrieved skills: "
             f"{', '.join([doc.metadata['name'] for doc, _ in docs_and_scores])}\033[0m"
         )
-        skills = []
+        code = []
+        description = []
         for doc, _ in docs_and_scores:
-            skills.append(self.skills[doc.metadata["name"]]["code"])
+            code.append(self.skills[doc.metadata["name"]]["code"])
+            description.append(self.skills[doc.metadata["name"]]["description"])
+        
+        skills = [code, description]
+        # print(skills)
         return skills
