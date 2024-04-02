@@ -2,7 +2,7 @@ import os
 
 import voyager.utils as U
 from langchain.chat_models import ChatOpenAI
-from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from langchain.schema import HumanMessage, SystemMessage
 from langchain.vectorstores import Chroma
 
@@ -19,6 +19,8 @@ class SkillManager:
         request_timout=120,
         ckpt_dir="ckpt",
         resume=False,
+        reload=False,
+        embedding_model="",
     ):
         self.llm = ChatOpenAI(
             model_name=model_name,
@@ -28,20 +30,32 @@ class SkillManager:
         U.f_mkdir(f"{ckpt_dir}/skill/code")
         U.f_mkdir(f"{ckpt_dir}/skill/description")
         U.f_mkdir(f"{ckpt_dir}/skill/vectordb")
+        if reload:
+            U.f_remove(f"{ckpt_dir}/skill/vectordb")
         # programs for env execution
         self.control_primitives = load_control_primitives()
         if resume:
-            print(f"\033[33mLoading Skill Manager from {ckpt_dir}/skill\033[0m")
             self.skills = U.load_json(f"{ckpt_dir}/skill/skills.json")
+            print(f"\033[33mLoading\033[0m " + str(len(self.skills)) + f" skills from {ckpt_dir}/skill")
         else:
             self.skills = {}
         self.retrieval_top_k = retrieval_top_k
         self.ckpt_dir = ckpt_dir
         self.vectordb = Chroma(
             collection_name="skill_vectordb",
-            embedding_function=OpenAIEmbeddings(),
+            embedding_function=HuggingFaceEmbeddings(model_name=embedding_model),
             persist_directory=f"{ckpt_dir}/skill/vectordb",
         )
+        if reload:
+            for key, value in self.skills.items():
+                self.vectordb.add_texts(
+                    texts=[value['description']],
+                    ids=[key],
+                    metadatas=[{"name": key}],
+                )
+            
+            self.vectordb.persist()
+        
         assert self.vectordb._collection.count() == len(self.skills), (
             f"Skill Manager's vectordb is not synced with skills.json.\n"
             f"There are {self.vectordb._collection.count()} skills in vectordb but {len(self.skills)} skills in skills.json.\n"
