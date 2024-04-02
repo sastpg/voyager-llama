@@ -1,0 +1,1 @@
+ This function smelts 5 raw iron using a furnace and coal as fuel. It first checks if there is a furnace and coal in the inventory, and if not, crafts a furnace using available cobblestone. It then places the furnace near the bot and smelts 5 raw iron using the available coal as fuel.

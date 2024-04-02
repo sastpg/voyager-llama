@@ -1,0 +1,1 @@
+ This function kills an enderman using a wooden sword and collects the dropped items.

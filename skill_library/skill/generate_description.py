@@ -28,7 +28,9 @@ def call_llama(js_content):
     Returns:
         str: LLAMA response
     """
-    system_message = load_system_message()
+    system_message = """I will provide you with a task code based on the mineflayer framework for Minecraft gameplay.
+Please generate a brief description based on the content and comments of the provided JavaScript code.
+Your response should start with "This function" and should not contain any additional information!"""
     messages = [{'role': 'system', 'content': system_message},
                 {'role': 'user', 'content': js_content}]
 

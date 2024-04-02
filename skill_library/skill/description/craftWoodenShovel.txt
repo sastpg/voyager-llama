@@ -1,0 +1,1 @@
+ This function crafts a wooden shovel using a crafting table. It first checks if the player has enough planks and sticks in their inventory, and if not, crafts them using the crafting table. It then places the crafting table near the player and crafts a wooden shovel using the table.

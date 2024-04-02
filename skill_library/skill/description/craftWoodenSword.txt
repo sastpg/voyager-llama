@@ -1,0 +1,1 @@
+ This function crafts a wooden sword using the Mineflayer framework for Minecraft gameplay. It first checks if the player has enough planks and sticks in their inventory, and if not, crafts them using the crafting table. Once the crafting table is placed and the wooden sword is crafted, the function ends with a chat message indicating the successful crafting of the sword.

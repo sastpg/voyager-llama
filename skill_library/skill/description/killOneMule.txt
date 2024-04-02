@@ -1,0 +1,1 @@
+ This function kills a ule using a wooden sword and collects the dropped items.

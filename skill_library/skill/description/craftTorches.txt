@@ -1,0 +1,3 @@
+ Sure! Here's the brief description based on the content and comments of the provided JavaScript code:
+
+This function crafts torches using coals and sticks. It first checks if the player has enough coals and sticks in their inventory, and if not, it performs the necessary actions to obtain them. Once the player has the required items, the function crafts 4 torches and notifies the player of the successful crafting.

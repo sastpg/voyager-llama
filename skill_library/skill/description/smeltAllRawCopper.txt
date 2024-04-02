@@ -1,0 +1,1 @@
+ This function smelts all raw copper in the inventory using a furnace and coal as fuel. It first checks if there is a furnace and coal in the inventory, and if not, crafts a furnace using available cobblestone and places it near the bot. Then, it smelts all raw copper using the available coal as fuel, and notifies the bot in chat.

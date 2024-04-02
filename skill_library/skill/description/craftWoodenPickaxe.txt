@@ -1,0 +1,1 @@
+ This function crafts a wooden pickaxe using a crafting table and the available planks and sticks in the bot's inventory. It first checks if there are enough planks and sticks, and if not, crafts them using the crafting table. It then places the crafting table near the bot and crafts a wooden pickaxe using the table.

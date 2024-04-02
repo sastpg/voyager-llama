@@ -1,0 +1,1 @@
+ This function mines flint by using different types of shovels and exploring the area to find gravel. It then mines the gravel until the flint count increases by 1.

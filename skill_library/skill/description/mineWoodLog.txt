@@ -1,0 +1,1 @@
+ This function mines a wood log block in Minecraft.

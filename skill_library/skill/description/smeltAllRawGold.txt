@@ -1,0 +1,1 @@
+ This function smelts all raw gold using available coal as fuel. It first checks if there is a furnace and coals in the inventory, and if not, crafts a furnace using available cobblestone. It then places the furnace near the bot and smelts all raw gold using the available coal as fuel.

@@ -1,0 +1,1 @@
+ This function equips the best sword in the bot's inventory or crafts a wooden sword if no suitable sword is found.

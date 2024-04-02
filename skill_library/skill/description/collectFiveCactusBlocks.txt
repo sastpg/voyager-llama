@@ -1,0 +1,1 @@
+ This function collects five cactus blocks and mines them to drop cactus items. It first uses the exploreUntil function to find five cactus blocks within a 32-block radius, and then mines all of them using the mineBlock function. Finally, it collects the dropped cactus items by navigating to each block and picking it up.

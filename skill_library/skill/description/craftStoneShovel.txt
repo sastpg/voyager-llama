@@ -1,0 +1,1 @@
+ This function crafts a stone shovel using a crafting table. It first checks if the player has enough cobblestone and sticks in their inventory, and if not, collects them using a wooden pickaxe or crafts them if necessary. It then places a crafting table near the player and crafts a stone shovel using the table.

@@ -1,0 +1,1 @@
+ This function crafts a stone hoe using a crafting table. It checks if the player has enough cobblestone and sticks in their inventory, and if not, collects them or crafts them as needed. It then places a crafting table near the player and crafts a stone hoe using the table.

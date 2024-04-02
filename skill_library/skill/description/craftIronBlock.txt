@@ -1,0 +1,1 @@
+ This function crafts an iron block by first smelting all raw iron, then checking if there are enough iron ingots in the inventory. If not, it mines five iron ores and smelts them into iron ingots. If a crafting table is not in the inventory, it crafts one. Finally, it places the crafting table near the bot and crafts an iron block using the table.

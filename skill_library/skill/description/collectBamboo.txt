@@ -1,0 +1,1 @@
+ This function collects bamboo by equipping a wooden sword, finding bamboo plants using the exploreUntil function, breaking 10 bamboo plants using the iron sword, and collecting the dropped bamboo items.

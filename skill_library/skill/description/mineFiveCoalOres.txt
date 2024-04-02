@@ -1,0 +1,1 @@
+ This function mines 5 coal ores using the Mineflayer framework for Minecraft gameplay. It equips a wooden or stone pickaxe and then explores the area to find 5 coal ore blocks. Once the coal ores are found, the function mines them using the mineBlock method.

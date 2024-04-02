@@ -1,0 +1,1 @@
+ This function crafts a gold block by first smelting all raw gold, then checking if there are enough gold ingots in the inventory. If not, it mines gold ores and smelts them into gold ingots. If a crafting table is not in the inventory, it crafts one and places it near the bot. Finally, it crafts a gold block using the crafting table.

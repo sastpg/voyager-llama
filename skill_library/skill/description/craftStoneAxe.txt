@@ -1,0 +1,1 @@
+ This function crafts a stone axe using a crafting table. It first checks if there are enough cobblestone and sticks in the inventory, and if not, collects them or crafts them as needed. It then places a crafting table near the player and crafts a stone axe using the table.

@@ -1,0 +1,1 @@
+ This function kills a Donkey using a wooden sword and collects the dropped items.

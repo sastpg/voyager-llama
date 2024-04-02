@@ -1,0 +1,1 @@
+ This function crafts wooden planks in Minecraft using the Mineflayer framework. It first checks if there is a wooden log in the player's inventory, and if not, it mines a wooden log. Then, it crafts 4 wooden planks using the log and the player's crafting interface. Finally, it updates the player's chat with the message "4 wooden planks crafted."

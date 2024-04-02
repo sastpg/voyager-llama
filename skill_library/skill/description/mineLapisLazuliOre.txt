@@ -1,0 +1,1 @@
+ This function mines lapis lazuli ore in Minecraft using the Mineflayer framework. It equips an iron or stone pickaxe, finds a lapis lazuli ore block within a 32-block radius, and then mines the block.

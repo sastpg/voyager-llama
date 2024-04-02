@@ -1,0 +1,1 @@
+ This function mines redstone ore using a provided Mineflayer bot. It first equips an iron pickaxe and then explores the area around the bot until it finds a redstone ore block. Once the block is found, it mines the block using the equipped pickaxe.

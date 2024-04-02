@@ -1,0 +1,1 @@
+ This function crafts a furnace using the Mineflayer framework for Minecraft gameplay. It checks if the player has enough cobblestones in their inventory, and if not, mines the required cobblestones using a wooden pickaxe. It then crafts a crafting table and places it near the player, before crafting the furnace using the crafting table.
