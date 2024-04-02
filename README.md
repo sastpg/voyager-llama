@@ -1,5 +1,39 @@
 # Voyager-llama
 
+### Embedding
+
+使用 sentence_transformer 模型替代 openai 模型。
+
+下载模型：
+
+```git
+git clone https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2.git
+```
+
+复制模型文件夹绝对路径，如 D:\\Voyager\\voyager\\agents\\paraphrase-multilingual-MiniLM-L12-v2
+
+修改 test.py 代码：
+
+```python
+# ...
+
+voyager = Voyager(
+    mc_port=9705,
+    skill_library_dir="./skill_library/trial1",
+    reload=False,
+    embedding_dir="Your model path"
+)
+
+# ...
+```
+
+- reload 参数为是否重新更新数据库，当增加新技能（在skills.json中）时置为 True，更新数据库；如果技能库与上次相比没有变化则置为 False
+- embedding_dir 参数是向量嵌入模型的文件夹绝对路径
+
+
+
+### Arch
+
 
 1. 由于回家了，调用服务器上部署的llama需要校网，所以暂时先用阿里云的llama API 替换一下。申请链接：[LLaMa2大语言模型有哪些API接口_模型服务灵积(DashScope)-阿里云帮助中心 (aliyun.com)](https://help.aliyun.com/zh/dashscope/developer-reference/api-details-11)。初次会给一定的使用额度，在voyager/llama.py文件夹中替换API key。
 
@@ -130,4 +164,3 @@ Craft a crafting table:
       <source id="webm" src="./images/CraftTable.webm" type="video/webm">
 	</videos>
 </div>
-

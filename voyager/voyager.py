@@ -51,6 +51,8 @@ class Voyager:
         ckpt_dir: str = "ckpt",
         skill_library_dir: str = None,
         resume: bool = False,
+        reload = False,
+        embedding_dir = "",
     ):
         """
         The main class for Voyager.
@@ -139,6 +141,7 @@ class Voyager:
             mode=curriculum_agent_mode,
             warm_up=curriculum_agent_warm_up,
             core_inventory_items=curriculum_agent_core_inventory_items,
+            embedding_model=embedding_dir,
         )
         self.critic_agent = CriticAgent(
             model_name=critic_agent_model_name,
@@ -153,6 +156,8 @@ class Voyager:
             request_timout=openai_api_request_timeout,
             ckpt_dir=skill_library_dir if skill_library_dir else ckpt_dir,
             resume=True if resume or skill_library_dir else False,
+            reload=reload,
+            embedding_model=embedding_dir,
         )
         self.skills = [[], []]
         self.recorder = U.EventRecorder(ckpt_dir=ckpt_dir, resume=resume)
