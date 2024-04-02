@@ -6,7 +6,6 @@ import re
 import voyager.utils as U
 from voyager.prompts import load_prompt
 from voyager.utils.json_utils import fix_and_parse_json
-from langchain.chat_models import ChatOpenAI
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from langchain.schema import HumanMessage, SystemMessage
 from langchain.vectorstores import Chroma
@@ -30,16 +29,6 @@ class CurriculumAgent:
         core_inventory_items: str | None = None,
         embedding_model = "",
     ):
-        self.llm = ChatOpenAI(
-            model_name=model_name,
-            temperature=temperature,
-            request_timeout=request_timout,
-        )
-        self.qa_llm = ChatOpenAI(
-            model_name=qa_model_name,
-            temperature=qa_temperature,
-            request_timeout=request_timout,
-        )
         assert mode in [
             "auto",
             "manual",
@@ -296,7 +285,7 @@ class CurriculumAgent:
     def propose_next_ai_task(self, *, messages, max_retries=5):
         if max_retries == 0:
             raise RuntimeError("Max retries reached, failed to propose ai task.")
-        curriculum = self.llm(messages).content
+        curriculum = call_with_messages(messages).content
         print(f"\033[31m****Curriculum Agent ai message****\n{curriculum}\033[0m")
         try:
             response = self.parse_ai_message(curriculum)

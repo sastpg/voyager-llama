@@ -15,7 +15,7 @@ def generate_skill_json(skill_dir):
             description_path = os.path.join(description_dir, skill_name + ".txt")
             code_content = read_file_content(code_path)
             description_content = read_file_content(description_path)
-            skill_json[skill_name] = {"code": code_content, "description": description_content}
+            skill_json[skill_name] = {"code": code_content, "description": "Name: " + skill_name + "; Description:" + description_content + "\n"}
 
     # Write skill.json file
     with open(os.path.join(skill_dir, "skills.json"), "w") as json_file:
