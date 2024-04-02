@@ -117,7 +117,7 @@ class Voyager:
         self.max_iterations = max_iterations
 
         # set openai api key
-        os.environ["OPENAI_API_KEY"] = openai_api_key
+        # os.environ["OPENAI_API_KEY"] = openai_api_key
 
         # init agents
         self.action_agent = ActionAgent(
