@@ -1,3 +1,0 @@
-I will provide you with a task code based on the mineflayer framework for Minecraft gameplay.
-Please generate a brief description based on the content and comments of the provided JavaScript code.
-Your response should start with "This function" and should not contain any additional information!

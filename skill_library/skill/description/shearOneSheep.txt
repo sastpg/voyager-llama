@@ -1,0 +1,1 @@
+ This function shears a sheep using shears.

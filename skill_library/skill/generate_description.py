@@ -4,20 +4,6 @@ import dashscope
 
 dashscope.api_key = 'sk-eac17c70d6da479aba494487aca5907b' # API KEY
 
-def load_system_message():
-    """
-    load system message from sysMsg.txt.
-
-    Returns:
-        str: llama response.
-    """
-    sys_msg_file = "sysMsg.txt"
-    if os.path.exists(sys_msg_file):
-        with open(sys_msg_file, 'r') as f:
-            return f.read()
-    else:
-        return ""
-
 def call_llama(js_content):
     """
     call LLAMA for description generation.
