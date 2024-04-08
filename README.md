@@ -1,5 +1,7 @@
 # Voyager-llama
 
+直接执行函数，构建世界地图：voyager.py -> inference -> self.run_raw_skill("函数名") e.g: mineWoodLog.js
+
 ### Embedding
 
 使用 sentence_transformer 模型替代 openai 模型。

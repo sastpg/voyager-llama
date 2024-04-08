@@ -4,6 +4,7 @@ import os
 import time
 from typing import Dict
 
+from javascript import require
 import voyager.utils as U
 from .env import VoyagerEnv
 
@@ -170,6 +171,7 @@ class Voyager:
         self.messages = None
         self.conversations = []
         self.last_events = None
+        self.skill_library_dir = skill_library_dir
 
     def reset(self, task, context="", reset_env=True):
         self.action_agent_rollout_num_iter = 0
@@ -402,6 +404,7 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
+        self.run_raw_skill("mineWoodLog.js")
         while self.curriculum_agent.progress < len(sub_goals):
             next_task = sub_goals[self.curriculum_agent.progress]
             context = self.curriculum_agent.get_task_context(next_task)
@@ -420,3 +423,62 @@ class Voyager:
             print(
                 f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
             )
+
+    def run_raw_skill(self, skill_name):
+        try:
+            babel = require("@babel/core")
+            babel_generator = require("@babel/generator").default
+
+            with open(f"{self.skill_library_dir}/skill/code/{skill_name}", 'r') as file:
+                code = file.read()
+
+            parsed = babel.parse(code)
+            functions = []
+            assert len(list(parsed.program.body)) > 0, "No functions found"
+            for i, node in enumerate(parsed.program.body):
+                if node.type != "FunctionDeclaration":
+                    continue
+                node_type = (
+                    "AsyncFunctionDeclaration"
+                    if node["async"]
+                    else "FunctionDeclaration"
+                )
+                functions.append(
+                    {
+                        "name": node.id.name,
+                        "type": node_type,
+                        "body": babel_generator(node).code,
+                        "params": list(node["params"]),
+                    }
+                )
+            # find the last async function
+            main_function = None
+            for function in reversed(functions):
+                if function["type"] == "AsyncFunctionDeclaration":
+                    main_function = function
+                    break
+            assert (
+                main_function is not None
+            ), "No async function found. Your main function must be async."
+            assert (
+                len(main_function["params"]) == 1
+                and main_function["params"][0].name == "bot"
+            ), f"Main function {main_function['name']} must take a single argument named 'bot'"
+            program_code = "\n\n".join(function["body"] for function in functions)
+            exec_code = f"await {main_function['name']}(bot);"
+            parsed_result = {
+                "program_code": program_code,
+                "program_name": main_function["name"],
+                "exec_code": exec_code,
+            }
+        except Exception as e:
+            parsed_result = f"Error parsing action response (before program execution): {e}"
+
+        if isinstance(parsed_result, dict):
+            code = parsed_result["program_code"] + "\n" + parsed_result["exec_code"]
+            self.env.step(
+                code,
+                programs=self.skill_manager.programs,
+            )
+        else:
+            print(f"\033[34m{parsed_result} Code executes error!\033[0m")
