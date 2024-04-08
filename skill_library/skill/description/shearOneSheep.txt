@@ -1,1 +1,1 @@
- This function shears a sheep using shears.
+ This function checks if shears are in inventory first, and if not, crafts a pair of shears. Then, it equips shears and searches for a sheep within 32 blocks using the exploreUntil function, goes to the sheep, shears the sheep and collects dropped wool.

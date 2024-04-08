@@ -8,8 +8,3 @@ You will choose only one program based on the description. You should only respo
 RESPONSE FORMAT:
     1) ```your selected program name```
     2) Reason you choose the program.
-
-Note that the symbols ``` in the above format is used for regular matching and are strictly required.
-An example response:
-1) ```craftIronSword```
-2) This function ...

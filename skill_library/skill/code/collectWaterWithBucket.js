@@ -19,7 +19,7 @@ async function collectWaterWithBucket(bot) {
       return foundWaterBlock;
     });
   }
-  
+  await bot.pathfinder.goto(new GoalBlock(waterBlock.position.x, waterBlock.position.y, waterBlock.position.z))
   await bot.equip(bucket, "hand");
   await bot.lookAt(waterBlock.position);
   await bot.activateItem();

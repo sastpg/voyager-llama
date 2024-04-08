@@ -11,7 +11,7 @@ async function collectDirt(bot) {
     // Use the exploreUntil function to find dirt blocks
     const dirtBlocks = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
       const dirtBlocks = bot.findBlocks({
-        matching: block => block.name === "stone",
+        matching: block => block.name === "dirt",
         maxDistance: 32,
         count: 10
       });
