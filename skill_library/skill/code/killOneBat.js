@@ -1,6 +1,6 @@
 async function killOneBat(bot) {
     // Equip the sword
-    await equipBestSwordOrCraftOne(bot);
+    await equipSword(bot);
     // Find the nearest bat
     const bat = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
       const bat = bot.nearestEntity(entity => {

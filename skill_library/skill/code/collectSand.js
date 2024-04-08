@@ -1,11 +1,12 @@
 async function collectSand(bot) {
     // Check if the bot has a shovel in the inventory
-    const shovel = bot.inventory.items().find(item => item.name.endsWith("_shovel"));
+    let shovel = bot.inventory.items().find(item => item.name && item.name.endsWith("_shovel"));
     // If not, craft a wooden shovel using the available resources in the inventory
     if (!shovel) {
       await craftWoodenshovel(bot);
     } else {
       // Equip the shovel
+      shovel = bot.inventory.items().find(item => item.name && item.name.endsWith("_shovel"));
       await bot.equip(shovel, "hand");
     }
     // Use the exploreUntil function to find sand blocks

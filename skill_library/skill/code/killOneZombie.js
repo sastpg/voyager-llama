@@ -1,6 +1,6 @@
 async function killOneZombie(bot) {
     // Equip the sword
-    await equipBestSwordOrCraftOne(bot);
+    await equipSword(bot);
     // Find the nearest zombie
     const zombie = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
       const zombie = bot.nearestEntity(entity => {

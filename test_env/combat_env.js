@@ -6,7 +6,7 @@ async function combatEnv(bot, h = 10, r = 20, y = 150) {
         bot.chat("lower bound exceeded.");
         return;
     } else if ((2*r + 1) * (2*r + 1) * (h + 1) >= 32768) {
-        bot.char("Too many blocks."); // fill max 32768
+        bot.chat("Too many blocks."); // fill max 32768
         return;
     }
     // kill potential mobs and set difficulty to easy for summoning

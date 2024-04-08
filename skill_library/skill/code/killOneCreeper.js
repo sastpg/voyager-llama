@@ -1,6 +1,6 @@
 async function killOneCreeper(bot) {
     // Equip the sword
-    await equipBestSwordOrCraftOne(bot);
+    await equipSword(bot);
     // Find the nearest creeper
     const creeper = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
       const creeper = bot.nearestEntity(entity => {

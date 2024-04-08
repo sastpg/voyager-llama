@@ -1,6 +1,6 @@
 async function killOneCamel(bot) {
     // Equip the sword
-    await equipBestSwordOrCraftOne(bot);
+    await equipSword(bot);
     // Find the nearest camel
     const camel = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
       const camel = bot.nearestEntity(entity => {

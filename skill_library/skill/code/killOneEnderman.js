@@ -1,6 +1,6 @@
 async function killOneEnderman(bot) {
     // Equip the sword
-    await equipBestSwordOrCraftOne(bot);
+    await equipSword(bot);
     // Find the nearest enderman
     const enderman = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
       const enderman = bot.nearestEntity(entity => {

@@ -1,6 +1,6 @@
 async function killOneSkeleton(bot) {
     // Equip the sword
-    await equipBestSwordOrCraftOne(bot);
+    await equipSword(bot);
     // Find the nearest skeleton
     const skeleton = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
       const skeleton = bot.nearestEntity(entity => {

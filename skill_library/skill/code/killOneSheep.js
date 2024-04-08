@@ -1,6 +1,6 @@
 async function killOneSheep(bot) {
     // Equip the sword
-    await equipBestSwordOrCraftOne(bot);
+    await equipSword(bot);
     // Find the nearest sheep
     const sheep = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
       const sheep = bot.nearestEntity(entity => {

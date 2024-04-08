@@ -1,11 +1,12 @@
 async function collectCobblestone(bot) {
     // Check if the bot has a pickaxe in the inventory
-    const pickaxe = bot.inventory.items().find(item => item.name.endsWith("_pickaxe"));
+    let pickaxe = bot.inventory.items().find(item => item.name && item.name.endsWith("_pickaxe"));
     // If not, craft a wooden pickaxe using the available resources in the inventory
     if (!pickaxe) {
       await craftWoodenPickaxe(bot);
     } else {
       // Equip the pickaxe
+      pickaxe = bot.inventory.items().find(item => item.name && item.name.endsWith("_shovel"));
       await bot.equip(pickaxe, "hand");
     }
     // Use the exploreUntil function to find cobblestone blocks
