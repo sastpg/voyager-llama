@@ -1,6 +1,25 @@
 # Voyager-llama
 
+### Skill
+
+部分Skill打算设计成传参（MC位置坐标，Mineflayer的Vec3类，形式（x, y, z））的形式：
+在直接执行函数时，相关接口应提供相应的参数解析逻辑。
+在检索调用函数时，考虑设计反馈模块用于传参。
+另一种可能的方式是，通过反馈模块提出执行skill的坐标，先goto对应坐标，再执行skill，解决了传参问题。
+
 直接执行函数，构建世界地图：voyager.py -> inference -> self.run_raw_skill("函数名") e.g: mineWoodLog.js
+
+### Benchmark
+
+初步考虑四个测试环境：Combat, Planting, Breeding, Railway Construction.
+初步设计的prompt位于llama_test目录中。
+测试环境生成的JavaScript代码位于test_env目录中。
+
+### Agent
+
+任务分解/规划方面，对于不同环境应读取不同的prompt，并在不同的时间节点执行test_env目录中对应代码搭建测试环境（一般来说是在任务完成时，或规定时间后）。
+重新设计反馈模块，同Voyager，在subgoal失败后输出失败原因等信息，可以据此检索到尚未执行的前置技能。
+Critic等表现不佳的模块，继续尝试改善prompt。
 
 ### Embedding
 
