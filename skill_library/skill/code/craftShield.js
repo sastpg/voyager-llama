@@ -16,7 +16,7 @@ async function craftShield(bot) {
     // If not, explore to find and mine iron ores
     if (ironIngotsCount < 1) {
       await mineIronOre(bot);
-      await smeltRawIron(bot);
+      await smeltAllRawIron(bot);
       ironIngotsCount += 1;
     }
   

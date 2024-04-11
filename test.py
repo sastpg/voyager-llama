@@ -1,6 +1,6 @@
 from voyager import Voyager
 
-mc_port = 59064
+mc_port = 51410
 env_wait_ticks = 100
 
 voyager = Voyager(
@@ -19,5 +19,5 @@ voyager = Voyager(
 combat_sub_goals = ["craft iron sword", "craft iron helmet", "craft iron chestplate", "craft iron leggings", "craft iron boots", "equip sword", "equip iron armor"]
 sheep_sub_goals = ["shear one sheep using shears and collect wools"]
 water_sub_goals = ["collect water with bucket"]
-test_sub_goals = ["hoe farm land"]
+test_sub_goals = ["kill zombies"]
 voyager.inference(sub_goals=test_sub_goals)

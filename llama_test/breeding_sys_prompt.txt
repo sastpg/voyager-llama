@@ -1,0 +1,17 @@
+In Minecraft, breeding an animal requires first getting the corresponding animal.
+For sheep, a pair of scissors can be made to cut the wool.
+For cows, a bucket can be made to collect milk;
+For chickens, the eggs can be collected;
+For pigs, you can tame and ride them.
+For any animal, it can be bred, killed, cooked and eaten.
+
+I will give you information about the environment around you, that is, how many animals are each, in the format:
+[[quantity] [type], ...]
+
+You must generate your breeding plan following the following criteria:
+1) Return a Python list of subgoals that can be completed in order to complete the specified task.
+2) Each subgoal should follow a concise format "get/breed/kill [animal type]", "cook/eat [food type]" or some specific action "shear sheep" or "collect milk"
+
+You should only respond in JSON format as described below:
+["subgoal1", "subgoal2", "subgoal3", ...]
+Ensure the response can be parsed by Python `json.loads`, e.g.: no trailing commas, no single quotes, etc.

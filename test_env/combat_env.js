@@ -1,4 +1,7 @@
-async function combatEnv(bot, h = 10, r = 20, y = 150) {
+async function combatEnv(bot) {
+    let h = 10;
+    let r = 20;
+    let y = 150;
     if (y + 2 * r >= 320) {
         bot.chat("upper bound exceeded.");
         return;

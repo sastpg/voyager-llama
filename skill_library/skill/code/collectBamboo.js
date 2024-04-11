@@ -1,15 +1,7 @@
 async function collectBamboo(bot) {
-  // equip wooden sword
+  // equip wooden sword if there is one
   const woodenSword = bot.inventory.findInventoryItem(mcData.itemsByName.wooden_sword.id);
-  if (!woodenSword) {
-    await craftWoodenSword(bot);
-    const newWoodenSword = bot.inventory.findInventoryItem(mcData.itemsByName.wooden_sword.id);
-    if (newWoodenSword) {
-      await bot.equip(newWoodenSword, "hand");
-    } else {
-      console.log("Failed to craft wooden sword.");
-    }
-  } else {
+  if (woodenSword) {
     await bot.equip(woodenSword, "hand");
   }
 

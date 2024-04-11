@@ -1,4 +1,7 @@
-async function summonMob(bot, n = 1, r = 8, type = "zombie") {
+async function summonMob(bot) {
+    let n = 1;
+    let r = 8;
+    let type = "zombie";
     for (let i = 0; i < n; i++) {
         let x = Math.random() * (2 * r - (-2 * r)) + (-2 * r);
         let z = Math.random() * (2 * r - (-2 * r)) + (-2 * r);

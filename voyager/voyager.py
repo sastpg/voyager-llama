@@ -190,7 +190,8 @@ class Voyager:
         # step to peek an observation
         events = self.env.step(
             "bot.chat(`/time set ${getNextTime()}`);\n"
-            + f"bot.chat('/difficulty {difficulty}');"
+            + f"bot.chat('/difficulty {difficulty}');\n"
+            + "bot.chat('11111111111111111');"
         )
         self.skills = self.skill_manager.retrieve_skills(query=self.context)
         print(
@@ -404,11 +405,8 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
-        # self.run_raw_skill("collectWheatSeeds.js")
-        # self.run_raw_skill("collectWheat.js")
-        # self.run_raw_skill("collectCarrots.js")
-        # self.run_raw_skill("collectPotatoes.js")
-        # self.run_raw_skill("collectBeetroots.js")
+        self.run_raw_skill("collectPotatoes.js")
+        # self.run_raw_skill("placeMinecartOnRail.js")
         while self.curriculum_agent.progress < len(sub_goals):
             next_task = sub_goals[self.curriculum_agent.progress]
             context = self.curriculum_agent.get_task_context(next_task)
@@ -434,6 +432,7 @@ class Voyager:
             babel_generator = require("@babel/generator").default
 
             with open(f"{self.skill_library_dir}/skill/code/{skill_name}", 'r') as file:
+            # with open(f"./test_env/{skill_name}", 'r') as file:
                 code = file.read()
 
             parsed = babel.parse(code)

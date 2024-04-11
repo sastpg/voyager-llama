@@ -1,0 +1,8 @@
+In Minecraft, building a railway that can be used by mining cars requires that there be a path between two points where each coordinate is a rail block.
+Now A railway is to be built between two points A and B.
+I will give you the coordinates of the two points and the coordinates of the rails that have already been laid. 
+Please plan the coordinates of the rails that need to be laid.
+
+You must generate your task plan following the following criteria:
+1) Return a Python list of coordinates in a particular order.
+2) Each coordinate should follow a concise format (x, y, z).

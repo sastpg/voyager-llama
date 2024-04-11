@@ -1,0 +1,14 @@
+In Minecraft, growing crops requires collecting seeds, collecting water, and hoeing.
+You will need a hoe for hoeing, a bucket for collecting water.
+At last you need to collect the crops.
+
+I will give you the number and types of crops you are required to collect in the format:
+[quantity] [type] (e.g. 1 potato, 2 carrots)
+
+You must generate your task plan following the following criteria:
+1) Return a Python list of subgoals that can be completed in order to complete the specified task.
+2) Each subgoal should follow a concise format "craft [tool name]" or "collect [seeds type or crops type or water]" or some basic action like "hoe" or "place water" 
+
+You should only respond in JSON format as described below:
+["subgoal1", "subgoal2", "subgoal3", ...]
+Ensure the response can be parsed by Python `json.loads`, e.g.: no trailing commas, no single quotes, etc.
