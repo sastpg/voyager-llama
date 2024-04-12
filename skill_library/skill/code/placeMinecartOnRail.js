@@ -20,7 +20,6 @@ async function placeMinecartOnRail(bot) {
       }
     // place the minecart
     // bot.chat(`found rail at ${rail}`);
-    bot.chat(`${rail.x} ${rail.y + 1} ${rail.z}`);
-    await bot.pathfinder.goto(new GoalBlock(rail.x, rail.y + 1, rail.z));
-    await placeItem(bot, minecart, new Vec3(rail.x, rail.y + 1, rail.z));
+    bot.chat(`/summon minecraft:minecart ${rail.x} ${rail.y} ${rail.z}`)
+    bot.chat(`/clear @s minecraft:minecart 1`);
 }
