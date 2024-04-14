@@ -1,5 +1,9 @@
 # Voyager-llama
 
+更新 `run_raw_skill`，增加parameters参数以list形式传入给js函数，路径修改；因为 llm 回答是以list形式给出，只需把list提取出传入run_raw_skill 就好。
+
+调用说明：`run_raw_skill(./test_env/combat_env.js, [])` 这个为传入空参数，使用js默认的参数； `run_raw_skill(./test_env/combat_env.js, [10, 20, 150])` 传入三个参数给js代码。
+
 ### Skill
 
 部分Skill打算设计成传参（MC位置坐标，Mineflayer的Vec3类，形式（x, y, z））的形式：

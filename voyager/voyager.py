@@ -405,8 +405,7 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
-        # self.run_raw_skill("hoeFarmland.js")
-        # self.run_raw_skill("takeAndMoveMinecart.js")
+        self.run_raw_skill("./test_env/combat_env.js", [])
         while self.curriculum_agent.progress < len(sub_goals):
             next_task = sub_goals[self.curriculum_agent.progress]
             context = self.curriculum_agent.get_task_context(next_task)
@@ -426,13 +425,12 @@ class Voyager:
                 f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
             )
 
-    def run_raw_skill(self, skill_name):
+    def run_raw_skill(self, skill_path, parameters):
         try:
             babel = require("@babel/core")
             babel_generator = require("@babel/generator").default
 
-            with open(f"{self.skill_library_dir}/skill/code/{skill_name}", 'r') as file:
-            # with open(f"./test_env/{skill_name}", 'r') as file:
+            with open(f"{skill_path}", 'r') as file:
                 code = file.read()
 
             parsed = babel.parse(code)
@@ -464,11 +462,15 @@ class Voyager:
                 main_function is not None
             ), "No async function found. Your main function must be async."
             assert (
-                len(main_function["params"]) == 1
-                and main_function["params"][0].name == "bot"
+                main_function["params"][0].name == "bot"
             ), f"Main function {main_function['name']} must take a single argument named 'bot'"
+            
             program_code = "\n\n".join(function["body"] for function in functions)
-            exec_code = f"await {main_function['name']}(bot);"
+            para_list = "(bot"
+            for i in range(len(parameters)):
+                para_list += ", " + str(parameters[i])
+            para_list += ");"
+            exec_code = f"await {main_function['name']}{para_list}"
             parsed_result = {
                 "program_code": program_code,
                 "program_name": main_function["name"],
@@ -481,7 +483,7 @@ class Voyager:
             code = parsed_result["program_code"] + "\n" + parsed_result["exec_code"]
             self.env.step(
                 code,
-                programs=self.skill_manager.programs,
+                # programs=self.skill_manager.programs,
             )
         else:
             print(f"\033[34m{parsed_result} Code executes error!\033[0m")
