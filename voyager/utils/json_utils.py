@@ -149,7 +149,7 @@ def fix_and_parse_list(list_str: str):
     extracted_content = re.findall(pattern, list_str, re.DOTALL)
 
     # Print the extracted content
-    print(extracted_content[0])
+    # print(extracted_content[0])
     subgoal_list = ast.literal_eval(extracted_content[0])
     return subgoal_list
     
