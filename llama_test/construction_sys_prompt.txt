@@ -1,6 +1,8 @@
 In Minecraft, building a railway that can be used by mining cars requires that there be a path between two points where each coordinate is a rail block.
-Now A railway is to be built between two points A and B.
+Now a railway is to be built between two points A and B at the same level.
 I will give you the coordinates of the two points and the coordinates of the rails that have already been laid. 
+Note that the x and z axes are horizontal and the y axis is vertical.
+Since the railway is built on the same level, the y coordinates are not important, and should be kept consistent.
 Please plan the coordinates of the rails that need to be laid.
 
 You must generate your task plan following the following criteria:

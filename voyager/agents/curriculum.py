@@ -360,16 +360,15 @@ class CurriculumAgent:
         U.dump_json(self.failed_tasks, f"{self.ckpt_dir}/curriculum/failed_tasks.json")
 
     def decompose_task(self, task, events):
+        # for different test env, modify prompt here
         messages = [
             SystemMessage(
-                content=load_prompt("curriculum_task_decomposition"),
+                content=load_prompt("combat_sys_prompt"),
             ),
             # self.render_human_message(events=events, chest_observation=""),
-            HumanMessage(content=f"Final task: {task}"),
+            HumanMessage(content=f"10 minutes(half day in Minecraft), 3 zombies"),
         ]
-        print(
-            f"\033[31m****Curriculum Agent task decomposition****\nFinal task: {task}\033[0m"
-        )
+        # print(f"\033[31m****Curriculum Agent task decomposition****\nFinal task: {task}\033[0m")
         response = call_with_messages(messages).content
         print(f"\033[31m****Curriculum Agent task decomposition****\n{response}\033[0m")
         return fix_and_parse_json(response)
@@ -487,7 +486,7 @@ class CurriculumAgent:
         ]
         print(f"\033[35mCurriculum Agent Question: {question}\033[0m")
         # qa_answer = self.qa_llm(messages).content
-        # 修改调用
+        # �?改调�?
         qa_answer = call_with_messages(messages).content
         print(f"\033[31mCurriculum Agent {qa_answer}\033[0m")
         return qa_answer

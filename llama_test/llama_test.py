@@ -28,7 +28,7 @@ def call_with_messages(msgs):
 with open("llama_test/construction_sys_prompt.txt", "r") as file:
     msg1_content = file.read().strip()
 msg1 = SystemMessage(content=msg1_content)
-msg2 = HumanMessage(content="A(0, 60, 0) B(2, 60, 2) Rails already laid: (0, 60, 0), (1, 60, 0), (2, 60, 0)")
+msg2 = HumanMessage(content="A(328, 60, -147) B(337, 60, -138) Rails already laid: (328, 60, -147), (337, 60, -138)")
 test_msg = [msg1, msg2]
 
 if __name__ == '__main__':

@@ -405,7 +405,6 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
-        self.run_raw_skill("./test_env/combat_env.js", [])
         while self.curriculum_agent.progress < len(sub_goals):
             next_task = sub_goals[self.curriculum_agent.progress]
             context = self.curriculum_agent.get_task_context(next_task)
@@ -424,6 +423,8 @@ class Voyager:
             print(
                 f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
             )
+        self.run_raw_skill("./test_env/combat_env.js", [10, 10, 100])
+        self.run_raw_skill("./skill_library/skill/code/kill_zombies.js")
 
     def run_raw_skill(self, skill_path, parameters):
         try:
