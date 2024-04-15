@@ -1,5 +1,6 @@
 import json
 import re
+import ast
 from typing import Any, Dict, Union
 from .file_utils import f_join
 
@@ -140,6 +141,18 @@ def correct_json(json_str: str) -> str:
             return balanced_str
     return json_str
 
+
+def fix_and_parse_list(list_str: str):
+    pattern = r'\[\[.*?\]\]'
+
+    # Using re.findall to extract the content
+    extracted_content = re.findall(pattern, list_str, re.DOTALL)
+
+    # Print the extracted content
+    print(extracted_content[0])
+    subgoal_list = ast.literal_eval(extracted_content[0])
+    return subgoal_list
+    
 
 def fix_and_parse_json(
     json_str: str, try_to_fix_with_gpt: bool = True

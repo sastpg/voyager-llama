@@ -5,7 +5,7 @@ import re
 
 import voyager.utils as U
 from voyager.prompts import load_prompt
-from voyager.utils.json_utils import fix_and_parse_json
+from voyager.utils.json_utils import fix_and_parse_list
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from langchain.schema import HumanMessage, SystemMessage
 from langchain.vectorstores import Chroma
@@ -371,7 +371,7 @@ class CurriculumAgent:
         # print(f"\033[31m****Curriculum Agent task decomposition****\nFinal task: {task}\033[0m")
         response = call_with_messages(messages).content
         print(f"\033[31m****Curriculum Agent task decomposition****\n{response}\033[0m")
-        return fix_and_parse_json(response)
+        return fix_and_parse_list(response)
 
     def run_qa(self, *, events, chest_observation):
         questions_new, _ = self.run_qa_step1_ask_questions(
@@ -486,7 +486,7 @@ class CurriculumAgent:
         ]
         print(f"\033[35mCurriculum Agent Question: {question}\033[0m")
         # qa_answer = self.qa_llm(messages).content
-        # �?改调�?
+        # �?改调�?
         qa_answer = call_with_messages(messages).content
         print(f"\033[31mCurriculum Agent {qa_answer}\033[0m")
         return qa_answer
