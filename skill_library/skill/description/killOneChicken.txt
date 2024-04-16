@@ -1,1 +1,1 @@
- This function kills a chicken using a wooden sword and collects the dropped items.
+This function equips a sword, finds and kills the nearest chicken within a certain range, then collects the dropped items.

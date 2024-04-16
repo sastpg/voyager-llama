@@ -1,0 +1,1 @@
+This function checks if the player has a hoe in their inventory, equips it, and then hoes a farmland block at the player's position.

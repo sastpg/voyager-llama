@@ -1,0 +1,1 @@
+This function collects wheat by first using the exploreUntil function to locate a wheat block within a specific range. If wheat is found, it navigates towards the block using a pathfinder and then digs it up. If no wheat is found, the bot sends a chat message.

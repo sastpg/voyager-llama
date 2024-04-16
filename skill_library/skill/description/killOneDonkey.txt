@@ -1,1 +1,1 @@
- This function kills a Donkey using a wooden sword and collects the dropped items.
+This function equips a sword, finds and kills the nearest Donkey within a specified range, then collects the dropped items.

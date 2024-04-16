@@ -1,1 +1,1 @@
- This function equips iron armor on a Mineflayer bot. It first finds the iron chestplate, leggings, boots, and helmet in the bot's inventory, then equips them in the appropriate slots (torso, legs, feet, and head). If any of the items are not found in the inventory, the function will display a message indicating their absence.
+This function equips the iron chestplate, leggings, boots, and helmet from the bot's inventory, if available, and informs about the status of each item via chat.

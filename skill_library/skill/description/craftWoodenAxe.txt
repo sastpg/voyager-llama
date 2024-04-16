@@ -1,1 +1,1 @@
- This function crafts a wooden axe using a crafting table. It first checks if the player has enough planks and sticks in their inventory, and if not, crafts them using the crafting table. It then places the crafting table near the player and crafts a wooden axe using the table.
+This function crafts a wooden axe in Minecraft by checking and ensuring the availability of required materials (planks and sticks), crafting them if needed, placing a crafting table, and then finally crafting the wooden axe.

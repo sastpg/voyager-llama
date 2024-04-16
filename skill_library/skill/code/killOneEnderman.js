@@ -13,7 +13,7 @@ async function killOneEnderman(bot) {
       return;
     }
   
-    // Kill the enderman using the wooden sword
+    // Kill the enderman using the sword
     await killMob(bot, "enderman", 300);
     bot.chat("Killed a enderman.");
   

@@ -13,7 +13,7 @@ async function killOneMule(bot) {
       return;
     }
   
-    // Kill the ule using the wooden sword
+    // Kill the ule using the sword
     await killMob(bot, "ule", 300);
     bot.chat("Killed a ule.");
   

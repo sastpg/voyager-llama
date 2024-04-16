@@ -13,7 +13,7 @@ async function killOneChicken(bot) {
       return;
     }
   
-    // Kill the chicken using the wooden sword
+    // Kill the chicken using the sword
     await killMob(bot, "chicken", 300);
     bot.chat("Killed a chicken.");
   

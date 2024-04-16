@@ -1,1 +1,1 @@
- This function mines lapis lazuli ore in Minecraft using the Mineflayer framework. It equips an iron or stone pickaxe, finds a lapis lazuli ore block within a 32-block radius, and then mines the block.
+This function equips an iron or stone pickaxe, searches for a single lapis lazuli ore block within a specified range, mines it, and then sends a chat message indicating the successful mining of one lapis lazuli ore. If no suitable pickaxe is found, it crafts a stone pickaxe before proceeding.

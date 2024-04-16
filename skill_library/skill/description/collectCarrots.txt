@@ -1,0 +1,1 @@
+This function searches for carrots using the exploreUntil function, with a timeout of 60 seconds and a maximum distance of 32 blocks. If it finds at least one carrot, it navigates the bot to that carrot and then digs it up. If no carrots are found, the bot chats the message "Could not find enough carrots."

@@ -13,7 +13,7 @@ async function killOneCreeper(bot) {
       return;
     }
   
-    // Kill the creeper using the wooden sword
+    // Kill the creeper using the sword
     await killMob(bot, "creeper", 300);
     bot.chat("Killed a creeper.");
   

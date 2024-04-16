@@ -13,7 +13,7 @@ async function killOneTurtle(bot) {
       return;
     }
   
-    // Kill the turtle using the wooden sword
+    // Kill the turtle using the sword
     await killMob(bot, "turtle", 300);
     bot.chat("Killed a turtle.");
   

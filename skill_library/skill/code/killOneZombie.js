@@ -13,7 +13,7 @@ async function killOneZombie(bot) {
       return;
     }
   
-    // Kill the zombie using the wooden sword
+    // Kill the zombie using the sword
     await killMob(bot, "zombie", 300);
     bot.chat("Killed a zombie.");
   

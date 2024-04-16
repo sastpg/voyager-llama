@@ -1,0 +1,1 @@
+This function equips the best available armor (chestplate, leggings, helmet, and boots) from the bot's inventory, using a specific order of priority based on the item types. If an item is not found, it sends a chat message indicating the missing armor piece.

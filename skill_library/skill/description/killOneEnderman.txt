@@ -1,1 +1,1 @@
- This function kills an enderman using a wooden sword and collects the dropped items.
+This function equips a sword, finds and kills the nearest enderman within a 60 block radius, and collects the dropped items.

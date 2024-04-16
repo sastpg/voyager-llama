@@ -1,0 +1,1 @@
+This function collects wheat seeds by searching for and mining grass blocks until the player's inventory has an increased amount of seeds. It uses the exploreUntil function to locate grass, mines 10 grass blocks, and checks for seed count changes. If no additional seeds are found, it sends a chat message.

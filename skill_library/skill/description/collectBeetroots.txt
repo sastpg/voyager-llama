@@ -1,0 +1,1 @@
+This function collects beetroots in Minecraft by searching for them, navigating to their location, and digging them up. It uses the exploreUntil function to find beetroots within a certain range, and if successful, the bot moves towards the beetroots and digs them. If no beetroots are found, it sends a chat message.

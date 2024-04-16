@@ -1,0 +1,1 @@
+This function checks if the player has a rail in their inventory. If not, it sends a chat message. Otherwise, it places a rail at the player's position.

@@ -21,7 +21,7 @@ Your response should start with "This function" and should not contain any addit
                 {'role': 'user', 'content': js_content}]
 
     response = dashscope.Generation.call(
-        model='llama2-13b-chat-v2',
+        model='qwen1.5-72b-chat',
         messages=messages,
         result_format='message'
     )

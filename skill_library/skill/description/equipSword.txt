@@ -1,3 +1,1 @@
- Sure! Here is the description of the provided JavaScript code:
-
-This function equips the best sword in the bot's inventory. It first finds the diamond sword, iron sword, stone sword, and wooden sword in the bot's inventory using the `findInventoryItem` method. If any of these swords are found, the function equips the corresponding sword using the `equip` method and sends a chat message to the bot indicating that the sword has been equipped. If no swords are found in the inventory, the function sends a chat message indicating that no sword could be equipped.
+This function searches for the best available sword in the bot's inventory and equips it to the hand. If no sword is found, the bot chats that there is no sword in the inventory.

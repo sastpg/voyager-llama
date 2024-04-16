@@ -1,1 +1,1 @@
- This function kills one zombie using a wooden sword and collects the dropped items.
+This function equips a sword, finds and kills the nearest zombie within a specified range, and collects the dropped items.

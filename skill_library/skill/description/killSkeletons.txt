@@ -1,3 +1,1 @@
- Sure! Here's the brief description based on the provided JavaScript code:
-
-This function equips a sword and iron armor on a bot, then repeatedly kills skeletons until the bot's health is low enough to need healing.
+This function equips a sword and iron armor, then continuously kills skeletons in the vicinity until interrupted. After killing a skeleton, it sends a chat message saying "Killed a skeleton."

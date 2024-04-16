@@ -1,1 +1,1 @@
- This function mines flint by using different types of shovels and exploring the area to find gravel. It then mines the gravel until the flint count increases by 1.
+This function mines flint by equipping the best available shovel (iron, stone, or wooden) and searching for gravel blocks within a certain distance. It then mines gravel until it obtains at least one flint, and informs the user when a flint has been mined.

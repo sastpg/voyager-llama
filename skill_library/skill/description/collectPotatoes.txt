@@ -1,0 +1,1 @@
+This function uses the exploreUntil utility to search for potatoes within a specified range. If it finds at least one potato, it navigates to and then mines the potato block. If no potatoes are found, it sends a chat message.

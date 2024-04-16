@@ -405,10 +405,6 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
-        self.run_raw_skill("./test_env/combat_env.js", [10, 20, 80])
-        self.run_raw_skill("./test_env/summon_mob.js")
-        self.run_raw_skill("./skill_library/skill/code/killZombies.js")
-        self.run_raw_skill("./skill_library/skill/code/equipShield.js")
         while self.curriculum_agent.progress < len(sub_goals):
             next_task = sub_goals[self.curriculum_agent.progress][0]
             context = self.curriculum_agent.get_task_context(next_task)

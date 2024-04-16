@@ -1,1 +1,1 @@
- This function eats a cooked porkchop using the Mineflayer framework for Minecraft gameplay. It first equips the cooked porkchop in the bot's hand, then consumes it, and finally sends a chat message to indicate the task is completed.
+This function eats a cooked porkchop by equipping it, consuming it, and then sending a chat message to confirm completion. If the porkchop is not found, it calls the cookPorkchops function.

@@ -1,1 +1,1 @@
- This function checks if shears are in inventory first, and if not, crafts a pair of shears. Then, it equips shears and searches for a sheep within 32 blocks using the exploreUntil function, goes to the sheep, shears the sheep and collects dropped wool.
+This function shears one sheep in the Minecraft game. It first checks if the player has shears, crafts them if necessary, equips the shears, finds the nearest sheep within a 32-block range, approaches the sheep to shear it, and then collects any dropped items. If no sheep are found, it sends a chat message.
