@@ -405,8 +405,12 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
+        self.run_raw_skill("./test_env/combat_env.js", [10, 20, 80])
+        self.run_raw_skill("./test_env/summon_mob.js")
+        self.run_raw_skill("./skill_library/skill/code/killZombies.js")
+        self.run_raw_skill("./skill_library/skill/code/equipShield.js")
         while self.curriculum_agent.progress < len(sub_goals):
-            next_task = sub_goals[self.curriculum_agent.progress]
+            next_task = sub_goals[self.curriculum_agent.progress][0]
             context = self.curriculum_agent.get_task_context(next_task)
             print(
                 f"\033[35mStarting task {next_task} for at most {self.action_agent_task_max_retries} times\033[0m"
@@ -423,10 +427,9 @@ class Voyager:
             print(
                 f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
             )
-        self.run_raw_skill("./test_env/combat_env.js", [10, 10, 100])
-        self.run_raw_skill("./skill_library/skill/code/kill_zombies.js")
+        
 
-    def run_raw_skill(self, skill_path, parameters):
+    def run_raw_skill(self, skill_path, parameters = []):
         try:
             babel = require("@babel/core")
             babel_generator = require("@babel/generator").default

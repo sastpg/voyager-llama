@@ -1,6 +1,6 @@
 from voyager import Voyager
 
-mc_port = 51038
+mc_port = 63905
 env_wait_ticks = 100
 
 voyager = Voyager(
@@ -16,6 +16,8 @@ voyager = Voyager(
 
 # task = ""
 sub_goals = voyager.decompose_task(task = '')
+print(sub_goals)
+voyager.inference(sub_goals=sub_goals)
 '''
 combat_sub_goals = ["craft iron sword", "craft iron helmet", "craft iron chestplate", "craft iron leggings", "craft iron boots", "equip sword", "equip iron armor"]
 sheep_sub_goals = ["shear one sheep using shears and collect wools"]

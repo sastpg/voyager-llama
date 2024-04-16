@@ -2,9 +2,16 @@ async function summonMob(bot, n = 1, r = 8, type = "zombie") {
     // let n = 1;              number of monsters
     // let r = 8;              env size
     // let type = "zombie";    type of monsters
-    for (let i = 0; i < n; i++) {
-        let x = Math.random() * (2 * r - (-2 * r)) + (-2 * r);
-        let z = Math.random() * (2 * r - (-2 * r)) + (-2 * r);
-        await bot.chat(`/summon ~${x} ~ ~${z} minecraft:"${type}"`);
+    bot.chat("Summoning mob...")
+    function getRandomNumber(r) {
+        const sign = Math.random() < 0.5 ? -1 : 1;
+        const randomValue = Math.random() * r;
+        return sign * (randomValue + r);
     }
+    for (let i = 0; i < n; i++) {
+        let x = getRandomNumber(r);
+        let z = getRandomNumber(r);
+        await bot.chat(`/summon minecraft:${type} ~${x} ~1 ~${z}`);
+    }
+    bot.chat("Mobs summoned.")
 }
