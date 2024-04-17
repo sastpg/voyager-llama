@@ -37,7 +37,7 @@ Your response should start with "This function" and should not contain any addit
         ))
         return None
 
-def main():
+def main(mode="all"):
     script_dir = os.path.dirname(os.path.abspath(__file__))
     code_dir = os.path.join(script_dir, "code")
     description_dir = os.path.join(script_dir, "description")
@@ -46,6 +46,10 @@ def main():
         if js_file.endswith(".js"):
             js_file_path = os.path.join(code_dir, js_file)
             description_file_path = os.path.join(description_dir, os.path.splitext(js_file)[0] + ".txt")
+
+            if mode == "missing" and os.path.exists(description_file_path):
+                print(f"Skipping {js_file} as description already exists")
+                continue
 
             with open(js_file_path, 'r') as f:
                 js_content = f.read()
@@ -58,4 +62,6 @@ def main():
                     print(f"Description for {js_file} has been written to {description_file_path}")
 
 if __name__ == "__main__":
-    main()
+    main(mode="missing")  
+    # mode "all" generates descriptions for all skills
+    # mode "missing" generates descriptions for new skills
