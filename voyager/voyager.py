@@ -468,7 +468,10 @@ class Voyager:
             program_code = "\n\n".join(function["body"] for function in functions)
             para_list = "(bot"
             for i in range(len(parameters)):
-                para_list += ", " + str(parameters[i])
+                if isinstance(parameters[i], str):
+                    para_list += ", " + "\"" + parameters[i] + "\""
+                else:
+                    para_list += ", " + str(parameters[i])
             para_list += ");"
             exec_code = f"await {main_function['name']}{para_list}"
             parsed_result = {
