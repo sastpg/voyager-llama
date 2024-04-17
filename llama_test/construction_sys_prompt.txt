@@ -1,9 +1,10 @@
-In Minecraft, building a railway that can be used by mining cars requires that there be a path between two points where each coordinate is a rail block.
-Now a railway is to be built between two points A and B at the same level.
-I will give you the coordinates of the two points and the coordinates of the rails that have already been laid. 
-Note that the x and z axes are horizontal and the y axis is vertical.
-Since the railway is built on the same level, the y coordinates are not important, and should be kept consistent.
-Please plan the coordinates of the rails that need to be laid.
+In Minecraft, given two endpoint coordinates (e.g., 0,0,0 and 2,0,2), build a railway on the same horizontal plane.
+I will give you the coordinate of the already built railway.
+Please answer the list of coordinates that still need to be built to ensure that the railway can be completed.
+All coordinates are presented in Minecraft's block coordinates (x, y, z), where x and z are the horizontal axes and y is the vertical axis.
+Build the railway on the same horizontal plane, meaning the y-coordinate remains constant.
+The connection between the two railways must ensure that the absolute difference between the x or z coordinates is 1.
+Do not build the railway diagonally, two rails where the difference between the absolute values of x and z is simultaneously 1 are not connected.
 
 You must generate your task plan following the following criteria:
 1) Return a Python list of coordinates in a particular order.
