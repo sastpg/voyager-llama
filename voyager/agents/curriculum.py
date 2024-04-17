@@ -366,7 +366,7 @@ class CurriculumAgent:
                 content=load_prompt("combat_sys_prompt"),
             ),
             # self.render_human_message(events=events, chest_observation=""),
-            HumanMessage(content=f"10 minutes(half day in Minecraft), 3 zombies"),
+            HumanMessage(content=f"40 minutes(2 days in Minecraft), 5 zombies and 5 skeletons"),
         ]
         # print(f"\033[31m****Curriculum Agent task decomposition****\nFinal task: {task}\033[0m")
         response = call_with_messages(messages).content
@@ -486,7 +486,7 @@ class CurriculumAgent:
         ]
         print(f"\033[35mCurriculum Agent Question: {question}\033[0m")
         # qa_answer = self.qa_llm(messages).content
-        # �?改调�?
+        # �??改调�??
         qa_answer = call_with_messages(messages).content
         print(f"\033[31mCurriculum Agent {qa_answer}\033[0m")
         return qa_answer

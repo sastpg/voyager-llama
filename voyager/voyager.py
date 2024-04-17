@@ -191,7 +191,6 @@ class Voyager:
         events = self.env.step(
             "bot.chat(`/time set ${getNextTime()}`);\n"
             + f"bot.chat('/difficulty {difficulty}');\n"
-            + "bot.chat('11111111111111111');"
         )
         self.skills = self.skill_manager.retrieve_skills(query=self.context)
         print(
@@ -405,6 +404,7 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
+        self.run_raw_skill("./skill_library/skill/code/killOnePlayer.js")
         while self.curriculum_agent.progress < len(sub_goals):
             next_task = sub_goals[self.curriculum_agent.progress][0]
             context = self.curriculum_agent.get_task_context(next_task)
@@ -483,7 +483,7 @@ class Voyager:
             code = parsed_result["program_code"] + "\n" + parsed_result["exec_code"]
             self.env.step(
                 code,
-                # programs=self.skill_manager.programs,
+                programs=self.skill_manager.programs,
             )
         else:
             print(f"\033[34m{parsed_result} Code executes error!\033[0m")
