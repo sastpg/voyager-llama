@@ -202,7 +202,7 @@ class ActionAgent:
                 babel_generator = require("@babel/generator").default
 
                 code_pattern = re.compile(r"`(.*?)`", re.DOTALL)
-                code_name = "".join(code_pattern.findall(message.content)[0])
+                code_name = "".join(code_pattern.findall(message.content))
                 print(code_name)
                 code = [c for c in skills if code_name in c]
                 parsed = babel.parse(code[0])

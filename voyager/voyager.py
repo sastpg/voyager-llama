@@ -404,9 +404,10 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
-        self.run_raw_skill("./skill_library/skill/code/killOnePlayer.js")
+        # self.run_raw_skill("./test_env/", [])
+        # self.run_raw_skill("./skill_library/skill/code/")
         while self.curriculum_agent.progress < len(sub_goals):
-            next_task = sub_goals[self.curriculum_agent.progress][0]
+            next_task = sub_goals[self.curriculum_agent.progress]
             context = self.curriculum_agent.get_task_context(next_task)
             print(
                 f"\033[35mStarting task {next_task} for at most {self.action_agent_task_max_retries} times\033[0m"
