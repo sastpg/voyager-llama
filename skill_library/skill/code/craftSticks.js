@@ -13,7 +13,7 @@ async function craftSticks(bot) {
     if (totalPlanksCount < requiredPlanks) {
       bot.chat("Not enough planks. Mining a log and crafting more...");
       if (!logInInventory) {
-        await MineWoodLog(bot);
+        await mineWoodLog(bot);
       } else {
         await craftWoodenPlanks(bot);
       }

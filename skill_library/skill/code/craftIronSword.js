@@ -5,12 +5,12 @@ async function craftIronSword(bot) {
   const ironIngotsCount = bot.inventory.count(mcData.itemsByName.iron_ingot.id);
   const sticksCount = bot.inventory.count(mcData.itemsByName.stick.id);
   // If not enough iron ingots or sticks, collect the required items.
+  if (sticksCount < 1) {
+    await craftSticks(bot);
+  }
   if (ironIngotsCount < 2) {
     await mineFiveIronOres(bot);
     await smeltAllRawIron(bot);
-  }
-  if (sticksCount < 1) {
-    await craftSticks(bot);
   }
   // check if crafting table is in the inventory
   const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);

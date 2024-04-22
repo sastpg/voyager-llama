@@ -10,13 +10,25 @@ async function mineEmerald(bot) {
       ironPickaxe = bot.inventory.findInventoryItem(mcData.itemsByName.iron_pickaxe.id);
       await bot.equip(ironPickaxe, "hand");
     }
-    await exploreUntil(bot, new Vec3(0, -1, 0), 60, () => {
-      const foundEmerald = bot.findBlock({
-        matching: mcData.blocksByName.Emerald_ore.id,
+    const oreNames = ["emerald_ore", "deepslate_emerald_ore"];
+    let y = bot.entity.position.y;
+    let direction;
+    if (y > 16) {
+      direction = new Vec3(0, -1, 0);
+    } else {
+      direction = new Vec3(1, 0, 0);
+    }
+    const oreBlock = await exploreUntil(bot, direction, 60, () => {
+      return bot.findBlock({
+        matching: block => oreNames.includes(block.name),
         maxDistance: 32
       });
-      return foundEmerald;
     });
-    await mineBlock(bot, "emerald_ore", 1);
+    // bot.chat(`${oreBlock}`);
+    if (!oreBlock) {
+      bot.chat("Could not find a emerald ore.");
+      return;
+    }
+    await mineBlock(bot, oreBlock.name, 1);
     bot.chat("1 emerald mined.");
   }
