@@ -11,7 +11,7 @@ async function cookPorkchops(bot) {
   if (!coal)
     await mineFiveCoalOres(bot); 
   // Place the furnace near the bot, Smelt 1 porkchops using the available coal as fuel
-  const furnacePosition = bot.entity.position.offset(1, 0, 0);
+  const furnacePosition = await findSuitablePosition(bot);
   await placeItem(bot, "furnace", furnacePosition);
   await smeltItem(bot, "porkchop", "coal", 1);
   bot.chat("1 porkchops cooked.");

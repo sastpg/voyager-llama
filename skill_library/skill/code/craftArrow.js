@@ -23,7 +23,7 @@ async function craftArrow(bot) {
     }
 
     // Place the crafting table near the bot
-    const craftingTablePosition = bot.entity.position.offset(1, 0, 0);
+    const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
   
     // Craft an arrow using the crafting table

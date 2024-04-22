@@ -16,7 +16,7 @@ async function craftGoldenHelmet(bot) {
       await craftCraftingTable(bot);
     }
     // Place the crafting table near the bot
-    const craftingTablePosition = bot.entity.position.offset(1, 0, 0);
+    const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
     // Craft an golden helmet using the crafting table
     await craftItem(bot, "golden_helmet", 1);

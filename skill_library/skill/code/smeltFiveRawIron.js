@@ -8,7 +8,7 @@ async function smeltFiveRawIron(bot) {
   }
 
   // Place the furnace near the bot
-  const furnacePosition = bot.entity.position.offset(1, 0, 0);
+  const furnacePosition = await findSuitablePosition(bot);
   await placeItem(bot, "furnace", furnacePosition);
   if (!coal)
     await mineFiveCoalOres(bot);

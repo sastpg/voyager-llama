@@ -19,7 +19,7 @@ async function craftIronShovel(bot) {
     await craftCraftingTable(bot);
   }
   // Place the crafting table near the bot
-  const craftingTablePosition = bot.entity.position.offset(1, 0, 0);
+  const craftingTablePosition = await findSuitablePosition(bot);
   await placeItem(bot, "crafting_table", craftingTablePosition);
   // Craft an iron shovel using the crafting table
   await craftItem(bot, "iron_shovel", 1);

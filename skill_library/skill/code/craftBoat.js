@@ -19,7 +19,7 @@ async function craftBoat(bot) {
       await craftCraftingTable(bot);
     }
     // Place the crafting table near the bot
-    const craftingTablePosition = bot.entity.position.offset(1, 0, 0);
+    const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
     // Craft a boat using the crafting table
     await craftItem(bot, "boat", 1);
