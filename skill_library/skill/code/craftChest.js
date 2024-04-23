@@ -1,11 +1,10 @@
 async function craftChest(bot) {
     // Check if there are enough planks in the inventory
-    const planksNames = ["oak_planks", "birch_planks", "spruce_planks", "jungle_planks", "acacia_planks", "dark_oak_planks", "mangrove_planks"]
-    let planksCount = bot.inventory.count({matching: block => planksNames.includes(block.name)});
+    let planksCount = await getPlanksCount(bot);
     // If not, craft planks from logs
     while (planksCount < 8) {
       await craftWoodenPlanks(bot);
-      planksCount = bot.inventory.count({matching: block => planksNames.includes(block.name)});
+      planksCount = await getPlanksCount(bot);
     }
     // check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);

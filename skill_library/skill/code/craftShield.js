@@ -1,13 +1,7 @@
 async function craftShield(bot) {
     // Check if there are enough planks and iron_ingots in the inventory
     let ironIngotsCount = bot.inventory.count(mcData.itemsByName.iron_ingot.id);
-    const plankNames = ["oak_planks", "birch_planks", "spruce_planks", "jungle_planks", "acacia_planks", "dark_oak_planks", "mangrove_planks"];
-    let totalPlanksCount = 0;
-    for (const plankName of plankNames) {
-      const plankId = mcData.itemsByName[plankName].id;
-      const plankCount = bot.inventory.count(plankId);
-      totalPlanksCount += plankCount;
-    }
+    let totalPlanksCount = await getPlanksCount(bot);
     // If not, craft some
     while (totalPlanksCount < 6) {
         await craftWoodenPlanks(bot);

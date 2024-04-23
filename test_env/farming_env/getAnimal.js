@@ -1,6 +1,6 @@
-async function getAnimal(bot, type = "sheep", position = (0,0,0)) {
+async function getAnimal(bot, type = null, x, y, z) {
     // let type = "sheep"   type of animals
-    // let position = (0,0,0)   dest pos
+    // (x,y,z)   dest pos
     let wheatSeedsCount = bot.inventory.count(mcData.itemsByName.wheat_seeds.id);
     let wheatCount = bot.inventory.count(mcData.itemsByName.wheat.id);
     let carrotsCount = bot.inventory.count(mcData.itemsByName.carrot.id);
@@ -8,20 +8,20 @@ async function getAnimal(bot, type = "sheep", position = (0,0,0)) {
     let wheat = bot.inventory.findInventoryItem(mcData.itemsByName.wheat.id);
     let carrot = bot.inventory.findInventoryItem(mcData.itemsByName.carrot.id);
     if (type = "sheep" || "cow") {
-        if (wheatCount <= n) {
-            bot.chat("Not enough wheat for feeding.");
+        if (wheatCount <= 1) {
+            bot.chat("Not enough wheat.");
             return;
         }
         await bot.equip(wheat, "hand");
     } else if (type = "chichken") {
-        if (wheatSeedsCount <= n) {
-            bot.chat("Not enough wheat seeds for feeding.");
+        if (wheatSeedsCount <= 1) {
+            bot.chat("Not enough wheat seeds.");
             return;
         }
         await bot.equip(wheatSeed, "hand");
     } else if (type = "pig") {
-        if (carrotsCount <= n) {
-            bot.chat("Not enough carrots for feeding.");
+        if (carrotsCount <= 1) {
+            bot.chat("Not enough carrots.");
             return;
         }
         await bot.equip(carrot, "hand");
@@ -40,5 +40,5 @@ async function getAnimal(bot, type = "sheep", position = (0,0,0)) {
         bot.chat(`Could not find a ${type}.`);
         return;
     }
-    await bot.pathfinder.goto(new GoalBlock(position.x, position.y, position.z));
+    await bot.pathfinder.goto(new GoalBlock(x, y, z));
 }

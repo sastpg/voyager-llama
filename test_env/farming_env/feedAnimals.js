@@ -1,4 +1,4 @@
-async function feedAnimals(bot, n = 2, type = "sheep") {
+async function feedAnimals(bot, n = 2, type = null) {
     // let n = 2;           number of animals
     // let type = "sheep"   type of animals
     let wheatSeedsCount = bot.inventory.count(mcData.itemsByName.wheat_seeds.id);

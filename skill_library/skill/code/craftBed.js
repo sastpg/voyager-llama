@@ -1,7 +1,6 @@
 async function craftBed(bot) {
     // Check if there are enough planks and wools in the inventory
-    const planksNames = ["oak_planks", "birch_planks", "spruce_planks", "jungle_planks", "acacia_planks", "dark_oak_planks", "mangrove_planks"]
-    let planksCount = bot.inventory.count({matching: block => planksNames.includes(block.name)});
+    let planksCount = await getPlanksCount(bot);
     let woolsCount = bot.inventory.count(mcData.itemsByName.white_wool.id);
     // If not, craft planks from logs
     if (planksCount < 3) {

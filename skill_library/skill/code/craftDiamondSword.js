@@ -8,10 +8,10 @@ async function craftDiamondSword(bot) {
       await craftSticks(bot);
       bot.chat("Crafted sticks.");
     }
-    do {
+    while (diamondsCount < 2) {
       await mineDiamond(bot);
       diamondsCount = bot.inventory.count(mcData.itemsByName.diamond.id);
-    } while (diamondsCount < 2)
+    }
     bot.chat("Collected diamonds.");
     // check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);

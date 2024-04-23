@@ -1,11 +1,12 @@
 async function craftBoat(bot) {
     // Check if there are enough planks in the inventory
-    const planksNames = ["oak_planks", "birch_planks", "spruce_planks", "jungle_planks", "acacia_planks", "dark_oak_planks", "mangrove_planks"]
-    let planksCount = bot.inventory.count({matching: block => planksNames.includes(block.name)});
+    let planksCount = await getPlanksCount(bot);
+    bot.chat(`inventory planks count: ${planksCount}`);
     // If not, craft planks from logs
     while (planksCount < 5) {
       await craftWoodenPlanks(bot);
-      planksCount = bot.inventory.count({matching: block => planksNames.includes(block.name)});
+      planksCount = await getPlanksCount(bot);
+      bot.chat(`inventory planks count: ${planksCount}`);
     }
     // check wooden_shovel
     let woodenShovel = bot.inventory.findInventoryItem(mcData.itemsByName.wooden_shovel.id);
@@ -22,6 +23,14 @@ async function craftBoat(bot) {
     const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
     // Craft a boat using the crafting table
-    await craftItem(bot, "boat", 1);
+    const plankNames = ["oak_planks", "birch_planks", "spruce_planks", "jungle_planks", "acacia_planks", "dark_oak_planks", "mangrove_planks"];
+    let type;
+    for (const plankName of plankNames) {
+      const plankId = mcData.itemsByName[plankName].id;
+      const plankCount = bot.inventory.count(plankId);
+      if (plankCount >= 5)
+        type = plankName.match(/(\w+)_planks/)[1];
+    }
+    await craftItem(bot, type + "_boat", 1);
     bot.chat("Crafted a boat.");
   }
