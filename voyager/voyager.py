@@ -404,13 +404,13 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
+        self.run_raw_skill("./skill_library/skill/code/craftWoodenHoe.js")
         while True:
-            self.run_raw_skill("./skill_library/skill/code/collectWheat.js")
-            self.run_raw_skill("./skill_library/skill/code/collectCarrots.js")
-            self.run_raw_skill("./skill_library/skill/code/collectPotatoes.js")
-            self.run_raw_skill("./skill_library/skill/code/collectBeetroots.js")
+            self.run_raw_skill("./skill_library/skill/code/hoeFarmland.js")
             # self.run_raw_skill("./test_env/farming_env/getAnimal.js", ["sheep", 158, 64, -1341])
-            # self.run_raw_skill("./test_env/farming_env/killAnimal.js", ["sheep"])
+            # self.run_raw_skill("./test_env/combat_env/killMonsters.js", ["skeleton"])
+            # self.run_raw_skill("./test_env/combat_env/killMonsters.js", ["zombie"])
+            # self.run_raw_skill("./test_env/combat_env/killMonsters.js", ["spider"])
         while self.curriculum_agent.progress < len(sub_goals):
             next_task = sub_goals[self.curriculum_agent.progress]
             context = self.curriculum_agent.get_task_context(next_task)

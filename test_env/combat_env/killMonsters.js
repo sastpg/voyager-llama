@@ -1,6 +1,6 @@
 import { equipSword } from './skill_library/skill/code/equipSword.js';
 import { equipArmor } from './skill_library/skill/code/equipArmor.js';
-async function killMonsters(bot, type = "zombies") {
+async function killMonsters(bot, type = null) {
     do {
       await equipSword(bot);
       await equipArmor(bot);

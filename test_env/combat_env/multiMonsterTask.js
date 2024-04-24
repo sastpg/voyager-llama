@@ -1,3 +1,5 @@
+import { combatEnv } from './combatEnv.js';
+import { summonMob } from './summonMob.js';
 async function multiMonsterTask(bot, level = 1) {
     // level : difficulty of task
     if (level < 1 || level > 5) {

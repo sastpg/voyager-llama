@@ -23,7 +23,7 @@ async function equipArmor(bot) {
   
     // Equip the chestplate, leggings, helmet and boots in the appropriate slots
     if (Chestplate) {
-        await bot.equip(Chestplate, "torse");
+        await bot.equip(Chestplate, "torso");
     } else {
         await bot.chat("No chestplate found in inventory.");
     }

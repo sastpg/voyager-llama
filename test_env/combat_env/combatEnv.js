@@ -2,14 +2,14 @@ async function combatEnv(bot, h = 10, r = 20, y = 150) {
     // let h = 10;    env height
     // let r = 20;    env size
     // let y = 150;   env position y
-    if (y + 2 * r >= 320) {
-        bot.chat("upper bound exceeded.");
+    if (y + h >= 320) {
+        await bot.chat("upper bound exceeded.");
         return;
     } else if (y <= -64) {
-        bot.chat("lower bound exceeded.");
+        await bot.chat("lower bound exceeded.");
         return;
     } else if ((2*r + 1) * (2*r + 1) * (h + 1) >= 32768) {
-        bot.chat("Too many blocks."); // fill max 32768
+        await bot.chat("Too many blocks."); // fill max 32768
         return;
     }
     // kill potential mobs and set difficulty to easy for summoning
