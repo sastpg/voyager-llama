@@ -2,7 +2,7 @@ async function collectPotatoes(bot) {
     // Use the exploreUntil function to find potatoes
     const potatoes = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
     const potatoes = bot.findBlocks({
-        matching: block => block.name === "potatoes",
+        matching: block => block.name === "potatoes" && block.getProperties().age === 7,
         maxDistance: 32,
         count: 1
     });
