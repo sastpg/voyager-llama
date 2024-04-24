@@ -1,4 +1,4 @@
-async function equipBestSwordOrCraftOne(bot) {
+async function equipSwordOrCraftOne(bot) {
     // Find the best sword in the bot's inventory
     let diamondSword = bot.inventory.findInventoryItem(mcData.itemsByName.diamond_sword.id);
     let ironSword = bot.inventory.findInventoryItem(mcData.itemsByName.iron_sword.id);
@@ -15,6 +15,7 @@ async function equipBestSwordOrCraftOne(bot) {
         await bot.equip(woodenSword, "hand");
     } else {
         await craftWoodenSword(bot);
+        woodenSword = bot.inventory.findInventoryItem(mcData.itemsByName.wooden_sword.id);
         await bot.equip(woodenSword, "hand");
     }
     bot.chat("Sword equipped.");

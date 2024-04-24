@@ -1,6 +1,6 @@
 from voyager import Voyager
 
-mc_port = 50447
+mc_port = 61833
 env_wait_ticks = 100
 
 voyager = Voyager(

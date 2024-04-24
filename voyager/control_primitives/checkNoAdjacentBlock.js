@@ -1,6 +1,6 @@
 async function checkNoAdjacentBlock(bot, types, x, y, z) {
     // check adjacent blocks of block at (x, y, z)
-    // return true if any block other than 'types' block exists
+    // return true if not all adjacent blocks are within the specified type
     const adjacentVec = [
         new Vec3(1, 0, 0),
         new Vec3(-1, 0, 0),

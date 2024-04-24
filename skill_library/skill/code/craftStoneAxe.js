@@ -8,17 +8,7 @@ async function craftStoneAxe(bot) {
       bot.chat("Crafted sticks.");
     }
     if (cobblestoneCount < 3) {
-      // Check wooden pickaxe
-      const woodenPickaxe = bot.inventory.count(mcData.itemsByName.wooden_pickaxe.id)
-      if (woodenPickaxe) {
-        await bot.equip(woodenPickaxe, "hand");
-      } else {
-        await craftWoodenPickaxe(bot);
-        const woodenPickaxe1 = bot.inventory.findInventoryItem(mcData.itemsByName.wooden_pickaxe.id);
-        await bot.equip(woodenPickaxe1, "hand");
-      }
-      await mineBlock(bot, "stone", 3 - cobblestoneCount);
-      bot.chat("Collected cobblestone.");
+      await collectCobblestone(bot, 3 - cobblestoneCount);
     }
     // check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(

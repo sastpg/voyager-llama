@@ -25,16 +25,13 @@ async function hoeFarmland(bot) {
         return;
     }
     // find dirt or grass_block near water
-    const dirtNearWater = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
-        const dirtNearWater = bot.findBlocks({
-            matching: block => (block.name === "dirt" ||  block.name === "grass_block"),
-            maxDistance: 4,
-            count: 10
-        });
-        return dirtNearWater.length >= 10 ? dirtNearWater : null;
+    const dirtNearWater = bot.findBlocks({
+        matching: block => (block.name === "dirt" ||  block.name === "grass_block"),
+        maxDistance: 4,
+        count: 10
     });
-    for (pos of dirtNearWater) {
-        // hoe a farmland
+    // hoe a farmland
+    for (pos of dirtNearWater) {   
         const farmland = bot.blockAt(pos);
         await bot.lookAt(pos);
         await bot.activateBlock(farmland);
