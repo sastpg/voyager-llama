@@ -8,7 +8,7 @@ async function craftStoneHoe(bot) {
       bot.chat("Crafted sticks.");
     }
     if (cobblestoneCount < 2) {
-      await collectCobblestone(bot, 2 - cobblestoneCount);
+      await collectTenCobblestone(bot);
     }
     // check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(

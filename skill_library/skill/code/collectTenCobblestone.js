@@ -1,11 +1,11 @@
-async function collectCobblestone(bot, n) {
+async function collectTenCobblestone(bot) {
     await equipPickaxeOrCraftOne(bot);
     // Use the exploreUntil function to find cobblestone blocks
     const cobblestoneBlocks = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
       const cobblestoneBlocks = bot.findBlocks({
         matching: block => block.name === "stone",
         maxDistance: 32,
-        count: n
+        count: 10
       });
       return cobblestoneBlocks.length >= 10 ? cobblestoneBlocks : null;
     });
@@ -13,7 +13,7 @@ async function collectCobblestone(bot, n) {
       bot.chat("Could not find enough cobblestone.");
       return;
     }
-    // Mine n cobblestone blocks using the mineBlock function
-    await mineBlock(bot, "stone", n);
-    bot.chat(`${n} cobblestone mined.`);
+    // Mine 10 cobblestone blocks using the mineBlock function
+    await mineBlock(bot, "stone", 10);
+    bot.chat(`10 cobblestone mined.`);
   }
