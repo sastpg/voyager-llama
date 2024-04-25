@@ -28,6 +28,7 @@ class SkillManager:
             U.f_remove(f"{ckpt_dir}/skill/vectordb")
         # programs for env execution
         self.control_primitives = load_control_primitives()
+        self.skill_primitives = self.load_skill_primitives()
         if resume:
             self.skills = U.load_json(f"{ckpt_dir}/skill/skills.json")
             print(f"\033[33mLoading\033[0m " + str(len(self.skills)) + f" skills from {ckpt_dir}/skill")
@@ -64,6 +65,8 @@ class SkillManager:
             programs += f"{entry['code']}\n\n"
         for primitives in self.control_primitives:
             programs += f"{primitives}\n\n"
+        for skill_primitive in self.skill_primitives:
+            programs += f"{skill_primitive}\n\n"
         return programs
 
     def add_new_skill(self, info):
@@ -138,3 +141,17 @@ class SkillManager:
         skills = [code, description]
         # print(skills)
         return skills
+
+    def load_skill_primitives(self, primitive_names=None):
+        package_path = "D:\\Voyager\\skill_library\\skill"
+        if primitive_names is None:
+            primitive_names = [
+                primitives[:-3]
+                for primitives in os.listdir(f"{package_path}/primitive")
+                if primitives.endswith(".js")
+            ]
+        primitives = [
+            U.load_text(f"{package_path}/primitive/{primitive_name}.js")
+            for primitive_name in primitive_names
+        ]
+        return primitives

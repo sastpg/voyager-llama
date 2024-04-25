@@ -17,13 +17,13 @@ def chat_completion(messages):
     return result.text
 
 def call_with_messages(msgs):
-    dashscope.api_key = 'sk-7f0245730f9c4457a25f839df403d45b'  # API KEY
+    dashscope.api_key = 'sk-8386af4aa8d14cf8b9b7ca1250aabfdc'  # API KEY
     # dashscope.api_key = 'sk-eac17c70d6da479aba494487aca5907b'  
     messages = [{'role': 'system', 'content': msgs[0].content},
                 {'role': 'user', 'content': msgs[1].content}
                 ]
     response = dashscope.Generation.call(
-        model='qwen1.5-72b-chat',
+        model=dashscope.Generation.Models.qwen_max,
         # model='llama2-13b-chat-v2',
         messages=messages,
         result_format='message',  # set the result to be "message" format.
@@ -38,6 +38,8 @@ def call_with_messages(msgs):
 
 
 if __name__ == '__main__':
-    message = [SystemMessage(content=""), HumanMessage(content="")]
     ai_msg = call_with_messages(message)
     print(ai_msg.content)
+
+
+
