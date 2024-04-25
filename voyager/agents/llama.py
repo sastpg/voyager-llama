@@ -35,11 +35,3 @@ def call_with_messages(msgs):
             response.request_id, response.status_code,
             response.code, response.message
         ))
-
-
-if __name__ == '__main__':
-    ai_msg = call_with_messages(message)
-    print(ai_msg.content)
-
-
-

@@ -3,11 +3,11 @@ async function craftFlintAndSteel(bot) {
     // Check if there are enough flints and iron_ingots in the inventory
     let ironIngotsCount = bot.inventory.count(mcData.itemsByName.iron_ingot.id);
     let flintsCount = bot.inventory.count(mcData.itemsByName.flint.id);
+    await smeltAllRawIron(bot);
     // If not, explore to find and mine iron ores
     if (ironIngotsCount < 1) {
       await mineIronOre(bot);
-      await smeltRawIron(bot);
-      ironIngotsCount += 1;
+      await smeltAllRawIron(bot);
     }
     if (flintsCount < 1) {
         await mineFlint(bot);
@@ -25,7 +25,7 @@ async function craftFlintAndSteel(bot) {
     const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
   
-    // Craft a shield using the crafting table
-    await craftItem(bot, "shield", 1);
-    bot.chat("Crafted a shield.");
+    // Craft a flint_and_steel using the crafting table
+    await craftItem(bot, "flint_and_steel", 1);
+    bot.chat("Crafted a flint_and_steel.");
   }
