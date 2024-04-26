@@ -1,21 +1,10 @@
 async function hoeFarmland(bot) {
-    // check hoe
-    const hoe = bot.inventory.findInventoryItem(mcData.itemsByName.diamond_hoe.id)  ||
-                bot.inventory.findInventoryItem(mcData.itemsByName.iron_hoe.id)     ||
-                bot.inventory.findInventoryItem(mcData.itemsByName.stone_hoe.id)    ||
-                bot.inventory.findInventoryItem(mcData.itemsByName.golden_hoe.id)   ||
-                bot.inventory.findInventoryItem(mcData.itemsByName.wooden_hoe.id);
-    if (!hoe) {
-        bot.chat("No hoe found in inventory.");
-        return;
-    } else {
-        await bot.equip(hoe, "hand");
-    }
+    await equipHoe(bot);
     // find water
     const water = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
         const water = bot.findBlocks({
             matching: block => block.name === "water",
-            maxDistance: 4,
+            maxDistance: 2,
             count: 1
         });
         return water.length >= 1 ? water : null;
@@ -27,14 +16,17 @@ async function hoeFarmland(bot) {
     // find dirt or grass_block near water
     const dirtNearWater = bot.findBlocks({
         matching: block => (block.name === "dirt" ||  block.name === "grass_block"),
-        maxDistance: 4,
-        count: 10
+        maxDistance: 5,
+        count: 20
     });
     // hoe a farmland
     for (pos of dirtNearWater) {   
         const farmland = bot.blockAt(pos);
-        await bot.lookAt(pos);
-        await bot.activateBlock(farmland);
-        bot.chat(`hoed block at ${pos}`);
+        // if there's air above this block and water near this block
+        if (await checkBlockAbove(bot, "air", pos) && await checkBlocksAround(bot, "water", pos)) {
+            await bot.lookAt(pos);
+            await bot.activateBlock(farmland);
+            bot.chat(`hoed block at ${pos}`);
+        }
     }
 }

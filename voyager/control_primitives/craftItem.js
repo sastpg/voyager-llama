@@ -15,7 +15,11 @@ async function craftItem(bot, name, count = 1) {
         matching: mcData.blocksByName.crafting_table.id,
         maxDistance: 32,
     });
-    const noCraftingTableList = ["crafting_table", "stick", "oak_planks", "birch_planks", "spruce_planks", "jungle_planks", "acacia_planks", "dark_oak_planks", "mangrove_planks"];
+    const noCraftingTableList = [
+        "crafting_table", 
+        "melon_seeds", "pumpkin_seeds", 
+        "stick", "torch", "flint_and_steel",
+        "oak_planks", "birch_planks", "spruce_planks", "jungle_planks", "acacia_planks", "dark_oak_planks", "mangrove_planks"];
     if (noCraftingTableList.includes(name)) {
         const recipe = bot.recipesFor(itemByName.id, null, 1, craftingTable)[0];
         try {
