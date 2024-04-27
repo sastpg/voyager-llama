@@ -20,5 +20,6 @@ async function collectMilkWithBucket(bot) {
     // collect milk
     cow = bot.nearestEntity(entity => {return entity.name === "cow" && entity.position.distanceTo(bot.entity.position) < 32;});
     await bot.pathfinder.goto(new GoalBlock(cow.position.x, cow.position.y, cow.position.z));
-    await bot.activateEntity(cow);
+    await bot.lookAt(cow.position);
+    await bot.useOn(cow);
   }

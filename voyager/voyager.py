@@ -405,9 +405,9 @@ class Voyager:
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
         while True:
-            self.run_raw_skill("skill_library/skill/code/collectWheatSeeds.js")
-            self.run_raw_skill("skill_library/skill/code/hoeFarmland.js")
-            self.run_raw_skill("skill_library/skill/code/plantWheatSeeds.js")
+            self.run_raw_skill("skill_library/skill/primitive/goto.js", [160 ,67, 10])
+            self.run_raw_skill("skill_library/skill/primitive/feedAnimals.js", [2, "sheep"])
+            # self.run_raw_skill("skill_library/skill/code/shearOneSheep.js")
             # self.run_raw_skill("./test_env/farming_env/getAnimal.js", ["sheep", 158, 64, -1341])
             # self.run_raw_skill("./test_env/combat_env/multiMonsterTask.js", [2])
             # self.run_raw_skill("./test_env/combat_env/killMonsters.js", ["skeleton"])

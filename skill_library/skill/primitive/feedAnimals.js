@@ -42,6 +42,6 @@ async function feedAnimals(bot, n = 2, type = null) {
         }
         await bot.pathfinder.goto(new GoalBlock(animal.position.x, animal.position.y, animal.position.z));
         await bot.lookAt(animal.position);
-        await bot.activateItem();
+        await bot.useOn(animal);
     }
 }
