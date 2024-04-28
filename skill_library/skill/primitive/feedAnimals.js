@@ -1,5 +1,5 @@
-async function feedAnimals(bot, n = 2, type = null) {
-    // let n = 2;           number of animals
+async function feedAnimals(bot, n = 1, type = null) {
+    // let n = 1;           number of animals
     // let type = "sheep"   type of animals
     let wheatSeedsCount = bot.inventory.count(mcData.itemsByName.wheat_seeds.id);
     let wheatCount = bot.inventory.count(mcData.itemsByName.wheat.id);

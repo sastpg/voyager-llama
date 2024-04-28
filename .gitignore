@@ -126,3 +126,5 @@ debug_*
 
 logs/
 plot_iter.py
+
+.config.json
