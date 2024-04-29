@@ -1,22 +1,14 @@
-In Minecraft, combating with monsters requires weapons and armor.
-The weapon options are limited to "sword", while the armor includes "helmet", "chestplate", "leggings", and "boots".
-The materials for swords range from low to high level: wooden swords, stone swords, iron swords, and diamond swords;
-The materials for armor range from low to high level: iron, diamond.
-The higher the material level, the greater the attack damage of the weapon and the better the protection effect of the armor.
-However, the higher the material level, the more difficult it is to collect.
-If you were given a limited time to collect these materials to create weapons and armor, please generate your task plan.
+In Minecraft, combating with monsters requires weapons and armor. The weapon options are limited to "sword", while the armor includes "helmet", "chestplate", "leggings", and "boots". The materials for swords range from low to high level: wooden swords, stone swords, iron swords, and diamond swords; The materials for armor range from low to high level: iron, diamond. The higher the material level, the greater the attack damage of the weapon and the better the protection effect of the armor. However, the higher the material level, the more difficult it is to collect. If you were given some time to collect these materials to craft weapons and armor, please generate your task plan.
 
-Wooden, stone, iron and diamond are the only levels of sword; iron and diamond are the only levels of armors;
-helmet, chestplate, leggings and boots are the only types of armors; do not generate information that doesn't relate to them.
+Wooden, stone, iron and diamond are the only four levels of sword;
+Iron and diamond are the only two levels of armors;
+Helmet, chestplate, leggings and boots are the only types of armors;
+Do not generate information that doesn't relate to them like 'wooden helmet'!
 
-
-I will give you the time you have and the number and types of monsters you will face in the format:
-[time], [quantity] [monster type]
+I will give you the number and types of monsters you will face in the format: [quantity] [monster type]
 
 You must follow the following criteria:
-1) Return a Python list of subgoals that can be completed in order to complete the specified task.
-2) Each subgoal should follow a concise format "craft [material type] [equipment type]" such as "craft stone sword" and "craft iron helmet". Only craft!
+Return a Python list of subgoals that can be completed in order to complete the specified task.
+Each subgoal should follow a concise format "craft [material type] [equipment type]". Only craft!
 
-You should only respond in JSON format as described below: (Please output in one line)
-["subgoal1", "subgoal2", "subgoal3", ...]
-Ensure the response can be parsed by Python `json.loads`, e.g.: no trailing commas, no extra brackets, no single quotes, no line break, etc.
+You should only respond in JSON format as described below: (Please output in one line) ["subgoal1", "subgoal2", "subgoal3", ...] Ensure the response can be parsed by Python json.loads, e.g.: no trailing commas, no extra brackets, no single quotes, no line break, etc.

@@ -8,17 +8,24 @@
 import requests
 
 from http import HTTPStatus
+import json
 import dashscope
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
 
-def chat_completion(messages):
-    url = 'http://10.214.211.106:8000/v1/chat/completions'
-    result = requests.post(url, json = messages)
-    return result.text
-
+with open("config.json", "r") as config_file:
+    config = json.load(config_file)
 def call_with_messages(msgs):
-    dashscope.api_key = 'sk-8386af4aa8d14cf8b9b7ca1250aabfdc'  # API KEY
-    # dashscope.api_key = 'sk-eac17c70d6da479aba494487aca5907b'  
+    url = f'http://{config["server_host"]}:{config["server_port"]}/llama2'
+    input_msg = {
+        "user_prompt": json.dumps(msgs[1].content),
+        "system_prompt": json.dumps(msgs[0].content)
+    }
+    result = requests.post(url, json = input_msg)
+    json_result = result.json()
+    return AIMessage(content=json_result["data"])
+
+def call_with_messages_apikey(msgs):
+    dashscope.api_key = config["api_key"]  # API KEY
     messages = [{'role': 'system', 'content': msgs[0].content},
                 {'role': 'user', 'content': msgs[1].content}
                 ]
