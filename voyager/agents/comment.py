@@ -47,27 +47,24 @@ class CommentAgent:
 
     def human_check_task_success(self):
         confirmed = False
-        success = False
         critique = ""
         while not confirmed:
-            success = input("Success? (y/n)")
-            success = success.lower() == "y"
+            reason = input("Reason:")
             critique = input("Enter your critique:")
-            print(f"Success: {success}\nCritique: {critique}")
+            print(f"Reason: {reason}\nCritique: {critique}")
             confirmed = input("Confirm? (y/n)") in ["y", ""]
-        return success, critique
+        return reason, critique
 
     def ai_check_task_success(self, messages, max_retries=5):
         if max_retries == 0:
             print(
                 "\033[31mFailed to parse Critic Agent response. Consider updating your prompt.\033[0m"
             )
-            return False, ""
+            return "", ""
 
         if messages[1] is None:
-            return False, ""
+            return "", ""
 
-        # critic = self.llm(messages).content
         # modify
         critic = call_with_messages(messages).content
         print(f"\033[31m****Comment Agent ai message****\n{critic}\033[0m")
