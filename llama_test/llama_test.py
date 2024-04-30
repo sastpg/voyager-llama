@@ -9,15 +9,15 @@ from langchain.schema import AIMessage, HumanMessage, SystemMessage
 with open("config.json", "r") as config_file:
     config = json.load(config_file)
 def call_with_messages(msgs):
-    url = f'http://{config["server_host"]}:{config["server_port"]}/llama3'
+    url = f'http://{config["server_host"]}:{config["server_port"]}/llama2'
     result = requests.post(url, json = msgs)
-    return result.text
+    return result.json()
 
 with open("llama_test/combat_sys_prompt.txt", "r") as file:
     txt_content = file.read().strip()
 json_content = json.dumps(txt_content)
 msg1_content = json.loads(json_content)
-msg2_content = "3 enderman."
+msg2_content = "3 zombies."
 test_msg = {
     "user_prompt": msg2_content,
     "system_prompt": msg1_content

@@ -404,15 +404,17 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
+        self.run_raw_skill("skill_library/skill/primitive/combatEnv.js", [10, 15, 100])
+        self.run_raw_skill("skill_library/skill/primitive/summonMob.js", [5, 6, "skeleton"])
+        # self.run_raw_skill("./test_env/combat_env/multiMonsterTask.js", [2])
+        self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", ["skeleton"])
+        # self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", ["zombie"])
+        # self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", ["spider"])
         # while True:
             # self.run_raw_skill("skill_library/skill/primitive/goto.js", [160 ,67, 10])
             # self.run_raw_skill("skill_library/skill/primitive/feedAnimals.js", [2, "sheep"])
             # self.run_raw_skill("skill_library/skill/code/shearOneSheep.js")
             # self.run_raw_skill("./test_env/farming_env/getAnimal.js", ["sheep", 158, 64, -1341])
-            # self.run_raw_skill("./test_env/combat_env/multiMonsterTask.js", [2])
-            # self.run_raw_skill("./test_env/combat_env/killMonsters.js", ["skeleton"])
-            # self.run_raw_skill("./test_env/combat_env/killMonsters.js", ["zombie"])
-            # self.run_raw_skill("./test_env/combat_env/killMonsters.js", ["spider"])
         while self.curriculum_agent.progress < len(sub_goals):
             next_task = sub_goals[self.curriculum_agent.progress]
             context = self.curriculum_agent.get_task_context(next_task)
