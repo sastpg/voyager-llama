@@ -13,6 +13,10 @@ from langchain.vectorstores import Chroma
 # llama
 from voyager.agents.llama import call_with_messages
 
+env_prompt = {
+    'combat': 'combat_sys_prompt',
+}
+
 
 class CurriculumAgent:
     def __init__(
@@ -359,14 +363,14 @@ class CurriculumAgent:
         )
         U.dump_json(self.failed_tasks, f"{self.ckpt_dir}/curriculum/failed_tasks.json")
 
-    def decompose_task(self, task, events):
+    def decompose_task(self, environment, monster, last_tasklist, critique):
         # for different test env, modify prompt here
         messages = [
             SystemMessage(
-                content=load_prompt("combat_sys_prompt"),
+                content=load_prompt(env_prompt[environment]),
             ),
             # self.render_human_message(events=events, chest_observation=""),
-            HumanMessage(content=f"5 zombies"),
+            HumanMessage(content=f"Task list from last round: {last_tasklist}; Critique: {critique}; Monster: {monster}."),
         ]
         # print(f"\033[31m****Curriculum Agent task decomposition****\nFinal task: {task}\033[0m")
         response = call_with_messages(messages).content
@@ -486,7 +490,7 @@ class CurriculumAgent:
         ]
         print(f"\033[35mCurriculum Agent Question: {question}\033[0m")
         # qa_answer = self.qa_llm(messages).content
-        # �??改调�??
+        # �??改调�??
         qa_answer = call_with_messages(messages).content
         print(f"\033[31mCurriculum Agent {qa_answer}\033[0m")
         return qa_answer
