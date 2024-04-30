@@ -44,6 +44,7 @@ class EventRecorder:
             f"\033[96m****Recorder message: {self.iteration} iteration passed****\033[0m"
         )
         dump_json(events, f_join(self.ckpt_dir, "events", task))
+        return self.elapsed_time, self.iteration
 
     def resume(self, cutoff=None):
         self.item_history = set()

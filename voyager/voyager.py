@@ -117,6 +117,8 @@ class Voyager:
         self.env_wait_ticks = env_wait_ticks
         self.reset_placed_if_failed = reset_placed_if_failed
         self.max_iterations = max_iterations
+        self.totoal_time = 0 
+        self.total_iter = 0 
 
         # set openai api key
         # os.environ["OPENAI_API_KEY"] = openai_api_key
@@ -234,7 +236,7 @@ class Voyager:
                 code,
                 programs=self.skill_manager.programs,
             )
-            self.recorder.record(events, self.task)
+            self.totoal_time, self.total_iter = self.recorder.record(events, self.task)
             self.action_agent.update_chest_memory(events[-1][1]["nearbyChests"])
             success, critique = self.critic_agent.check_task_success(
                 events=events,
@@ -277,7 +279,7 @@ class Voyager:
             # self.messages = [system_message, human_message]
         else:
             assert isinstance(parsed_result, str)
-            self.recorder.record([], self.task)
+            self.totoal_time, self.total_iter = self.recorder.record([], self.task)
             print(f"\033[34m{parsed_result} Trying again!\033[0m")
         assert len(self.messages) == 2
         self.action_agent_rollout_num_iter += 1
