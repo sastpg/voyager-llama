@@ -8,11 +8,8 @@ async function killMonsters(bot, type = null) {
     await equipSword(bot);
     await equipArmor(bot);
     // Find the nearest monster
-    const monster = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
-      const monster = bot.nearestEntity(entity => {
-        return entity.name === type && entity.position.distanceTo(bot.entity.position) < 32;
-      });
-      return monster;
+    const monster = bot.nearestEntity(entity => {
+      return entity.name === type && entity.position.distanceTo(bot.entity.position) < 32;
     });
     if (!monster) {
       bot.chat(`Could not find a ${type}.`);
