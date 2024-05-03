@@ -9,6 +9,7 @@ import voyager.utils as U
 from .env import VoyagerEnv
 
 from .agents import ActionAgent
+from .agents import CommentAgent
 from .agents import CriticAgent
 from .agents import CurriculumAgent
 from .agents import SkillManager
@@ -24,7 +25,7 @@ class Voyager:
         mc_port: int = None,
         azure_login: Dict[str, str] = None,
         server_port: int = 3000,
-        openai_api_key: str = None,
+        environment: str = None,
         env_wait_ticks: int = 20,
         env_request_timeout: int = 600,
         max_iterations: int = 160,
@@ -116,6 +117,8 @@ class Voyager:
         self.env_wait_ticks = env_wait_ticks
         self.reset_placed_if_failed = reset_placed_if_failed
         self.max_iterations = max_iterations
+        self.totoal_time = 0 
+        self.total_iter = 0 
 
         # set openai api key
         # os.environ["OPENAI_API_KEY"] = openai_api_key
@@ -150,6 +153,9 @@ class Voyager:
             request_timout=openai_api_request_timeout,
             mode=critic_agent_mode,
         )
+        self.comment_agent = CommentAgent(
+            environment=environment,
+        )
         self.skill_manager = SkillManager(
             model_name=skill_manager_model_name,
             temperature=skill_manager_temperature,
@@ -160,6 +166,7 @@ class Voyager:
             reload=reload,
             embedding_model=embedding_dir,
         )
+        self.environment = environment
         self.skills = [[], []]
         self.recorder = U.EventRecorder(ckpt_dir=ckpt_dir, resume=resume)
         self.resume = resume
@@ -229,7 +236,7 @@ class Voyager:
                 code,
                 programs=self.skill_manager.programs,
             )
-            self.recorder.record(events, self.task)
+            self.totoal_time, self.total_iter = self.recorder.record(events, self.task)
             self.action_agent.update_chest_memory(events[-1][1]["nearbyChests"])
             success, critique = self.critic_agent.check_task_success(
                 events=events,
@@ -272,7 +279,7 @@ class Voyager:
             # self.messages = [system_message, human_message]
         else:
             assert isinstance(parsed_result, str)
-            self.recorder.record([], self.task)
+            self.totoal_time, self.total_iter = self.recorder.record([], self.task)
             print(f"\033[34m{parsed_result} Trying again!\033[0m")
         assert len(self.messages) == 2
         self.action_agent_rollout_num_iter += 1
@@ -380,7 +387,7 @@ class Voyager:
             "skills": self.skill_manager.skills,
         }
 
-    def decompose_task(self, task):
+    def decompose_task(self, task, last_tasklist=None, critique=None):
         if not self.last_events:
             self.last_events = self.env.reset(
                 options={
@@ -388,7 +395,7 @@ class Voyager:
                     "wait_ticks": self.env_wait_ticks,
                 }
             )
-        return self.curriculum_agent.decompose_task(task, self.last_events)
+        return self.curriculum_agent.decompose_task(self.environment, task, last_tasklist, critique)
 
     def inference(self, task=None, sub_goals=[], reset_mode="hard", reset_env=True):
         if not task and not sub_goals:
@@ -415,24 +422,31 @@ class Voyager:
             self.run_raw_skill("skill_library/skill/primitive/eatFood.js", ["porkchop"])
             # self.run_raw_skill("skill_library/skill/code/shearOneSheep.js")
             # self.run_raw_skill("./test_env/farming_env/getAnimal.js", ["sheep", 158, 64, -1341])
-        while self.curriculum_agent.progress < len(sub_goals):
-            next_task = sub_goals[self.curriculum_agent.progress]
-            context = self.curriculum_agent.get_task_context(next_task)
-            print(
-                f"\033[35mStarting task {next_task} for at most {self.action_agent_task_max_retries} times\033[0m"
-            )
-            messages, reward, done, info = self.rollout(
-                task=next_task,
-                context=context,
-                reset_env=reset_env,
-            )
-            self.curriculum_agent.update_exploration_progress(info)
-            print(
-                f"\033[35mCompleted tasks: {', '.join(self.curriculum_agent.completed_tasks)}\033[0m"
-            )
-            print(
-                f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
-            )
+        for _ in range(5):
+            while self.curriculum_agent.progress < len(sub_goals):
+                next_task = sub_goals[self.curriculum_agent.progress]
+                context = self.curriculum_agent.get_task_context(next_task)
+                print(
+                    f"\033[35mStarting task {next_task} for at most {self.action_agent_task_max_retries} times\033[0m"
+                )
+                messages, reward, done, info = self.rollout(
+                    task=next_task,
+                    context=context,
+                    reset_env=reset_env,
+                )
+                self.curriculum_agent.update_exploration_progress(info)
+                print(
+                    f"\033[35mCompleted tasks: {', '.join(self.curriculum_agent.completed_tasks)}\033[0m"
+                )
+                print(
+                    f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
+                )
+            
+            self.run_raw_skill("skill_library/skill/primitive/combatEnv.js", [10, 15, 100])
+            self.run_raw_skill("skill_library/skill/primitive/summonMob.js", [5, 6, "skeleton"])
+            self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", ["skeleton"])
+            reason, cirtiques = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
+            sub_goals = self.decompose_task(task, last_tasklist=sub_goals, critique=reason.join(cirtiques))
         
 
     def run_raw_skill(self, skill_path, parameters = []):
@@ -494,9 +508,10 @@ class Voyager:
 
         if isinstance(parsed_result, dict):
             code = parsed_result["program_code"] + "\n" + parsed_result["exec_code"]
-            self.env.step(
+            events = self.env.step(
                 code,
                 programs=self.skill_manager.programs,
             )
+            self.last_events = copy.deepcopy(events)
         else:
             print(f"\033[34m{parsed_result} Code executes error!\033[0m")
