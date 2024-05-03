@@ -1,1 +1,1 @@
-This function searches for a nearby minecart, moves the bot to it, rides the minecart along the rails, and then dismounts.
+This function searches for a nearby minecart, moves towards it, rides the minecart along the rails, and then dismounts. It uses pathfinding to reach the minecart and checks for changes in position to determine when to stop moving the minecart.

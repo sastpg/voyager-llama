@@ -1,6 +1,6 @@
 from voyager import Voyager
 
-mc_port = 63542
+mc_port = 59506
 env_wait_ticks = 100
 
 voyager = Voyager(
@@ -15,9 +15,9 @@ voyager = Voyager(
 # start lifelong learning
 # voyager.learn()
 
-task = "3 zombie"
+task = "5 skeleton"
 
 # sub_goals = voyager.decompose_task(task = '')
 # print(sub_goals)
 # test_sub_goals = ["craft wooden sword"]
-voyager.inference(task=task)
+voyager.inference(sub_goals="craft wooden sword")

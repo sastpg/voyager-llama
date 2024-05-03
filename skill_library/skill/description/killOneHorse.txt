@@ -1,1 +1,1 @@
-This function equips a sword, finds and kills the nearest horse within a specified range, then collects the dropped items.
+This function equips a sword, finds and kills the nearest horse within a certain range, then collects the dropped items.

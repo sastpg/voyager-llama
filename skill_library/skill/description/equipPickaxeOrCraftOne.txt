@@ -1,0 +1,1 @@
+This function equips the best available pickaxe from the bot's inventory (diamond, iron, stone, or wooden), or crafts and equips a wooden pickaxe if none are found.

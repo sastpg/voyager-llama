@@ -1,1 +1,1 @@
-This function crafts an iron pickaxe by ensuring there are enough resources (iron ingots and sticks), smelting iron ore if necessary, crafting sticks, placing a crafting table, and finally crafting the iron pickaxe.
+This function crafts an iron pickaxe by first smelting all raw iron, then checking if there are enough iron ingots and sticks in the inventory. It collects more materials if necessary, crafts a crafting table if needed, places it, and finally crafts the iron pickaxe. The bot also chats that it crafted an iron pickaxe.

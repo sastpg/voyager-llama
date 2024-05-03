@@ -1,0 +1,1 @@
+This function collects 1 melon by first equipping an axe, searching for melon blocks within a certain range, mining one melon block, and then sending a chat message.

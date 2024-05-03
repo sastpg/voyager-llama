@@ -1,1 +1,1 @@
-This function crafts golden leggings in Minecraft by smelting raw gold, checking for gold ingots, mining gold ore if needed, crafting a crafting table, placing it near the bot, and finally crafting the golden leggings.
+This function crafts golden leggings in Minecraft by first smelting all raw gold, checking if there are enough gold ingots, mining and smelting more if necessary. It then ensures a crafting table is available, crafts one if needed, places it, and finally crafts the golden leggings. The bot then confirms the action with a chat message.

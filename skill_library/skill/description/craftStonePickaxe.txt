@@ -1,1 +1,1 @@
-This function crafts a stone pickaxe in Minecraft by checking and gathering necessary materials (cobblestone and sticks), crafting a crafting table if needed, and using it to create the stone pickaxe. It also communicates with the player through chat messages.
+This function crafts a stone pickaxe by checking the inventory for cobblestone and sticks, collecting or crafting them if necessary, ensuring a crafting table is available, placing it nearby, and then using it to craft the stone pickaxe. It also sends chat messages to indicate the progress.

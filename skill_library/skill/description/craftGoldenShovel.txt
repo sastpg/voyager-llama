@@ -1,1 +1,1 @@
-This function crafts a golden shovel in Minecraft by first smelting all raw gold, ensuring there are enough gold ingots and sticks in the inventory, and potentially mining gold ore, crafting sticks, and placing a crafting table nearby. It then crafts the golden shovel using the crafting table.
+This function crafts a golden shovel in Minecraft by first smelting all raw gold, checking if there are enough gold ingots and sticks, mining gold ore if necessary, crafting sticks, ensuring a crafting table is available, placing it nearby, and finally crafting the golden shovel.

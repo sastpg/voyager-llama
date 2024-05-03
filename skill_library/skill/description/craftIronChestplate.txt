@@ -1,1 +1,1 @@
-This function crafts an iron chestplate by first smelting all raw iron, ensuring there are at least 8 iron ingots. It mines and smelts iron ores if necessary. It checks for a crafting table, crafting one if needed, placing it beside the bot, and finally crafting the iron chestplate.
+This function crafts an iron chestplate by smelting raw iron, mining and smelting more iron if needed, ensuring a crafting table is available, placing it, and then using it to craft the iron chestplate. Finally, it sends a chat message confirming the action.

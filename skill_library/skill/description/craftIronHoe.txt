@@ -1,1 +1,1 @@
-This function crafts an iron hoe by ensuring there are enough iron ingots and sticks in the inventory. It smelts raw iron if necessary, collects sticks, and crafts a crafting table if one isn't available. The crafting table is then placed near the bot, and finally, an iron hoe is crafted.
+This function crafts an iron hoe in Minecraft by performing several steps: smelting raw iron, checking inventory counts for iron ingots and sticks, collecting missing items, crafting a crafting table if needed, placing the crafting table, and finally crafting the iron hoe.

@@ -1,1 +1,1 @@
-This function collects dirt by first checking if the bot has a shovel. If not, it crafts a wooden shovel. It then equips the shovel and uses the exploreUntil function to find at least 10 dirt blocks within a certain range. After finding the dirt, it mines 10 dirt blocks and notifies that the action is complete.
+This function equips a shovel or crafts one if needed, finds and mines 10 dirt blocks using helper functions, and then sends a chat message.

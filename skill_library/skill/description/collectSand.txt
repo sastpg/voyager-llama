@@ -1,1 +1,1 @@
-This function collects sand in Minecraft by first ensuring the bot has a shovel. If not, it crafts a wooden shovel. It then equips the shovel, finds sand blocks, mines 10 sand blocks, and informs the user when done.
+This function collects sand by equipping a shovel, searching for sand blocks, mining them, and then reporting the action.

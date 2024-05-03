@@ -1,1 +1,1 @@
-This function equips a sword, finds and kills the nearest camel within a 60 block radius, then collects the dropped items. It also sends chat messages to indicate progress and completion.
+This function equips a sword, finds and kills the nearest camel within a 60 block radius, then collects the dropped items.

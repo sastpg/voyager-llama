@@ -1,1 +1,1 @@
-This function equips an iron or stone pickaxe, searches for a single lapis lazuli ore block within a specified range, mines it, and then sends a chat message indicating the successful mining of one lapis lazuli ore. If no suitable pickaxe is found, it crafts a stone pickaxe before proceeding.
+This function equips an iron or stone pickaxe, finds and mines a single lapis lazuli ore block, and chats a message upon completion.

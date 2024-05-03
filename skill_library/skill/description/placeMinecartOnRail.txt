@@ -1,1 +1,1 @@
-This function places a minecart on a rail by first checking if the bot has a minecart in its inventory. If not, it informs the user. It then searches for a rail within a certain range and, upon finding one, summons a minecart at the rail's position. Lastly, it clears one minecart from the bot's inventory.
+This function places a minecart on a nearby rail, checking if the player has a minecart in their inventory, finding a rail within a certain range, and then summoning a minecart at the found rail's position while clearing one minecart from the player's inventory.

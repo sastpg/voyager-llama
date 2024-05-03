@@ -1,1 +1,1 @@
-This function crafts an iron axe in Minecraft by first smelting raw iron, checking inventory for enough iron ingots and sticks, collecting or crafting missing items, ensuring a crafting table is available, placing it nearby, and finally crafting the iron axe.
+This function crafts an iron axe in Minecraft by first smelting all raw iron, ensuring there are enough iron ingots and sticks, and potentially mining and smelting iron ores. It also checks for a crafting table, crafts one if needed, places it nearby, and finally crafts the iron axe.

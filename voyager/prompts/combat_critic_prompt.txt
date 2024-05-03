@@ -14,4 +14,4 @@ You should only respond in JSON format as described below:
     "reasoning": "reasoning",
     "critique": "critique",
 }
-Ensure the response can be parsed by Python `json.loads`, e.g.: no trailing commas, no single quotes, etc.
+Ensure the response can be parsed by Python `json.loads`, e.g.: no extra brackets, no trailing commas, no single quotes, etc.

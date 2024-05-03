@@ -1,1 +1,1 @@
-This function continuously equips a sword and iron armor, kills zombies indefinitely, and chats "Killed a zombie." after each kill. It uses the mineflayer framework for Minecraft gameplay.
+This function continuously equips a sword and iron armor, kills zombies indefinitely, and chats "Killed a zombie." after each kill. It uses the provided bot instance for interaction.

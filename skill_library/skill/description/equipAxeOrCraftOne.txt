@@ -1,0 +1,1 @@
+This function finds the best axe (diamond, iron, stone, or wooden) in the bot's inventory and equips it. If no axe is found, it crafts a wooden axe and then equips it.

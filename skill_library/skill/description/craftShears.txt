@@ -1,1 +1,1 @@
-This function crafts shears by checking for iron ingots, collecting and smelting iron ores if needed, ensuring a crafting table is available, placing it nearby, and then crafting the shears using the crafting table.
+This function crafts shears in Minecraft by checking for iron ingots, collecting and smelting iron ores if needed, ensuring a crafting table is available, placing the crafting table, and finally crafting the shears.

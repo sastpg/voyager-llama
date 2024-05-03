@@ -1,1 +1,1 @@
-This function shears one sheep in the Minecraft game. It first checks if the player has shears, crafts them if necessary, equips the shears, finds the nearest sheep within a 32-block range, approaches the sheep to shear it, and then collects any dropped items. If no sheep are found, it sends a chat message.
+This function shears a single sheep in Minecraft. It first checks if the player has shears, crafts them if necessary, equips the shears, finds the nearest sheep, and then moves towards it to shear. After shearing, the function collects any dropped items.

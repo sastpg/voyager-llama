@@ -1,1 +1,1 @@
-This function crafts a gold pickaxe in Minecraft by first smelting raw gold, ensuring there are enough gold ingots and sticks, and then arranging the necessary items, including a crafting table. It also places the crafting table near the player's position and finally crafts the gold pickaxe.
+This function crafts a gold pickaxe by smelting raw gold, collecting necessary materials (gold ingots and sticks), ensuring a crafting table is available, placing it, and then using it to craft the pickaxe.

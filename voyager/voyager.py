@@ -411,17 +411,13 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
-        # self.run_raw_skill("skill_library/skill/primitive/combatEnv.js", [10, 15, 100])
-        # self.run_raw_skill("skill_library/skill/primitive/summonMob.js", [5, 6, "skeleton"])
-        # self.run_raw_skill("./test_env/combat_env/multiMonsterTask.js", [2])
-        # self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", ["skeleton"])
-        # self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", ["zombie"])
-        # self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", ["spider"])
         while True:
-            self.run_raw_skill("skill_library/skill/primitive/killAnimal.js", ["pig"])
-            self.run_raw_skill("skill_library/skill/primitive/eatFood.js", ["porkchop"])
+            self.run_raw_skill("skill_library/skill/code/hoeFarmland.js")
+            self.run_raw_skill("skill_library/skill/code/plantMelonSeeds.js")
+            # self.run_raw_skill("skill_library/skill/primitive/killAnimal.js", ["pig"])
+            # self.run_raw_skill("skill_library/skill/primitive/eatFood.js", ["porkchop"])
             # self.run_raw_skill("skill_library/skill/code/shearOneSheep.js")
-            # self.run_raw_skill("./test_env/farming_env/getAnimal.js", ["sheep", 158, 64, -1341])
+            # self.run_raw_skill("skill_library/skill/primitive/getAnimal.js", ["sheep", 158, 64, -1341])
         for _ in range(5):
             while self.curriculum_agent.progress < len(sub_goals):
                 next_task = sub_goals[self.curriculum_agent.progress]
@@ -442,10 +438,11 @@ class Voyager:
                     f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
                 )
             
-            self.run_raw_skill("skill_library/skill/primitive/combatEnv.js", [10, 15, 100])
-            self.run_raw_skill("skill_library/skill/primitive/summonMob.js", [5, 6, "skeleton"])
+            self.run_raw_skill("./test_env/combatEnv.js", [10, 15, 100])
+            self.run_raw_skill("./test_env/summonMob.js", [5, 6, "skeleton"])
             self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", ["skeleton"])
             reason, cirtiques = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
+            self.run_raw_skill("./test_env/respawnAndClear.js")
             sub_goals = self.decompose_task(task, last_tasklist=sub_goals, critique=reason.join(cirtiques))
         
 

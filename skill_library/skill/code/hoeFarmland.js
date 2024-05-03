@@ -16,12 +16,12 @@ async function hoeFarmland(bot) {
     // find dirt or grass_block near water
     const dirtNearWater = bot.findBlocks({
         matching: block => (block.name === "dirt" ||  block.name === "grass_block"),
-        maxDistance: 5,
-        count: 20
+        maxDistance: 8,
+        count: 60
     });
     // hoe a farmland
     for (pos of dirtNearWater) {   
-        const farmland = bot.blockAt(pos);
+        const farmland = await bot.blockAt(pos);
         // if there's air above this block and water near this block
         if (await checkBlockAbove(bot, "air", pos) && await checkBlocksAround(bot, "water", pos)) {
             await bot.lookAt(pos);

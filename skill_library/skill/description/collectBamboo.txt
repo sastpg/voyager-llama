@@ -1,1 +1,1 @@
-This function collects bamboo by equipping a wooden sword if available, finding and breaking at least 10 bamboo plants, and then collecting the dropped items. It uses the exploreUntil function to search for bamboo, and the pathfinder to navigate to each plant.
+This function collects bamboo by equipping a wooden sword if available, finding and breaking at least 10 bamboo plants, and then collecting the dropped items. It uses the exploreUntil function to search for bamboo, and the pathfinder to navigate to the plants.

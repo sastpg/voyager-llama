@@ -1,1 +1,1 @@
-This function crafts a golden hoe in Minecraft by first smelting all raw gold, checking and collecting necessary materials (gold ingots and sticks), ensuring a crafting table is available, placing it near the bot, and finally crafting the golden hoe.
+This function crafts a golden hoe in Minecraft by first smelting all raw gold, checking and collecting the required materials (gold ingots and sticks), crafting a crafting table if needed, placing the table, and finally crafting the golden hoe.

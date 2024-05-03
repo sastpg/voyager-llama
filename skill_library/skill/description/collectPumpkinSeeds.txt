@@ -1,0 +1,1 @@
+This function checks if the bot has a pumpkin in its inventory. If it does, it crafts one pumpkin seed and logs a message if no pumpkin is found.

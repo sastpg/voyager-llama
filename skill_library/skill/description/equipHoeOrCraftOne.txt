@@ -1,0 +1,1 @@
+This function finds and equips the best hoe (diamond, iron, stone, or wooden) in the bot's inventory. If no hoe is found, it crafts a wooden hoe and then equips it.

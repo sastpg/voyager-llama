@@ -1,1 +1,1 @@
-This function crafts an iron sword by first smelting all raw iron, ensuring the presence of enough iron ingots and sticks in the inventory, and crafting a crafting table if needed. It then places the crafting table near the bot and uses it to craft the iron sword.
+This function crafts an iron sword by first smelting all raw iron, checking if there are enough iron ingots and sticks, collecting or mining them if necessary. It then crafts a crafting table if one is not available, places it near the bot, and finally crafts an iron sword using the crafting table.

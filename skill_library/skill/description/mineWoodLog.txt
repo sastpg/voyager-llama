@@ -1,1 +1,0 @@
-This function mines a wood log block within a certain range, searching for one of the specified types of logs. If a log is found, it is mined and a chat message is sent. If no log is found, a different chat message is sent.

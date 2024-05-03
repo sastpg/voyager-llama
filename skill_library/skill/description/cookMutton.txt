@@ -1,0 +1,1 @@
+This function cooks mutton in Minecraft by ensuring the player has a furnace, coal, and mutton. It checks the inventory for these items, kills a sheep if no mutton is found, crafts a furnace if none is present, mines coal if needed, and finally cooks the mutton.

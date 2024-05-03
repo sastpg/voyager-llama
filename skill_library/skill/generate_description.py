@@ -1,8 +1,12 @@
 import os
 import http
 import dashscope
+import json
 
-dashscope.api_key = 'sk-eac17c70d6da479aba494487aca5907b' # API KEY
+with open('config.json', 'r') as f:
+    config = json.load(f)
+
+dashscope.api_key = config['api_key']
 
 def call_llama(js_content):
     """
@@ -62,6 +66,6 @@ def main(mode="all"):
                     print(f"Description for {js_file} has been written to {description_file_path}")
 
 if __name__ == "__main__":
-    main(mode="missing")  
+    main(mode="all")  
     # mode "all" generates descriptions for all skills
     # mode "missing" generates descriptions for new skills

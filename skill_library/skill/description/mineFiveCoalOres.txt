@@ -1,1 +1,1 @@
-This function equips a wooden or stone pickaxe, finds and mines 5 coal_ore blocks, and chats a message upon completion.
+This function equips a wooden or stone pickaxe, finds and mines 5 coal_ore blocks, and chats a message upon completion. If no pickaxe is found, it crafts a wooden pickaxe first.

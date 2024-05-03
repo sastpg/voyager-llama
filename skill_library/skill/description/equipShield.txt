@@ -1,1 +1,1 @@
-This function equips a shield in the bot's off-hand slot if it finds one in the inventory. If no shield is found, it sends a chat message saying "No shield in inventory." After equipping the shield, it sends another chat message saying "Shield equipped."
+This function equips a shield from the bot's inventory to the off-hand slot. If no shield is found, it sends a chat message saying "No shield in inventory." After equipping the shield, it informs with a chat message that the shield is equipped.

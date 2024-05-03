@@ -1,1 +1,1 @@
-This function crafts a bed in Minecraft. It first checks if there are enough planks and white wool in the inventory. If not, it crafts planks from logs and kills sheep to obtain wool. Then, it ensures a crafting table is available and places it near the bot. Finally, it uses the crafting table to craft a bed and informs the user via chat.
+This function crafts a bed in Minecraft by ensuring there are enough planks and white wool, crafting missing components, placing a crafting table, and finally crafting the bed.

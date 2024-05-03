@@ -1,1 +1,0 @@
-This function collects cobblestone by first checking if the bot has a pickaxe. If not, it crafts a wooden pickaxe. Then, it equips the pickaxe and searches for cobblestone blocks. Once found, it mines 10 cobblestone blocks and notifies when the mining is done.

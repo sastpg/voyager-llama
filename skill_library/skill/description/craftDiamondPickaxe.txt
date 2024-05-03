@@ -1,1 +1,1 @@
-This function crafts a diamond pickaxe by ensuring the player has enough diamonds and sticks, collecting them if necessary, crafting a crafting table if needed, placing it nearby, and then using it to create the diamond pickaxe.
+This function crafts a diamond pickaxe in Minecraft. It checks for available diamonds and sticks in the inventory, mines diamonds and crafts sticks if needed. It also ensures a crafting table is present, crafts one if absent, places it nearby, and finally crafts the diamond pickaxe. The bot communicates its progress through chat messages.

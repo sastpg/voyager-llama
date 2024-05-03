@@ -1,1 +1,0 @@
-This function eats a cooked porkchop by equipping it, consuming it, and then sending a chat message to confirm completion. If the porkchop is not found, it calls the cookPorkchops function.

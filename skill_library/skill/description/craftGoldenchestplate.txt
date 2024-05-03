@@ -1,1 +1,1 @@
-This function crafts a golden chestplate by smelting raw gold, mining gold ore if necessary, ensuring a crafting table is available, placing the crafting table, and then using it to craft the golden chestplate. It also sends a chat message when done.
+This function crafts a golden chestplate in Minecraft by first smelting all raw gold, ensuring there are at least 8 gold ingots, crafting a crafting table if needed, placing it nearby, and then using the table to craft the golden chestplate. It also sends a chat message upon completion.

@@ -1,1 +1,1 @@
-This function places a water block using a water bucket from the bot's inventory. It first checks if the bot has a water_bucket, then equips it, looks at the bot's position, and activates the item to place the water. If no water_bucket is found, it informs the chat.
+This function places a water bucket at the bot's position after checking if the bot has a water_bucket in its inventory. It equips the water bucket, looks at the bot's position, and activates the item to place the water. If no water_bucket is found, it informs the chat.

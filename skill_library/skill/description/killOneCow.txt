@@ -1,1 +1,1 @@
-This function equips a sword, finds and kills the nearest cow within a specified range, then collects the dropped items.
+This function equips a sword, finds and kills the nearest cow within a certain range, then collects the dropped items.

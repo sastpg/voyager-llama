@@ -1,1 +1,1 @@
-This function mines flint by equipping the best available shovel (iron, stone, or wooden) and searching for gravel blocks within a certain distance. It then mines gravel until it obtains at least one flint, and informs the user when a flint has been mined.
+This function mines flint in Minecraft by equipping the best available shovel (iron, stone, or wooden) and searching for gravel blocks within a 32-block radius. It then mines gravel until it obtains one additional flint, and announces when a flint has been mined.

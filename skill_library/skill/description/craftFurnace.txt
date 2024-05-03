@@ -1,1 +1,1 @@
-This function crafts a furnace by first checking if there are enough cobblestones in the inventory. If not, it mines cobblestones and crafts a wooden pickaxe if needed. It then checks for a crafting table and crafts one if absent. The crafting table is placed near the bot, and finally, a furnace is crafted using the crafting table.
+This function crafts a furnace by checking if there are enough cobblestones, mining them if necessary, ensuring a wooden pickaxe is available, crafting a crafting table if needed, placing it, and finally crafting the furnace.

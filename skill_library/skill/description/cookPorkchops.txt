@@ -1,1 +1,0 @@
-This function cooks 1 porkchop in a furnace by checking and acquiring necessary items like furnace, coal, and porkchops. It crafts a furnace if needed, mines coal, kills a pig for porkchops, places the furnace near the bot, and then smelts the porkchop.

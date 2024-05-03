@@ -1,1 +1,1 @@
-This function checks if the player has a hoe in their inventory, equips it, and then hoes a farmland block at the player's position.
+This function equips a hoe, finds water within a certain range, then searches for dirt or grass_block near the water. It hoes any farmland blocks that have air above them and are near water, and chats the action performed.

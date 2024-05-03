@@ -1,0 +1,1 @@
+This function equips a pickaxe or crafts one, finds and mines 10 cobblestone blocks, and then sends a chat message.

@@ -1,0 +1,1 @@
+This function checks for a melon slice in the bot's inventory. If found, it crafts 1 melon seeds. If not, it sends a chat message saying "No melon slice found in inventory."

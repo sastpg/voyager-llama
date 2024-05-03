@@ -1,0 +1,1 @@
+This function equips the best shovel available in the bot's inventory, prioritizing diamond, iron, stone, and then wooden shovels. If no shovel is found, it crafts a wooden shovel and equips it.

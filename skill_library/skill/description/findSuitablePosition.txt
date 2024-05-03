@@ -1,1 +1,0 @@
-This function finds a suitable position around the bot by checking for an air block in the given offset directions and returns the corresponding position. If no air block is found, it returns null.

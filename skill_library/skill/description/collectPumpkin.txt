@@ -1,0 +1,1 @@
+This function equips an axe, searches for at least one pumpkin block within a certain range, mines one pumpkin block, and then sends a chat message.

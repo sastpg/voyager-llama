@@ -1,1 +1,1 @@
-This function asynchronously smelts all raw iron in the bot's inventory. It first checks for a furnace and coal, crafting a furnace if needed and mining coal if none is available. It then places the furnace nearby, uses coal to smelt the raw iron, and notifies when the process is complete.
+This function smelts all raw iron in the bot's inventory by checking for a furnace and coal, crafting a furnace if needed, placing it nearby, mining coal if necessary, and then using coal to smelt the raw iron. It also sends a chat message when finished.

@@ -1,1 +1,0 @@
-This function searches for the best available sword in the bot's inventory and equips it to the hand. If no sword is found, the bot chats that there is no sword in the inventory.

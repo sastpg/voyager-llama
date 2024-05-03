@@ -1,1 +1,1 @@
-This function crafts a wooden hoe in Minecraft by checking for required materials (planks and sticks), ensuring a crafting table is available, and using it to create the hoe. It also counts and manages existing resources in the bot's inventory.
+This function crafts a wooden hoe in Minecraft by ensuring the player has enough resources (planks and sticks), crafting missing items (sticks, wooden planks, or a crafting table), placing the crafting table, and then using it to craft the wooden hoe. It also sends a chat message when done.

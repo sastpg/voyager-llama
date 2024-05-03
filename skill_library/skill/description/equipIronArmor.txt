@@ -1,1 +1,1 @@
-This function equips the iron chestplate, leggings, boots, and helmet from the bot's inventory, if available, and informs about the status of each item via chat.
+This function equips an iron armor set (chestplate, leggings, boots, and helmet) on the Minecraft bot if the items are present in its inventory. It searches for the items, then uses the bot's `equip` method to put them in the respective equipment slots. If any item is not found, it sends a chat message indicating the missing item.

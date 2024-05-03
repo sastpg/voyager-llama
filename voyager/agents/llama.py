@@ -15,7 +15,7 @@ from langchain.schema import AIMessage, HumanMessage, SystemMessage
 with open("config.json", "r") as config_file:
     config = json.load(config_file)
 def call_with_messages(msgs):
-    url = f'http://{config["server_host"]}:{config["server_port"]}/llama2'
+    url = f'http://{config["server_host"]}:{config["server_port"]}/llama3'
     input_msg = {
         "user_prompt": json.dumps(msgs[1].content),
         "system_prompt": json.dumps(msgs[0].content)

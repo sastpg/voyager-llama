@@ -2,7 +2,7 @@ import re
 from voyager.prompts import load_prompt
 from voyager.utils.json_utils import fix_and_parse_json
 from langchain.schema import HumanMessage, SystemMessage
-from voyager.agents.llm import call_with_messages
+from voyager.agents.llama import call_with_messages
 
 env_prompt = {
     'combat': 'combat_critic_prompt'
