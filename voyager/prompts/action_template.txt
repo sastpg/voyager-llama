@@ -6,7 +6,9 @@ Programs: The description of relevant programs that may use to complete the task
 Program used in the last round: ...
 Critique: ...
 
-You will choose only one program based on the description and critique. You should only respond in the format as described below:
-RESPONSE FORMAT:
-    1) ```your selected program name```
-    2) Reason you choose the program.
+You will choose only one program based on the program description and critique. You should only respond in the format as described below:
+{
+    "program": "your selected program name",
+    "reason": "Reason you choose the program.",
+}
+Ensure the response can be parsed by Python `json.loads`, e.g.: no trailing commas, no single quotes, etc.

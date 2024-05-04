@@ -2,8 +2,8 @@ import re
 import time
 
 import voyager.utils as U
+from voyager.utils.json_utils import fix_and_parse_json
 from javascript import require
-from langchain.prompts import SystemMessagePromptTemplate
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
 
 from voyager.prompts import load_prompt
@@ -67,7 +67,7 @@ class ActionAgent:
             return f"Chests: None\n\n"
 
     def render_system_message(self):
-        system_template = load_prompt("action_template")
+        system_message =  SystemMessage(content=load_prompt("action_template"))
         # FIXME: Hardcoded control_primitives
         # base_skills = [
         #     "exploreUntil",
@@ -84,10 +84,10 @@ class ActionAgent:
         #     ]
         # programs = "\n\n".join(load_control_primitives_context(base_skills) + skills)
         # response_format = load_prompt("action_response_format")
-        system_message_prompt = SystemMessagePromptTemplate.from_template(
-            system_template
-        )
-        system_message = system_message_prompt.format()
+        # system_message_prompt = SystemMessagePromptTemplate.from_template(
+        #     system_template
+        # )
+        # system_message = system_message_prompt.format()
         assert isinstance(system_message, SystemMessage)
         return system_message
 
@@ -201,9 +201,14 @@ class ActionAgent:
                 babel = require("@babel/core")
                 babel_generator = require("@babel/generator").default
 
-                code_pattern = re.compile(r"`(.*?)`", re.DOTALL)
-                code_name = "".join(code_pattern.findall(message.content))
+                code_pattern = re.compile(r"{(.*?)}", re.DOTALL)
+                code_name = "".join(code_pattern.findall(message.content)[0])
+                action = "{" + code_name + "}"
+                action_resp = fix_and_parse_json(action)
+                assert "program" in action_resp
+                code_name = action_resp['program']
                 print(code_name)
+
                 code = [c for c in skills if code_name in c]
                 parsed = babel.parse(code[0])
                 functions = []
