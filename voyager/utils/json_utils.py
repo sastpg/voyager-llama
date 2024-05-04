@@ -147,7 +147,11 @@ def fix_and_parse_list(list_str: str):
 
     # Using re.findall to extract the content
     extracted_content = re.findall(pattern, list_str, re.DOTALL)
-
+    i = 0
+    for item in extracted_content:
+        if "INST" not in item:
+            break
+        i+=1
     # Print the extracted content
     # print(extracted_content)
     subgoal_list = ast.literal_eval(extracted_content[0])
