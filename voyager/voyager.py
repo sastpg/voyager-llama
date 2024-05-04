@@ -399,7 +399,7 @@ class Voyager:
             )
         return self.curriculum_agent.decompose_task(self.environment, task, last_tasklist, critique)
 
-    def inference(self, task=None, sub_goals=[], reset_mode="hard", reset_env=True):
+    def inference(self, task:str=None, sub_goals=[], reset_mode="hard", reset_env=True):
         if not task and not sub_goals:
             raise ValueError("Either task or sub_goals must be provided")
         if not sub_goals:
@@ -413,9 +413,9 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
-        while True:
-            self.run_raw_skill("skill_library/skill/code/hoeFarmland.js")
-            self.run_raw_skill("skill_library/skill/code/plantMelonSeeds.js")
+        # while True:
+        #     self.run_raw_skill("skill_library/skill/code/hoeFarmland.js")
+        #     self.run_raw_skill("skill_library/skill/code/plantMelonSeeds.js")
             # self.run_raw_skill("skill_library/skill/primitive/killAnimal.js", ["pig"])
             # self.run_raw_skill("skill_library/skill/primitive/eatFood.js", ["porkchop"])
             # self.run_raw_skill("skill_library/skill/code/shearOneSheep.js")
@@ -444,7 +444,9 @@ class Voyager:
             self.run_raw_skill("./test_env/summonMob.js", [5, 6, "skeleton"])
             self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", ["skeleton"])
             reason, cirtiques = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
-            self.run_raw_skill("./test_env/respawnAndClear.js")
+            # self.run_raw_skill("./test_env/respawnAndClear.js")
+            U.f_mkdir(f"{self.ckpt_dir}/results/{self.environment}")
+            U.dump_text(f"{sub_goals},{self.totoal_time} ticks,{self.total_iter}\n" f"{self.ckpt_dir}/results/{self.environment}/{task.replace(' ', '_')}.txt")
             sub_goals = self.decompose_task(task, last_tasklist=sub_goals, critique=reason.join(cirtiques))
         
 
