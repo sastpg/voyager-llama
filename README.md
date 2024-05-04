@@ -1,6 +1,16 @@
 # Voyager-llama
+`test.py` 养殖环境调用示例：
+```python
+voyager = Voyager(
+    mc_port=7293,
+    skill_library_dir="./skill_library/trial1",
+    environment="breed",
+)
 
-`test.py`调用示例：
+voyager.learn()
+```
+
+`test.py`打怪环境调用示例：
 
 ```python
 voyager = Voyager(

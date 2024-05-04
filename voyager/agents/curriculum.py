@@ -5,7 +5,7 @@ import re
 
 import voyager.utils as U
 from voyager.prompts import load_prompt
-from voyager.utils.json_utils import fix_and_parse_list
+from voyager.utils.json_utils import fix_and_parse_list, fix_and_parse_json
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from langchain.schema import HumanMessage, SystemMessage
 from langchain.vectorstores import Chroma
@@ -15,6 +15,7 @@ from voyager.agents.llama import call_with_messages
 
 env_prompt = {
     'combat': 'combat_sys_prompt',
+    'breed': 'breeding_sys_prompt'
 }
 
 
@@ -108,18 +109,18 @@ class CurriculumAgent:
     @property
     def curriculum_observations(self):
         return [
-            "context",
+            # "context",
             "biome",
-            "time",
+            # "time",
             "nearby_blocks",
             "other_blocks",
             "nearby_entities",
             "health",
             "hunger",
-            "position",
-            "equipment",
+            # "position",
+            # "equipment",
             "inventory",
-            "chests",
+            # "chests",
             "completed_tasks",
             "failed_tasks",
         ]
@@ -128,8 +129,8 @@ class CurriculumAgent:
     def progress(self):
         return len(self.completed_tasks)
 
-    def render_system_message(self):
-        system_message = SystemMessage(content=load_prompt("curriculum"))
+    def render_system_message(self, environment):
+        system_message = SystemMessage(content=load_prompt(env_prompt[environment]))
         assert isinstance(system_message, SystemMessage)
         return system_message
 
@@ -208,37 +209,38 @@ class CurriculumAgent:
         observation = self.render_observation(
             events=events, chest_observation=chest_observation
         )
-        if self.progress >= self.warm_up["context"]:
-            questions, answers = self.run_qa(
-                events=events, chest_observation=chest_observation
-            )
-            i = 1
-            for question, answer in zip(questions, answers):
-                if "Answer: Unknown" in answer or "language model" in answer:
-                    continue
-                observation["context"] += f"Question {i}: {question}\n"
-                observation["context"] += f"{answer}\n\n"
-                i += 1
-                if i > 5:
-                    break
+        # if self.progress >= self.warm_up["context"]:
+        #     questions, answers = self.run_qa(
+        #         events=events, chest_observation=chest_observation
+        #     )
+        #     i = 1
+        #     for question, answer in zip(questions, answers):
+        #         if "Answer: Unknown" in answer or "language model" in answer:
+        #             continue
+        #         observation["context"] += f"Question {i}: {question}\n"
+        #         observation["context"] += f"{answer}\n\n"
+        #         i += 1
+        #         if i > 5:
+        #             break
 
         for key in self.curriculum_observations:
-            if self.progress >= self.warm_up[key]:
-                if self.warm_up[key] != 0:
-                    should_include = random.random() < 0.8
-                else:
-                    should_include = True
-                if should_include:
-                    content += observation[key]
+            content += observation[key]
+            # if self.progress >= self.warm_up[key]:
+            #     if self.warm_up[key] != 0:
+            #         should_include = random.random() < 0.8
+            #     else:
+            #         should_include = True
+            #     if should_include:
+            #         content += observation[key]
 
         print(f"\033[35m****Curriculum Agent human message****\n{content}\033[0m")
         return HumanMessage(content=content)
 
-    def propose_next_task(self, *, events, chest_observation, max_retries=5):
-        if self.progress == 0 and self.mode == "auto":
-            task = "Mine 1 wood log"
-            context = "You can mine one of oak, birch, spruce, jungle, acacia, dark oak, or mangrove logs."
-            return task, context
+    def propose_next_task(self, environment, events, chest_observation, max_retries=5):
+        # if self.progress == 0 and self.mode == "auto":
+        #     task = "Mine 1 wood log"
+        #     context = "You can mine one of oak, birch, spruce, jungle, acacia, dark oak, or mangrove logs."
+        #     return task, context
 
         # hard code task when inventory is almost full
         inventoryUsed = events[-1][1]["status"]["inventoryUsed"]
@@ -273,7 +275,7 @@ class CurriculumAgent:
             return task, context
 
         messages = [
-            self.render_system_message(),
+            self.render_system_message(environment),
             self.render_human_message(
                 events=events, chest_observation=chest_observation
             ),
@@ -291,11 +293,16 @@ class CurriculumAgent:
             raise RuntimeError("Max retries reached, failed to propose ai task.")
         curriculum = call_with_messages(messages).content
         print(f"\033[31m****Curriculum Agent ai message****\n{curriculum}\033[0m")
+        code_pattern = re.compile(r"{(.*?)}", re.DOTALL)
+        code_name = "".join(code_pattern.findall(curriculum))
+        curriculum = "{" + code_name + "}"
         try:
-            response = self.parse_ai_message(curriculum)
-            assert "next_task" in response
-            context = self.get_task_context(response["next_task"])
-            return response["next_task"], context
+            response = fix_and_parse_json(curriculum)
+            assert "task" in response
+            if "reasoning" not in response:
+                response["reasoning"] = ""
+            context = self.get_task_context(response["task"])
+            return response["task"], context
         except Exception as e:
             print(
                 f"\033[35mError parsing curriculum response: {e}. Trying again!\033[0m"

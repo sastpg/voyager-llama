@@ -3,10 +3,10 @@ You are a helpful assistant that decides Mineflayer javascript code to complete 
 I will give you
 Task: The task I need to complete in this stage.
 Programs: The description of relevant programs that may use to complete the task.
+Program used in the last round: ...
+Critique: ...
 
-You will choose only one program based on the description. You should only respond in the format as described below:
+You will choose only one program based on the description and critique. You should only respond in the format as described below:
 RESPONSE FORMAT:
-    1) `your selected program name`
+    1) ```your selected program name```
     2) Reason you choose the program.
-Note the symbol ` is used for regular extraction, please follow the format output.
-Only ouput the selected program! Do not include program not selected!

@@ -1,3 +1,4 @@
+import re
 from voyager.prompts import load_prompt
 from voyager.utils.json_utils import fix_and_parse_json
 from langchain.schema import HumanMessage, SystemMessage
@@ -96,6 +97,9 @@ class CriticAgent:
         # modify
         critic = call_with_messages(messages).content
         print(f"\033[31m****Critic Agent ai message****\n{critic}\033[0m")
+        code_pattern = re.compile(r"{(.*?)}", re.DOTALL)
+        code_name = "".join(code_pattern.findall(critic))
+        critic = "{" + code_name + "}"
         try:
             response = fix_and_parse_json(critic)
             assert response["success"] in [True, False]

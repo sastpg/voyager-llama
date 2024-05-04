@@ -222,13 +222,14 @@ class Voyager:
         if self.action_agent_rollout_num_iter < 0:
             raise ValueError("Agent must be reset before stepping")
         # ai_message = self.action_agent.llm(self.messages)
-        # modify llama
+        # modify
         ai_message = call_with_messages(self.messages)
         print(f"\033[34m****Action Agent ai message****\n{ai_message.content}\033[0m")
         self.conversations.append(
             (self.messages[0].content, self.messages[1].content, ai_message.content)
         )
         parsed_result = self.action_agent.process_ai_message(message=ai_message, skills=self.skills[0])
+
         success = False
         if isinstance(parsed_result, dict):
             code = parsed_result["program_code"] + "\n" + parsed_result["exec_code"]
@@ -267,16 +268,16 @@ class Voyager:
             #     + "\n\n"
             #     + self.action_agent.summarize_chatlog(events)
             # )
-            # system_message = self.action_agent.render_system_message(skills=new_skills)
-            # human_message = self.action_agent.render_human_message(
-            #     events=events,
-            #     code=parsed_result["program_code"],
-            #     task=self.task,
-            #     context=self.context,
-            #     critique=critique,
-            # )
+            system_message = self.action_agent.render_system_message()
+            human_message = self.action_agent.render_human_message(
+                events=events,
+                code=parsed_result["program_name"],
+                task=self.task,
+                critique=critique,
+                skills=self.skills[1]
+            )
             self.last_events = copy.deepcopy(events)
-            # self.messages = [system_message, human_message]
+            self.messages = [system_message, human_message]
         else:
             assert isinstance(parsed_result, str)
             self.totoal_time, self.total_iter = self.recorder.record([], self.task)
@@ -338,6 +339,7 @@ class Voyager:
                 break
             task, context = self.curriculum_agent.propose_next_task(
                 events=self.last_events,
+                environment=self.environment,
                 chest_observation=self.action_agent.render_chest_observation(),
                 max_retries=5,
             )
@@ -370,8 +372,8 @@ class Voyager:
                 print("Your last round rollout terminated due to error:")
                 print(f"\033[41m{e}\033[0m")
 
-            if info["success"]:
-                self.skill_manager.add_new_skill(info)
+            # if info["success"]:
+            #     self.skill_manager.add_new_skill(info)
 
             self.curriculum_agent.update_exploration_progress(info)
             print(

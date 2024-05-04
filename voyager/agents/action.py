@@ -121,10 +121,10 @@ class ActionAgent:
 
         observation = ""
 
-        # if code:
-        #     observation += f"Code from the last round:\n{code}\n\n"
-        # else:
-        #     observation += f"Code from the last round: No code in the first round\n\n"
+        if code:
+            observation += f"Program used in the last round:\n{code}\n\n"
+        else:
+            observation += f"Program used in the last round: None\n\n"
 
         # if self.execution_error:
         #     if error_messages:
@@ -184,10 +184,10 @@ class ActionAgent:
         # else:
         #     observation += f"Context: None\n\n"
 
-        # if critique:
-        #     observation += f"Critique: {critique}\n\n"
-        # else:
-        #     observation += f"Critique: None\n\n"
+        if critique:
+            observation += f"Critique: {critique}\n\n"
+        else:
+            observation += f"Critique: None\n\n"
 
         return HumanMessage(content=observation)
 
