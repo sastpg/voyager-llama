@@ -444,9 +444,9 @@ class Voyager:
             self.run_raw_skill("./test_env/summonMob.js", [5, 6, "skeleton"])
             self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", ["skeleton"])
             reason, cirtiques = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
-            # self.run_raw_skill("./test_env/respawnAndClear.js")
-            U.f_mkdir(f"{self.ckpt_dir}/results/{self.environment}")
-            U.dump_text(f"{sub_goals},{self.totoal_time} ticks,{self.total_iter}\n" f"{self.ckpt_dir}/results/{self.environment}/{task.replace(' ', '_')}.txt")
+            self.run_raw_skill("./test_env/respawnAndClear.js")
+            U.f_mkdir(f"./results/{self.environment}")
+            U.dump_text(f"{sub_goals},{self.totoal_time} ticks,{self.total_iter}\n" f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
             sub_goals = self.decompose_task(task, last_tasklist=sub_goals, critique=reason.join(cirtiques))
         
 

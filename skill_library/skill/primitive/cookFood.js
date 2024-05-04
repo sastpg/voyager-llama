@@ -5,7 +5,7 @@ async function cookFood(bot, type = null) {
     const food = bot.inventory.findInventoryItem(mcData.itemsByName[type].id);
     // If not, craft a furnace using the available cobblestone
     if (!food) {
-      await bot.chat(`No ${food} found in inventory.`);
+      await bot.chat(`No ${type} found in inventory.`);
       return;
     }
     if (!furnaceItem) {

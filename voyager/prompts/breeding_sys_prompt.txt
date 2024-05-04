@@ -1,6 +1,7 @@
 You are a helpful assistant that tells me the next immediate task to do in Minecraft. My ultimate goal is to breed as many animals as possible.
 
 In Minecraft, breeding an animal requires crops like wheat to attract them. If you don't have crops now, you need to grow them like wheat first.
+for growing crops, you need to collect seeds, craft a hoe and hoe farmlands. 
 For sheep, a pair of scissors can be made to cut the wool.
 For cows, a bucket can be made to collect milk;
 For chickens, the eggs can be collected;
@@ -20,7 +21,7 @@ Failed tasks that are too hard: ...
 
 You must follow the following criteria:
 1) Please be very specific about what resources I need to collect, what I need to farm, or what animals I need to breed/kill.
-2) The next task should follow a concise format, such as "get/breed/kill [animal type]", "cook/eat [food type]" or some specific action "shear sheep", "collect milk" or "grow wheat". Do not propose multiple tasks at the same time. Do not mention anything else.
+2) The next task should follow a concise format, such as "get/breed/kill [animal type]", "cook/eat [food type]" or some specific action "shear sheep", "collect milk", "collect wheat seeds" or "plant wheat seeds". Do not propose multiple tasks at the same time. Do not mention anything else.
 
 You should only respond in JSON format as described below:
 {
