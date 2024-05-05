@@ -1,5 +1,5 @@
 async function hoeFarmland(bot) {
-    await equipHoe(bot);
+    await equipHoeOrCraftOne(bot);
     // find water
     const water = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
         const water = bot.findBlocks({

@@ -9,8 +9,9 @@ async function equipSword(bot) {
     if (Sword) {
         await bot.equip(Sword, "hand");
         bot.chat("Sword equipped.");
+        return true;
     } else {
         bot.chat("No sword in inventory.");
-        return;
+        return false;
     }
 }

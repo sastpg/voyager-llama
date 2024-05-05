@@ -9,8 +9,9 @@ async function equipPickaxe(bot) {
     if (pickaxe) {
         await bot.equip(pickaxe, "hand");
         bot.chat("Pickaxe equipped.");
+        return true;
     } else {
         bot.chat("No pickaxe in inventory.");
-        return;
+        return false;
     }
 }

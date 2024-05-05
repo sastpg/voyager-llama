@@ -1,6 +1,6 @@
 from voyager import Voyager
 
-mc_port = 64639
+mc_port = 65474
 env_wait_ticks = 100
 
 voyager = Voyager(
@@ -9,13 +9,13 @@ voyager = Voyager(
     skill_library_dir="./skill_library",
     reload=False, # set to True if the skill_json updated
     embedding_dir="d:\\DESKTOP\\paraphrase-multilingual-MiniLM-L12-v2", # your model path
-    environment='combat'
+    environment='farming'
 )
 
-task = "5 skeleton"
+task = "1 zombie"
 
 # sub_goals = voyager.decompose_task(task = '')
 # print(sub_goals)
 # test_sub_goals = ["craft wooden sword"]
-# voyager.learn()
-voyager.inference(task = task)
+voyager.learn()
+# voyager.inference(task = task)

@@ -15,7 +15,7 @@ from voyager.agents.llama import call_with_messages
 
 env_prompt = {
     'combat': 'combat_sys_prompt',
-    'breed': 'breeding_sys_prompt'
+    'farming': 'farming_sys_prompt'
 }
 
 
@@ -497,7 +497,7 @@ class CurriculumAgent:
         ]
         print(f"\033[35mCurriculum Agent Question: {question}\033[0m")
         # qa_answer = self.qa_llm(messages).content
-        # �??改调�??
+        # �???改调�???
         qa_answer = call_with_messages(messages).content
         print(f"\033[31mCurriculum Agent {qa_answer}\033[0m")
         return qa_answer

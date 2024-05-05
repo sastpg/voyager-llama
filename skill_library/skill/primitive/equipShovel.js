@@ -9,8 +9,9 @@ async function equipShovel(bot) {
     if (shovel) {
         await bot.equip(shovel, "hand");
         bot.chat("Shovel equipped.");
+        return true;
     } else {
         bot.chat("No shovel in inventory.");
-        return;
+        return false;
     }
 }

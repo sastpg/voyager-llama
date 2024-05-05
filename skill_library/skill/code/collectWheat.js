@@ -9,7 +9,7 @@ async function collectWheat(bot) {
         return wheat.length >= 1 ? wheat : null;
     });
     if (!ripe_wheat) {
-        bot.chat("Could not find enough wheat.");
+        bot.chat("Could not find ripe wheat. Plant seeds or wait for seeds to ripen first!");
         return;
     }
     const block = bot.blockAt(ripe_wheat[0]);

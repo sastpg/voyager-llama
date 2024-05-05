@@ -1,21 +1,22 @@
 # Voyager-llama
-`test.py` 养殖环境调用示例：
+目前llama仍然存在输出格式不能保持一致的问题。
+`test.py` farming环境调用示例：
 ```python
 voyager = Voyager(
     mc_port=7293,
-    skill_library_dir="./skill_library/trial1",
-    environment="breed",
+    skill_library_dir="./skill_library",
+    environment="farming",
 )
 
 voyager.learn()
 ```
 
-`test.py`打怪环境调用示例：
+`test.py`combat环境调用示例：
 
 ```python
 voyager = Voyager(
     mc_port=7293,
-    skill_library_dir="./skill_library/trial1",
+    skill_library_dir="./skill_library",
     environment="combat",
 )
 
