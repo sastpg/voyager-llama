@@ -440,6 +440,7 @@ class Voyager:
                     f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
                 )
             
+            # str_list = task.split()
             self.run_raw_skill("./test_env/combatEnv.js", [10, 15, 100])
             self.run_raw_skill("./test_env/summonMob.js", [1, 5, "zombie"])
             self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", ["skeleton"])

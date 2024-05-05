@@ -14,6 +14,8 @@ class CriticAgent:
     ):
         assert mode in ["auto", "manual"]
         self.mode = mode
+        self.last_inventory = "Empty"
+        self.last_inventory_used = 0
 
     def render_system_message(self):
         system_message = SystemMessage(content=load_prompt("critic"))
@@ -51,18 +53,27 @@ class CriticAgent:
         # observation += f"Hunger: {hunger:.1f}/20\n\n"
 
         # observation += f"Position: x={position['x']:.1f}, y={position['y']:.1f}, z={position['z']:.1f}\n\n"
+        observation += f"Task: {task}\n\n"
+        observation += chest_observation
 
         observation += f"Equipment: {equipment}\n\n"
 
         if inventory:
-            observation += f"Inventory ({inventory_used}/36): {inventory}\n\n"
+            observation += f"Current Inventory ({inventory_used}/36): {inventory}\n\n"
         else:
-            observation += f"Inventory ({inventory_used}/36): Empty\n\n"
+            observation += f"Current Inventory ({inventory_used}/36): Empty\n\n"
 
-        observation += chest_observation
+        observation += f"Last inventory ({self.last_inventory_used}/36): {self.last_inventory}"
 
-        observation += f"Task: {task}\n\n"
+        self.last_inventory_used = inventory_used
+        self.last_inventory = inventory
 
+        for event_type, event in events:
+            if event_type == 'onChat':
+                chatlog = event['onChat']
+        
+        observation += f"Chat log: {chatlog}"
+    
         # if context:
         #     observation += f"Context: {context}\n\n"
         # else:
