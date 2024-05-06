@@ -442,8 +442,15 @@ class Voyager:
             
             # str_list = task.split()
             self.run_raw_skill("./test_env/combatEnv.js", [10, 15, 100])
-            self.run_raw_skill("./test_env/summonMob.js", [1, 5, "zombie"])
-            self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", ["skeleton"])
+            combat_order = self.curriculum_agent.rerank_monster(task=task)
+            for task_item in task.split(','):
+                summon_para = task_item.split()
+                summon_para.insert(5, 1)  # r = 5, idx =1
+                self.run_raw_skill("./test_env/summonMob.js", summon_para)
+            
+            for monster in combat_order:
+                combat_para = monster.split()[1]
+                self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para])
             reason, cirtiques = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
             U.f_mkdir(f"./results/{self.environment}")
             U.dump_text(f"{sub_goals},{self.totoal_time} ticks,{self.total_iter}\n" f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
