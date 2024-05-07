@@ -66,6 +66,6 @@ def main(mode="all"):
                     print(f"Description for {js_file} has been written to {description_file_path}")
 
 if __name__ == "__main__":
-    main(mode="all")  
+    main(mode="missing")  
     # mode "all" generates descriptions for all skills
     # mode "missing" generates descriptions for new skills

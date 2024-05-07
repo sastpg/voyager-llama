@@ -1,0 +1,1 @@
+This function breeds chickens in Minecraft by first checking if the player has at least 2 wheat seeds in their inventory. If there are insufficient seeds, it alerts the user and ends. Otherwise, it equips a wheat seed and feeds the chickens twice using the `feedAnimals` function.

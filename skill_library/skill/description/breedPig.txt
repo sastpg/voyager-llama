@@ -1,0 +1,1 @@
+This function breeds pigs by first checking the number of carrots in the bot's inventory. If there are less than or equal to 'n' carrots, it informs that there aren't enough for breeding and stops. Otherwise, it equips a carrot and proceeds to feed animals (specifically pigs) twice using the 'feedAnimals' function.

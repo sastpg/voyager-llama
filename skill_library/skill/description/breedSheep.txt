@@ -1,0 +1,1 @@
+This function checks the player's inventory for wheat and, if there are at least 3 wheat items, it equips one and attempts to feed two sheep for breeding.
