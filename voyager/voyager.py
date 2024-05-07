@@ -450,11 +450,14 @@ class Voyager:
             for monster in combat_order:
                 combat_para = monster
                 self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para])
-            reason, cirtiques = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
+            reason, cirtiques, result = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
             U.f_mkdir(f"./results/{self.environment}")
-            U.dump_text(f"{sub_goals},{self.totoal_time} ticks,{self.total_iter}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
+            U.dump_text(f"{sub_goals},{self.totoal_time} ticks,{self.total_iter},{result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
             sub_goals = self.decompose_task(task, last_tasklist=sub_goals, critique=reason.join(cirtiques))
             self.run_raw_skill("./test_env/respawnAndClear.js")
+            self.curriculum_agent.progress = 0
+            self.curriculum_agent.completed_tasks = []
+            self.curriculum_agent.failed_tasks = []
         
 
     def run_raw_skill(self, skill_path, parameters = []):

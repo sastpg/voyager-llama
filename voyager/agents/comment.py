@@ -43,7 +43,7 @@ class CommentAgent:
         observation += f"Health: {health}"
 
         print(f"\033[31m****Critic Agent human message****\n{observation}\033[0m")
-        return HumanMessage(content=observation)
+        return HumanMessage(content=observation), result
 
     def human_check_task_success(self):
         confirmed = False
@@ -89,7 +89,7 @@ class CommentAgent:
     def check_task_success(
         self, *, events, task, time, iter, max_retries=5
     ):
-        human_message = self.render_human_message(
+        human_message, result = self.render_human_message(
             events=events,
             task_list=task,
             time_ticks=time,
@@ -104,9 +104,10 @@ class CommentAgent:
         if self.mode == "manual":
             return self.human_check_task_success()
         elif self.mode == "auto":
-            return self.ai_check_task_success(
+            reason, critique = self.ai_check_task_success(
                 messages=messages, max_retries=max_retries
             )
+            return reason, critique, result
         else:
             raise ValueError(f"Invalid comment agent mode: {self.mode}")
         
