@@ -413,9 +413,8 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
-        while True:
-            self.run_raw_skill("skill_library/skill/code/breedSheep.js")
-        #     self.run_raw_skill("skill_library/skill/code/plantMelonSeeds.js")
+        # while True:
+            # self.run_raw_skill("skill_library/skill/code/breedSheep.js")
             # self.run_raw_skill("skill_library/skill/primitive/killAnimal.js", ["pig"])
             # self.run_raw_skill("skill_library/skill/primitive/eatFood.js", ["porkchop"])
             # self.run_raw_skill("skill_library/skill/code/shearOneSheep.js")

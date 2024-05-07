@@ -1,7 +1,7 @@
 async function killMonsters(bot, type = null) {
   // Listen for bot's death
   bot.on('death', () => {
-    bot.chat("return false.");
+    bot.chat("I lost the combat.");
     return false;
   });
   do {
@@ -13,7 +13,7 @@ async function killMonsters(bot, type = null) {
     });
     if (!monster) {
       bot.chat(`Could not find a ${type}.`);
-      bot.chat("return true.");
+      bot.chat("I won the combat.");
       return true;
     }
     // Kill the animal using the sword

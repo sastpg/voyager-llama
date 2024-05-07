@@ -7,7 +7,6 @@ However, the higher the material level, the more time it costs to collect.
 
 Tips: Wooden, stone, iron and diamond are the only levels of sword; iron and diamond are the only levels of armors;
 helmet, chestplate, leggings and boots are the only types of armors; do not generate information that doesn't relate to them.
-Chestplates and leggings have the highest priority among the armors.
 
 You goal is to generate the plan that can defeat all monsters while using the shortest time. After each round of combat, I will give you:
 
@@ -19,7 +18,8 @@ Remember to refer to the critique to adjust your task list.
 
 You must follow the following criteria:
 1) Return a Python list of subgoals that can be completed in order to complete the specified task.
-2) Each subgoal should follow a concise format "craft [material type] [equipment type]" such as "craft stone sword" and "craft iron helmet". Only craft!
+2) Each subgoal should start with "craft", do not return any other type of skills.
+3) Each subgoal should follow a concise format "craft [material type] [equipment type]" such as "craft stone sword" and "craft iron helmet".
 
 You should only respond in JSON format as described below:
 ["subgoal1", "subgoal2", "subgoal3", ...]

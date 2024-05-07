@@ -1,6 +1,6 @@
 from voyager import Voyager
 
-mc_port = 49703
+mc_port = 54420
 env_wait_ticks = 100
 
 voyager = Voyager(
@@ -11,11 +11,12 @@ voyager = Voyager(
     embedding_dir="d:\\DESKTOP\\paraphrase-multilingual-MiniLM-L12-v2", # your model path
     environment='combat'
 )
-
-task = "1 zombie"
-
+task_z = "1 zombie"
+single_mob_list = ["1 zombie", "1 skeleton", "1 spider", "1 cave_spider", "1 enderman", 
+                   "1 blaze", "1 ghast", "1 piglin", "1 piglin_brute", "1 wither_skeleton"]
 # sub_goals = voyager.decompose_task(task = '')
 # print(sub_goals)
 # test_sub_goals = ["craft wooden sword"]
 # voyager.learn()
-voyager.inference(sub_goals=["breed cow"])
+for task in single_mob_list:
+    voyager.inference(task=task)
