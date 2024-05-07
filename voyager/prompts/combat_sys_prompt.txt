@@ -14,6 +14,7 @@ Task list from last round: ...
 Critique: ...
 Monster: The monsters you need to defeat.
 
+The critique (if any) will tell you the subgoal list from the previous round and whether you should trim or add to it.
 Remember to refer to the critique to adjust your task list.
 
 You must follow the following criteria:
