@@ -1,0 +1,1 @@
+['craft wooden sword', 'craft iron helmet'],5462 ticks,4

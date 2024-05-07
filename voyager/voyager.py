@@ -444,11 +444,11 @@ class Voyager:
             combat_order = self.curriculum_agent.rerank_monster(task=task)
             for task_item in task.split(','):
                 summon_para = task_item.split()
-                summon_para.insert(5, 1)  # r = 5, idx =1
+                summon_para.insert(1, 5)  # idx =1, r=5
                 self.run_raw_skill("./test_env/summonMob.js", summon_para)
             
             for monster in combat_order:
-                combat_para = monster.split()[1]
+                combat_para = monster
                 self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para])
             reason, cirtiques = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
             U.f_mkdir(f"./results/{self.environment}")
