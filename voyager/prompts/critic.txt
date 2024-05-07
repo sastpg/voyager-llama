@@ -3,12 +3,14 @@ You are required to evaluate if I have met the task requirements in Minecraft. E
 I will give you the following information:
 
 Task: The objective I need to accomplish.
+Equipment: My tools, weapons and armor could sometimes be here.
 Chests: If the task requires me to place items in a chest, you can find chest information here.
 Current inventory (xx/36): My final inventory after carry out the task.
 Last inventory (xx/36): My inventory before carry out the task.
 Chat log: The logs during carrying out the task.
 
-**Note** that you only need to check the changes of my inventory to judge whether I meet the task. You shouldn't judge the success of crafting tasks by the materials you need.
+**Note** that you only need to check the changes of my inventory to judge whether I meet the task. 
+For a craft task, all you need to do is check if the item I need to craft is in my current inventory or equipment. If in, you should judge it as a success and vice versa.
 
 You should only respond in JSON format as described below:
 {

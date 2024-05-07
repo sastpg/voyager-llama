@@ -1,1 +1,6 @@
-['craft wooden sword', 'craft iron helmet'],5462 ticks,4
+['craft wooden sword', 'craft iron helmet'], 5305 ticks, 2 LLM iters
+['craft wooden sword', 'craft iron helmet'], 2898 ticks, 2 LLM iters
+['craft diamond sword', 'craft diamond chestplate'], 2898 ticks, 2 LLM iters
+['craft iron sword', 'craft iron chestplate'], 2898 ticks, 2 LLM iters
+['craft diamond sword', 'craft diamond chestplate'], 2898 ticks, 2 LLM iters
+['craft iron sword', 'craft iron helmet'], 2898 ticks, 2 LLM iters
