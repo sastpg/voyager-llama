@@ -8,10 +8,11 @@ async function craftIronPickaxe(bot) {
   if (sticksCount < 2) {
     await craftSticks(bot);
   }
-  if (ironIngotsCount < 3) {
-    await mineFiveIronOres(bot);
-    await smeltAllRawIron(bot);
+  while (ironIngotsCount < 3) {
+    await mineIronOre(bot);
+    ironIngotsCount += 1;
   }
+  await smeltAllRawIron(bot);
   // check if crafting table is in the inventory
   const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
   // If not, craft a crafting table

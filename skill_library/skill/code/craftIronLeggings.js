@@ -5,10 +5,10 @@ async function craftIronLeggings(bot) {
   let ironIngotsCount = bot.inventory.count(mcData.itemsByName.iron_ingot.id);
   // If not enough iron ingots, mine iron ores and smelt them into iron ingots
   while (ironIngotsCount < 7) {
-    await mineFiveIronOres(bot);
-    await smeltAllRawIron(bot);
-    ironIngotsCount = bot.inventory.count(mcData.itemsByName.iron_ingot.id);
+    await mineIronOre(bot);
+    ironIngotsCount += 1;
   }
+  await smeltAllRawIron(bot);
   // check if crafting table is in the inventory
   const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
   // If not, craft a crafting table

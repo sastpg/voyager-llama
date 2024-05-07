@@ -9,7 +9,7 @@ async function craftIronShovel(bot) {
     await craftSticks(bot);
   }
   if (ironIngotsCount < 1) {
-    await mineFiveIronOres(bot);
+    await mineIronOre(bot);
     await smeltAllRawIron(bot);
   }
   // check if crafting table is in the inventory

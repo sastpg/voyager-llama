@@ -1,0 +1,1 @@
+This function equips a pickaxe, finds and mines a single coal_ore block within a specified range, and chats a message after mining.

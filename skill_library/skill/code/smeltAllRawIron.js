@@ -7,6 +7,8 @@ async function smeltAllRawIron(bot) {
   if (!rawIronCount) {
     return;
   }
+  if (!coal)
+    await mineCoalOre(bot);
   // If not, craft a furnace using the available cobblestone
   if (!furnaceItem) {
     await craftFurnace(bot);
@@ -14,8 +16,7 @@ async function smeltAllRawIron(bot) {
   // Place the furnace near the bot
   const furnacePosition = await findSuitablePosition(bot);
   await placeItem(bot, "furnace", furnacePosition);
-  if (!coal)
-    await mineFiveCoalOres(bot);
+  
   // Smelt all raw iron using the available coal as fuel
   await smeltItem(bot, "raw_iron", "coal", rawIronCount);
   bot.chat("Raw iron smelted.");

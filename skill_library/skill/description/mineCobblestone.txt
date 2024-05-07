@@ -1,0 +1,1 @@
+This function mines 1 cobblestone block by first equipping or crafting a pickaxe, searching for a stone block within a certain range, and then using the mineBlock function to mine it. If no stone block is found, it sends a chat message indicating so.
