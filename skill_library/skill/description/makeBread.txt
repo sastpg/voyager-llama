@@ -1,0 +1,1 @@
+This function makes bread by checking if there is enough wheat in the inventory, ensuring a crafting table is available, placing the crafting table, and then crafting a bread item.

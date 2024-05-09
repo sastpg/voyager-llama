@@ -17,7 +17,7 @@ async function craftItem(bot, name, count = 1) {
     });
     const noCraftingTableList = [
         "crafting_table", 
-        "melon_seeds", "pumpkin_seeds", 
+        "melon_seeds", "pumpkin_seeds", "sugar",
         "stick", "torch", "flint_and_steel",
         "oak_planks", "birch_planks", "spruce_planks", "jungle_planks", "acacia_planks", "dark_oak_planks", "mangrove_planks"];
     if (noCraftingTableList.includes(name)) {

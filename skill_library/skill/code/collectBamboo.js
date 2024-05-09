@@ -1,9 +1,6 @@
 async function collectBamboo(bot) {
-  // equip wooden sword if there is one
-  const woodenSword = bot.inventory.findInventoryItem(mcData.itemsByName.wooden_sword.id);
-  if (woodenSword) {
-    await bot.equip(woodenSword, "hand");
-  }
+  // equip sword if there is one
+  await equipSword(bot);
 
   // Find bamboo plants using the exploreUntil function
   const bambooPlants = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
@@ -19,7 +16,7 @@ async function collectBamboo(bot) {
     return;
   }
 
-  // Break 10 bamboo plants using the iron sword
+  // Break 10 bamboo plants
   for (const bambooPlant of bambooPlants) {
     const block = bot.blockAt(bambooPlant);
     await bot.dig(block);

@@ -1,4 +1,4 @@
-async function collectFiveCactusBlocks(bot) {
+async function collectCactusBlocks(bot) {
     // Find 5 cactus blocks using the exploreUntil function
     const cactusBlocks = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
       const cactusBlocks = bot.findBlocks({

@@ -1,0 +1,1 @@
+This function finds and collects 5 cactus blocks in the Minecraft world. It first searches for at least 5 cactus blocks within a certain range, mines them, and then picks up the dropped items. If it cannot find enough cactus blocks, it alerts the user.

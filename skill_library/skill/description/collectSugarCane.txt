@@ -1,0 +1,1 @@
+This function collects sugar cane plants by searching for them within a specified range, digging each one found, and returning to the initial position. If no sugar cane is found, it sends a chat message.

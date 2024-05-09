@@ -1,2 +1,0 @@
-['craft wooden sword', 'craft iron helmet', 'craft iron chestplate'], 18927 ticks, 12 LLM iters
-['craft stone sword', 'craft iron leggings'], 18927 ticks, 12 LLM iters

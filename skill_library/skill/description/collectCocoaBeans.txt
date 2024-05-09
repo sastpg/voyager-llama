@@ -1,0 +1,1 @@
+This function collects cocoa beans by equipping an axe, searching for cocoa pods, digging them, and navigating to the next pod.

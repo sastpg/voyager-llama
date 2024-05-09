@@ -14,17 +14,18 @@ from langchain.schema import AIMessage, HumanMessage, SystemMessage
 
 with open("config.json", "r") as config_file:
     config = json.load(config_file)
-def call_with_messages_server(msgs):
-    url = f'http://{config["server_host"]}:{config["server_port"]}/llama2'
+def call_with_messages(msgs):
+    url = f'http://{config["server_host"]}:{config["server_port"]}/llama2_70b'
     input_msg = {
-        "user_prompt": json.dumps(msgs[1].content),
-        "system_prompt": json.dumps(msgs[0].content)
+        "user_prompt": msgs[1].content,
+        "system_prompt": msgs[0].content
     }
+    # print(input_msg)
     result = requests.post(url, json = input_msg)
     json_result = result.json()
     return AIMessage(content=json_result["data"])
 
-def call_with_messages(msgs):
+def call_with_messages_(msgs):
     dashscope.api_key = config["api_key"]  # API KEY
     messages = [{'role': 'system', 'content': msgs[0].content},
                 {'role': 'user', 'content': msgs[1].content}

@@ -1,0 +1,1 @@
+This function crafts cookies using wheat and cocoa beans from the bot's inventory. It first checks if there are enough ingredients and a crafting table. If a crafting table is missing, it crafts one and places it nearby before crafting the cookies.
