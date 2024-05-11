@@ -119,6 +119,7 @@ class Voyager:
         self.max_iterations = max_iterations
         self.totoal_time = 0 
         self.total_iter = 0 
+        self.step_time = []
 
         # set openai api key
         # os.environ["OPENAI_API_KEY"] = openai_api_key
@@ -282,6 +283,7 @@ class Voyager:
             assert isinstance(parsed_result, str)
             self.totoal_time, self.total_iter = self.recorder.record([], self.task)
             print(f"\033[34m{parsed_result} Trying again!\033[0m")
+        self.step_time.append(self.totoal_time)
         assert len(self.messages) == 2
         self.action_agent_rollout_num_iter += 1
         done = (
@@ -452,7 +454,7 @@ class Voyager:
                 self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para])
             reason, cirtiques, result = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
             U.f_mkdir(f"./results/{self.environment}")
-            U.dump_text(f"{sub_goals}, {self.totoal_time} ticks, {self.total_iter} LLM iters,{result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
+            U.dump_text(f"Route: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
             sub_goals = self.decompose_task(task, last_tasklist=sub_goals, critique=reason.join(cirtiques))
             self.run_raw_skill("./test_env/respawnAndClear.js")
             self.curriculum_agent.progress = 0
@@ -461,61 +463,65 @@ class Voyager:
         
 
     def run_raw_skill(self, skill_path, parameters = []):
-        try:
-            babel = require("@babel/core")
-            babel_generator = require("@babel/generator").default
+        retry = 3
+        while retry > 0:
+            try:
+                babel = require("@babel/core")
+                babel_generator = require("@babel/generator").default
 
-            with open(f"{skill_path}", 'r') as file:
-                code = file.read()
+                with open(f"{skill_path}", 'r') as file:
+                    code = file.read()
 
-            parsed = babel.parse(code)
-            functions = []
-            assert len(list(parsed.program.body)) > 0, "No functions found"
-            for i, node in enumerate(parsed.program.body):
-                if node.type != "FunctionDeclaration":
-                    continue
-                node_type = (
-                    "AsyncFunctionDeclaration"
-                    if node["async"]
-                    else "FunctionDeclaration"
-                )
-                functions.append(
-                    {
-                        "name": node.id.name,
-                        "type": node_type,
-                        "body": babel_generator(node).code,
-                        "params": list(node["params"]),
-                    }
-                )
-            # find the last async function
-            main_function = None
-            for function in reversed(functions):
-                if function["type"] == "AsyncFunctionDeclaration":
-                    main_function = function
-                    break
-            assert (
-                main_function is not None
-            ), "No async function found. Your main function must be async."
-            assert (
-                main_function["params"][0].name == "bot"
-            ), f"Main function {main_function['name']} must take a single argument named 'bot'"
-            
-            program_code = "\n\n".join(function["body"] for function in functions)
-            para_list = "(bot"
-            for i in range(len(parameters)):
-                if isinstance(parameters[i], str):
-                    para_list += ", " + "\"" + parameters[i] + "\""
-                else:
-                    para_list += ", " + str(parameters[i])
-            para_list += ");"
-            exec_code = f"await {main_function['name']}{para_list}"
-            parsed_result = {
-                "program_code": program_code,
-                "program_name": main_function["name"],
-                "exec_code": exec_code,
-            }
-        except Exception as e:
-            parsed_result = f"Error parsing action response (before program execution): {e}"
+                parsed = babel.parse(code)
+                functions = []
+                assert len(list(parsed.program.body)) > 0, "No functions found"
+                for i, node in enumerate(parsed.program.body):
+                    if node.type != "FunctionDeclaration":
+                        continue
+                    node_type = (
+                        "AsyncFunctionDeclaration"
+                        if node["async"]
+                        else "FunctionDeclaration"
+                    )
+                    functions.append(
+                        {
+                            "name": node.id.name,
+                            "type": node_type,
+                            "body": babel_generator(node).code,
+                            "params": list(node["params"]),
+                        }
+                    )
+                # find the last async function
+                main_function = None
+                for function in reversed(functions):
+                    if function["type"] == "AsyncFunctionDeclaration":
+                        main_function = function
+                        break
+                assert (
+                    main_function is not None
+                ), "No async function found. Your main function must be async."
+                assert (
+                    main_function["params"][0].name == "bot"
+                ), f"Main function {main_function['name']} must take a single argument named 'bot'"
+                
+                program_code = "\n\n".join(function["body"] for function in functions)
+                para_list = "(bot"
+                for i in range(len(parameters)):
+                    if isinstance(parameters[i], str):
+                        para_list += ", " + "\"" + parameters[i] + "\""
+                    else:
+                        para_list += ", " + str(parameters[i])
+                para_list += ");"
+                exec_code = f"await {main_function['name']}{para_list}"
+                parsed_result = {
+                    "program_code": program_code,
+                    "program_name": main_function["name"],
+                    "exec_code": exec_code,
+                }
+                break
+            except Exception as e:
+                retry -= 1
+                parsed_result = f"Error parsing action response (before program execution): {e}"
 
         if isinstance(parsed_result, dict):
             code = parsed_result["program_code"] + "\n" + parsed_result["exec_code"]
