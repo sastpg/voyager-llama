@@ -1,10 +1,10 @@
 async function craftWoodenShovel(bot) {
-    let totalPlanksCount = await getPlanksCount(bot);
     const sticksCount = bot.inventory.count(mcData.itemsByName.stick.id);
     // Check if there are enough planks and sticks in the inventory
     if (sticksCount < 2) {
       await craftSticks(bot);
     }
+    let totalPlanksCount = await getPlanksCount(bot);
     if (totalPlanksCount < 1) {
       await craftWoodenPlanks(bot);
     }

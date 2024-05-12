@@ -2,7 +2,7 @@ async function craftIronAxe(bot) {
   // smelt all raw iron first
   await smeltAllRawIron(bot);
   // Check if there are enough iron ingots and sticks in the inventory
-  const ironIngotsCount = bot.inventory.count(mcData.itemsByName.iron_ingot.id);
+  let ironIngotsCount = bot.inventory.count(mcData.itemsByName.iron_ingot.id);
   const sticksCount = bot.inventory.count(mcData.itemsByName.stick.id);
   // If not enough iron ingots or sticks, collect the required items.
   if (sticksCount < 2) {

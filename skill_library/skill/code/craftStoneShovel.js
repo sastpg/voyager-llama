@@ -1,6 +1,6 @@
 async function craftStoneShovel(bot) {
     // Check if there are enough cobblestone and sticks in the inventory
-    const cobblestoneCount = bot.inventory.count(mcData.itemsByName.cobblestone.id);
+    let cobblestoneCount = bot.inventory.count(mcData.itemsByName.cobblestone.id);
     const sticksCount = bot.inventory.count(mcData.itemsByName.stick.id);
     // If not enough cobblestone or sticks, collect the required items
     if (sticksCount < 2) {
@@ -8,7 +8,7 @@ async function craftStoneShovel(bot) {
       bot.chat("Crafted sticks.");
     }
     if (cobblestoneCount < 1) {
-      await collectTenCobblestone(bot);
+      await mineCobblestone(bot);
     }
     // check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(

@@ -440,7 +440,6 @@ class Voyager:
                 print(
                     f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
                 )
-            
             # str_list = task.split()
             self.run_raw_skill("./test_env/combatEnv.js", [10, 15, 100])
             combat_order = self.curriculum_agent.rerank_monster(task=task)
@@ -460,7 +459,43 @@ class Voyager:
             self.curriculum_agent.progress = 0
             self.curriculum_agent.completed_tasks = []
             self.curriculum_agent.failed_tasks = []
+
+    def respawn_and_clear(self):
+        self.run_raw_skill("./test_env/respawnAndClear.js")
+
+    def inference_sub_goal(self, task:str=None, sub_goals=[], reset_mode="hard", reset_env=True):
+        if not sub_goals:
+            raise ValueError("Sub_goals must be provided")
+        self.env.reset(
+            options={
+                "mode": reset_mode,
+                "wait_ticks": self.env_wait_ticks,
+            }
+        )
+        self.curriculum_agent.completed_tasks = []
+        self.curriculum_agent.failed_tasks = []
+        self.last_events = self.env.step("")
         
+        while self.curriculum_agent.progress < len(sub_goals):
+            next_task = sub_goals[self.curriculum_agent.progress]
+            context = self.curriculum_agent.get_task_context(next_task)
+            print(
+                f"\033[35mStarting task {next_task} for at most {self.action_agent_task_max_retries} times\033[0m"
+            )
+            messages, reward, done, info = self.rollout(
+                task=next_task,
+                context=context,
+                reset_env=reset_env,
+            )
+            self.curriculum_agent.update_exploration_progress(info)
+            print(
+                f"\033[35mCompleted tasks: {', '.join(self.curriculum_agent.completed_tasks)}\033[0m"
+            )
+            print(
+                f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
+            )
+        U.f_mkdir(f"./results/subgoal_test")
+        U.dump_text(f"Route: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}\n", f"./results/subgoal_test/{task.replace(' ', '_')}.txt")
 
     def run_raw_skill(self, skill_path, parameters = []):
         retry = 3

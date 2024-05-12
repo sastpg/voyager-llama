@@ -7,10 +7,10 @@ async function craftStonePickaxe(bot) {
     await craftSticks(bot);
     bot.chat("Crafted sticks.");
   }
-  do {
+  while (cobblestoneCount < 3) {
     await mineCobblestone(bot);
     cobblestoneCount = bot.inventory.count(mcData.itemsByName.cobblestone.id);
-  } while (cobblestoneCount < 3)
+  }
   // check if crafting table is in the inventory
   const craftingTableCount = bot.inventory.count(
     mcData.itemsByName.crafting_table.id
