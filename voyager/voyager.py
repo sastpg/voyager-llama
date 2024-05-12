@@ -494,8 +494,8 @@ class Voyager:
             print(
                 f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
             )
-        U.f_mkdir(f"./results/subgoal_test")
-        U.dump_text(f"Route: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}\n", f"./results/subgoal_test/{task.replace(' ', '_')}.txt")
+            U.f_mkdir(f"./results/subgoal_test")
+            U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}\n", f"./results/subgoal_test/{task.replace(' ', '_')}.txt")
 
     def run_raw_skill(self, skill_path, parameters = []):
         retry = 3
