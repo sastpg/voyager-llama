@@ -8,9 +8,8 @@ async function craftIronSword(bot) {
   if (sticksCount < 1) {
     await craftSticks(bot);
   }
-  while (ironIngotsCount < 2) {
+  for (let i = ironIngotsCount; i < 2; i++) {
     await mineIronOre(bot);
-    ironIngotsCount += 1;
   }
   await smeltAllRawIron(bot);
   // check if crafting table is in the inventory
