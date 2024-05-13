@@ -421,7 +421,7 @@ class Voyager:
             # self.run_raw_skill("skill_library/skill/primitive/eatFood.js", ["porkchop"])
             # self.run_raw_skill("skill_library/skill/code/shearOneSheep.js")
             # self.run_raw_skill("skill_library/skill/primitive/getAnimal.js", ["sheep", 158, 64, -1341])
-        for _ in range(5):
+        for i in range(5):
             while self.curriculum_agent.progress < len(sub_goals):
                 next_task = sub_goals[self.curriculum_agent.progress]
                 context = self.curriculum_agent.get_task_context(next_task)
@@ -460,7 +460,7 @@ class Voyager:
                 self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para])
             reason, cirtiques, result = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
             U.f_mkdir(f"./results/{self.environment}")
-            U.dump_text(f"Route: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
+            U.dump_text(f"\n\nRoute {i}: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
             sub_goals = self.decompose_task(task, last_tasklist=sub_goals, critique=reason.join(cirtiques))
             self.run_raw_skill("./test_env/respawnAndClear.js")
             self.curriculum_agent.completed_tasks = []
