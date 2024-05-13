@@ -1,1 +1,1 @@
-This function crafts a chest by ensuring there are enough planks, crafting planks if necessary, making a crafting table if one isn't available, placing the crafting table, and finally crafting a chest.
+This function ensures the bot has enough planks by crafting them from logs if necessary, crafts a crafting table if it's not in the inventory, places the crafting table near the bot, and then uses it to craft a chest.

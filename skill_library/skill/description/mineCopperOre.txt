@@ -1,1 +1,1 @@
-This function mines a single copper ore block using an iron or stone pickaxe. It first checks if an iron pickaxe is available, equips it if found, otherwise, it equips a stone pickaxe or crafts one if necessary. It then searches for a nearby copper ore block, and if found, mines it and sends a chat message. If no copper ore is found, it alerts the user.
+Equips an iron pickaxe if available, otherwise crafts and equips a stone pickaxe, then explores the surroundings to find a copper ore block, and finally mines the found block.

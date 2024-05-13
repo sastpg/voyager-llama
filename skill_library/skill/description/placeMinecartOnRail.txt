@@ -1,1 +1,1 @@
-This function places a minecart on a nearby rail, checking if the player has a minecart in their inventory, finding a rail within a certain range, and then summoning a minecart at the found rail's position while clearing one minecart from the player's inventory.
+This function searches for a minecart in the inventory and a rail block within a 32-block radius, then places a minecart at the location of the found rail.

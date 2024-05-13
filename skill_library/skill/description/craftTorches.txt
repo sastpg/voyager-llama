@@ -1,1 +1,1 @@
-This function crafts torches by checking the available number of coals and sticks in the bot's inventory. If there are no coals, it mines five coal ores. If there are no sticks, it crafts sticks. It then crafts one torch and informs the chat that four torches have been crafted.
+This function ensures the bot has coal and sticks in its inventory, mining coal ores or crafting sticks if necessary, then crafts a single torch.

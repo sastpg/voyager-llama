@@ -1,1 +1,1 @@
-This function crafts a diamond helmet for the bot. It first checks if there are enough diamond ingots in the inventory, collects more if necessary, and ensures a crafting table is available. It then places the crafting table nearby, and finally crafts the diamond helmet using the crafting table. The bot also sends a chat message upon completion.
+This function collects diamonds if there are not enough in the inventory, crafts a crafting table if needed, places it near the bot, and then uses it to craft a diamond helmet.

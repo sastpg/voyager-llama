@@ -19,17 +19,16 @@ def call_llama(js_content):
         str: LLAMA response
     """
     system_message = """You are a helpful assistant that writes a description of the given function written in Mineflayer javascript code.
-
-1) Do not mention the function name.
-2) Do not mention anything about `bot.chat` or helper functions.
-3) There might be some helper functions before the main function, but you only need to describe the main function.
-4) Try to summarize the function in no more than 6 sentences.
-5) Your response should be a single line of text."""
+1) Focus on the implementation of the code, ignore anything related to chat messages! For example, don't include phrases like "send a chat message" in your description!
+2) Do not mention the function name and anything about `bot.chat` or helper functions.
+3) Try to summarize the function in no more than 6 sentences.
+4) Your response should be a single line of text."""
     messages = [{'role': 'system', 'content': system_message},
                 {'role': 'user', 'content': js_content}]
 
     response = dashscope.Generation.call(
-        model='qwen1.5-72b-chat',
+        model='llama3-70b-instruct',
+        # model='qwen1.5-72b-chat',
         messages=messages,
         result_format='message'
     )
@@ -70,6 +69,6 @@ def main(mode="all"):
                     print(f"Description for {js_file} has been written to {description_file_path}")
 
 if __name__ == "__main__":
-    main(mode="missing")  
+    main(mode="missing")
     # mode "all" generates descriptions for all skills
     # mode "missing" generates descriptions for new skills

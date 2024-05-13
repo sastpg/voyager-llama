@@ -1,1 +1,1 @@
-This function collects lava using a bucket. It first checks if the player has a bucket, crafts one if needed. Then it finds a nearby lava block or explores until one is found within 60 seconds. The function equips the bucket, looks at the lava, and activates the item to collect the lava. Finally, it sends a chat message confirming the collection.
+This function searches for a lava block within a 32-block radius, and if none is found, it explores the surroundings until one is discovered, then equips a bucket and uses it to collect the lava.

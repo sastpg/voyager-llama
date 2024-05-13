@@ -1,1 +1,1 @@
-This function collects milk from a cow using a bucket. It first checks if the player has a bucket in their inventory, crafting one if necessary. Then, it equips the bucket and finds the nearest cow within a 32-block radius. After locating a cow, the function navigates the bot to the cow, looks at it, and uses the bucket to collect milk. If no cow is found, the bot chats a message indicating so.
+This function ensures the bot has a bucket, equips it, finds the nearest cow within 32 blocks, moves to the cow, looks at it, and then uses the bucket on the cow to collect milk.

@@ -1,1 +1,1 @@
-This function crafts a golden sword in Minecraft by first smelting all raw gold, checking if there are enough gold ingots and sticks, mining gold ore if needed, crafting sticks, ensuring a crafting table is available, placing the crafting table, and finally crafting the golden sword.
+This function gathers necessary materials, crafts a crafting table if needed, places it, and then uses it to craft a golden sword.

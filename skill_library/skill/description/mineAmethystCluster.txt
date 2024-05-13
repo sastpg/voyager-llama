@@ -1,1 +1,1 @@
-This function mines an Amethyst Cluster in Minecraft by equipping the best available pickaxe (iron or stone, crafting a stone pickaxe if necessary), finding the block within a certain range, and then mining it. It also sends a chat message after mining the block.
+Equips an iron pickaxe if available, otherwise equips a stone pickaxe or crafts one if neither is available, then explores until an amethyst cluster ore is found within a 32-block radius and mines it.

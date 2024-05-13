@@ -1,1 +1,1 @@
-This function crafts a golden axe in Minecraft by first smelting all raw gold, checking if there are enough gold ingots and sticks, mining gold ore if needed, crafting sticks if necessary, ensuring a crafting table is available, placing it nearby, and finally crafting the golden axe.
+This function gathers necessary materials, crafts a crafting table if needed, places it, and then uses it to craft a golden axe, ensuring the bot has sufficient gold ingots and sticks in its inventory.

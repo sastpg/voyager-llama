@@ -1,1 +1,1 @@
-This function crafts a shield in Minecraft by ensuring there are enough materials (planks and iron ingots) in the inventory. It crafts wooden planks if needed, mines and smelts iron ore if necessary, and places a crafting table before crafting the shield. The bot then announces that a shield has been crafted.
+This function ensures the bot has sufficient planks and iron ingots by crafting or mining them if necessary, then crafts a crafting table if not already in inventory, places it nearby, and finally crafts a shield using the crafting table.

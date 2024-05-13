@@ -1,1 +1,1 @@
-This function finds the best sword (diamond, iron, stone, or wooden) in the bot's inventory and equips it. If no sword is found, it crafts a wooden sword and then equips it. Finally, it sends a chat message confirming the sword is equipped.
+This function searches for the best available sword in the inventory, prioritizing diamond, iron, stone, and wooden swords, equips the found sword, and if none are available, crafts a wooden sword and equips it.

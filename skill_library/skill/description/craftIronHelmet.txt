@@ -1,1 +1,1 @@
-This function crafts an iron helmet by first smelting all raw iron, ensuring there are at least 5 iron ingots. It mines and smelts iron ores if necessary. It checks if a crafting table is available, crafts one if needed, places it near the bot, and finally crafts an iron helmet using the crafting table.
+This function automates the process of crafting an iron helmet by first smelting raw iron, then mining and smelting more iron ore if necessary, crafting a crafting table if not already available, placing the crafting table, and finally crafting the iron helmet.

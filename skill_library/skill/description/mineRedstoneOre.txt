@@ -1,1 +1,1 @@
-This function mines a single redstone ore block using an iron pickaxe. It first checks if the bot has an iron pickaxe in its inventory, equips it if found, or crafts one if not. Then, it searches for a nearby redstone ore block and mines it. If no redstone ore is found within a specified range, the bot sends a chat message indicating so.
+This function equips an iron pickaxe, searches for a nearby redstone ore block, and then mines it if found.

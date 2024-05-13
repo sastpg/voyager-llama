@@ -1,1 +1,1 @@
-This function crafts a gold block by first smelting all raw gold, checking and mining for more gold ores if necessary. It then ensures a crafting table is available, crafting one if needed. The crafting table is placed near the bot, and finally, a gold block is crafted using the crafting table.
+This function automates the process of crafting a gold block by first smelting raw gold, then mining and smelting more gold ore if necessary, crafting a crafting table if not already available, placing the crafting table, and finally crafting the gold block.

@@ -1,1 +1,1 @@
-This function checks if the bot has a furnace and coal, then crafts a furnace if needed, finds a suitable position to place it, mines coal if necessary, and smelts all raw copper in the inventory using coal as fuel. It also sends a chat message when done.
+This function checks for a furnace and coal in the inventory, crafts a furnace if needed, places it near the bot, and then uses the available coal to smelt all raw copper in the inventory.

@@ -1,1 +1,1 @@
-This function crafts rails by first smelting raw iron, ensuring there are at least 6 iron ingots and enough sticks. It mines and smelts iron ores as needed, crafts sticks if necessary, crafts a crafting table if not available, places the crafting table, and finally crafts rails.
+This function collects and processes iron ores, crafts sticks if needed, crafts a crafting table if not already in inventory, places the crafting table, and then uses it to craft rails.

@@ -1,1 +1,1 @@
-This function crafts a minecart by first ensuring there are at least 5 iron ingots in the inventory. If not, it mines and smelts iron ores. It then checks for a crafting table and crafts one if needed. After placing the crafting table nearby, it crafts a minecart and informs the user via chat.
+This function ensures the bot has sufficient iron ingots and a crafting table, then places the crafting table and uses it to craft a minecart.

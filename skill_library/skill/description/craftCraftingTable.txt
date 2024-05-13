@@ -1,1 +1,1 @@
-This function crafts a crafting table in Minecraft. It first checks if the player has at least 4 planks, and if so, it crafts a crafting table. If there are insufficient planks, it looks for wooden logs in the inventory. If no logs are found, it mines a wooden log and crafts wooden planks before finally creating the crafting table.
+This function crafts a crafting table by first checking if there are enough planks in the inventory, and if not, it mines a wooden log and crafts wooden planks before crafting the table.

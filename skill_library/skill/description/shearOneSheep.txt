@@ -1,1 +1,1 @@
-This function shears a single sheep in Minecraft. It first checks if the player has shears, crafts them if necessary, equips the shears, finds the nearest sheep, and then moves towards it to shear. After shearing, the function collects any dropped items.
+This function equips shears, finds the nearest sheep, moves towards it, uses the shears on the sheep, and then collects the dropped items.

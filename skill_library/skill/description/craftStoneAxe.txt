@@ -1,1 +1,1 @@
-This function crafts a stone axe in Minecraft. It first checks if the player has enough cobblestone and sticks in their inventory. If not, it collects the necessary items. Then, it ensures a crafting table is available and crafts one if needed. After placing the crafting table, the function crafts a stone axe and informs the player via chat.
+This function collects necessary materials, crafts a crafting table if needed, places it, and then uses it to craft a stone axe, ensuring the bot has the required items and tools in its inventory.

@@ -1,1 +1,1 @@
-This function crafts an emerald block by first ensuring the bot has enough emeralds, mining more if necessary. It then checks for a crafting table, crafting one if needed, placing it, and finally crafting an emerald block using the crafting table.
+This function ensures the bot has enough emeralds and a crafting table, then places the crafting table and uses it to craft an emerald block.

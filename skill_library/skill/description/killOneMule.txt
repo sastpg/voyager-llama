@@ -1,1 +1,1 @@
-This function equips a sword, finds and kills the nearest ule within a certain range, then collects the dropped items.
+Equips a sword, finds and kills a nearby ule entity within a 32-block radius, and then collects the dropped items by navigating to the ule's former position.

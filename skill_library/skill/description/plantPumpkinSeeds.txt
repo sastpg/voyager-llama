@@ -1,1 +1,1 @@
-This function plants pumpkin seeds if they are present in the bot's inventory. If not, it first collects pumpkin seeds before planting.
+This function ensures the bot has pumpkin seeds in its inventory, collecting them if necessary, and then plants them.

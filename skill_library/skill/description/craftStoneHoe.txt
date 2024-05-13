@@ -1,1 +1,1 @@
-This function crafts a stone hoe in Minecraft by checking and collecting necessary materials (cobblestone and sticks), crafting a crafting table if needed, placing it nearby, and then using it to craft the stone hoe. It also communicates with the player through chat messages.
+This function collects necessary materials, crafts a crafting table if needed, places it, and then uses it to craft a stone hoe, ensuring the bot has the required items and tools before crafting.

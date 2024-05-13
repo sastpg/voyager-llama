@@ -1,1 +1,1 @@
-This function finds and collects 5 cactus blocks in the Minecraft world. It first searches for at least 5 cactus blocks within a certain range, mines them, and then picks up the dropped items. If it cannot find enough cactus blocks, it alerts the user.
+This function searches for 5 cactus blocks within a 32-block radius, mines them, and then navigates to each block's location to collect the dropped items.

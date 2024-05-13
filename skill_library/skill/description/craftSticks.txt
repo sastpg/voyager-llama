@@ -1,1 +1,1 @@
-This function crafts sticks in Minecraft. It first checks if there are at least 2 planks available. If not, it either mines a wood log or crafts wooden planks, then crafts the sticks and informs the player about the process.
+This function crafts sticks by first checking if there are enough planks in the inventory, and if not, it mines a log or crafts more planks, then crafts the sticks.

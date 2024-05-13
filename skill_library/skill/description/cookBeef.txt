@@ -1,1 +1,1 @@
-This function cooks beef in Minecraft by ensuring the player has a furnace, coal, and beef in their inventory. If any of these items are missing, it performs the necessary actions to acquire them: killing a cow for beef, crafting a furnace with cobblestone, or mining five coal ores. Finally, it uses the cookFood function to cook the beef.
+This function ensures the necessary items are available to cook beef, crafting a furnace and mining coal if needed, and then killing a cow to obtain beef if it's not already in the inventory, before finally cooking the beef.

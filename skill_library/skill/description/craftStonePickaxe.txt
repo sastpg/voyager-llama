@@ -1,1 +1,1 @@
-This function crafts a stone pickaxe by checking the inventory for cobblestone and sticks, collecting or crafting them if necessary, ensuring a crafting table is available, placing it nearby, and then using it to craft the stone pickaxe. It also sends chat messages to indicate the progress.
+This function collects necessary materials, crafts a crafting table if needed, places it, and then uses it to craft a stone pickaxe, ensuring the bot has the required items in its inventory before crafting.

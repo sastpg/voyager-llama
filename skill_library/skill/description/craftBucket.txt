@@ -1,1 +1,1 @@
-This function crafts a bucket in Minecraft. It first checks if the player has enough iron ingots and crafts a crafting table if needed. Then, it places the crafting table and finally crafts a bucket.
+This function ensures the bot has sufficient iron ingots by mining and smelting iron ores if necessary, crafts a crafting table if not already in inventory, places the crafting table near the bot, and then uses it to craft a bucket.

@@ -1,1 +1,1 @@
-This function mines 1 iron ore block using an iron or stone pickaxe. It first checks if an iron pickaxe is available and equips it. If not, it attempts to equip a stone pickaxe or crafts one if needed. The function then searches for a single iron ore block within a certain range and mines it, displaying a chat message upon success.
+Equips an iron pickaxe if available, otherwise equips a stone pickaxe if available or crafts one if not, then explores to find an iron ore block within a 32-block radius and mines it.

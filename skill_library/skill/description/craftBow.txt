@@ -1,1 +1,1 @@
-This function crafts a bow in Minecraft by checking if there are enough strings and sticks in the inventory. If not, it collects the necessary items or crafts sticks. It then checks for a crafting table, crafts one if needed, places it near the bot, and finally crafts a bow using the crafting table.
+This function checks if the bot has enough strings and sticks in its inventory, collects the required items if not, crafts a crafting table if needed, places it near the bot, and then uses it to craft a bow.

@@ -1,1 +1,1 @@
-This function checks the player's inventory for wheat and, if there are at least 3 wheat items, it equips one and attempts to feed two sheep for breeding.
+This function checks if the bot has at least 2 wheat items in its inventory, equips one of them, and then feeds 2 wheat to sheep entities.

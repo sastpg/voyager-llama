@@ -1,1 +1,1 @@
-This function crafts a diamond chestplate for the Minecraft bot. It first checks if there are enough diamonds in the inventory, collecting more if necessary. Then, it ensures a crafting table is available and places it nearby. Finally, the function crafts a diamond chestplate using the crafting table and informs the user through chat.
+This function collects diamonds if there are not enough in the inventory, crafts a crafting table if not available, places the crafting table near the bot, and then crafts a diamond chestplate using the crafting table.

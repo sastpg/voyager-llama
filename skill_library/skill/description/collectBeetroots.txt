@@ -1,1 +1,1 @@
-This function searches for fully grown beetroots within a specified range, navigates to them, and harvests them using the bot. If no beetroots are found, it sends a chat message.
+This function searches for beetroots within a 32-block radius, navigates to the first found beetroots, and then digs it.

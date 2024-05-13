@@ -1,1 +1,1 @@
-This function smelts five raw iron into iron ingots by checking for a furnace and coal in the inventory. If a furnace is not present, it crafts one, and if no coal is found, it mines five coal ores. It then places the furnace nearby and uses coal as fuel to smelt the raw iron. Finally, it sends a chat message confirming the completion of smelting.
+This function ensures the bot has a furnace and coal in its inventory, crafts a furnace if needed, places it nearby, mines coal if necessary, and then uses the coal to smelt five raw iron ores.

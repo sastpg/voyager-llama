@@ -1,1 +1,0 @@
-This function equips a sword and iron armor on the bot, then continuously kills skeletons within a 300 block range and chats about it. It runs indefinitely until interrupted.

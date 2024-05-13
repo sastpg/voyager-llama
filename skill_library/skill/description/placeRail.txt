@@ -1,1 +1,1 @@
-This function places a rail at the bot's entity position, first ensuring that there is a rail item in the bot's inventory. If no rail is found, it sends a chat message.
+This function searches for rails in the inventory, and if found, places one at the current entity position.

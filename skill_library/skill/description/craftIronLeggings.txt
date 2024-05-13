@@ -1,1 +1,1 @@
-This function crafts iron leggings by first smelting raw iron, ensuring there are at least 7 iron ingots, mining and smelting more if necessary. It then checks if a crafting table is available, crafting one if needed, placing it nearby, and finally crafting the iron leggings.
+This function automates the process of crafting iron leggings by first smelting raw iron into ingots, then crafting a crafting table if needed, placing it near the bot, and finally using it to craft the iron leggings.

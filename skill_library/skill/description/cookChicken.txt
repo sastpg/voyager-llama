@@ -1,1 +1,1 @@
-This function cooks chicken in Minecraft by checking if there is a furnace, coal, and chicken in the inventory. If any are missing, it performs actions to obtain them: killing a chicken, crafting a furnace, or mining five coal ores. Finally, it cooks the chicken using the bot's inventory.
+This function ensures the necessary items are available to cook chicken, crafting a furnace and mining coal if needed, and then killing a chicken if none is available, before proceeding to cook the chicken.

@@ -1,1 +1,1 @@
-This function mines a single gold_ore block using an iron pickaxe. If the bot doesn't have an iron pickaxe, it crafts one first. It searches for a gold_ore block within a specific range and then mines it, displaying a chat message after successful mining.
+This function equips an iron pickaxe, searches for a gold ore block within a 32-block radius, and if found, mines it.

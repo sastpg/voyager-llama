@@ -1,1 +1,1 @@
-This function equips a wooden or stone pickaxe, finds and mines 5 coal_ore blocks, and chats a message upon completion. If no pickaxe is found, it crafts a wooden pickaxe first.
+This function equips a pickaxe, searches for and finds five coal ore blocks within a 32-block radius, and then mines those blocks.

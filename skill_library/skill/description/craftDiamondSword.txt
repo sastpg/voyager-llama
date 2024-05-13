@@ -1,1 +1,1 @@
-This function crafts a diamond sword in Minecraft by ensuring the player has enough diamonds and sticks, mining for diamonds if needed, crafting sticks, placing a crafting table, and then crafting the diamond sword.
+This function collects diamonds and sticks, crafts a crafting table if necessary, places it near the bot, and then uses it to craft a diamond sword.

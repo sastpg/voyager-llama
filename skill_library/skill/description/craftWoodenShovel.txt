@@ -1,1 +1,1 @@
-This function crafts a wooden shovel in Minecraft by checking the availability of required resources (planks and sticks), potentially crafting them if not enough, placing a crafting table if needed, and finally crafting the wooden shovel.
+This function ensures the bot has sufficient sticks and planks in its inventory, crafts them if needed, and then crafts a crafting table if not already available, before using the crafting table to craft a wooden shovel.

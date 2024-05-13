@@ -1,1 +1,1 @@
-This function crafts an arrow by ensuring the player has the necessary materials (feathers, flint, and sticks) and a crafting table. It kills chickens for feathers if needed, mines flint if missing, and crafts sticks if necessary. It also crafts a crafting table if not available, places it nearby, and finally crafts an arrow.
+This function ensures the bot has sufficient materials, crafts any missing items, sets up a crafting table, and then uses it to craft a single arrow.

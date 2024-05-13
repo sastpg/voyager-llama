@@ -1,1 +1,1 @@
-This function crafts diamond leggings by ensuring there are enough diamonds in the inventory, mining diamonds if necessary, crafting a crafting table if one isn't available, placing the crafting table, and finally crafting the diamond leggings. It also sends a chat message upon completion.
+This function ensures the bot has enough diamonds and a crafting table, then places the crafting table and uses it to craft a single diamond leggings.

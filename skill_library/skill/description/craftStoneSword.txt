@@ -1,1 +1,1 @@
-This function crafts a stone sword in Minecraft by checking and gathering the necessary materials (cobblestone and sticks), ensuring a crafting table is available, placing the crafting table, and then performing the crafting process.
+This function collects necessary materials, crafts a crafting table if needed, places it, and then uses it to craft a stone sword, ensuring the bot has the required items and tools in its inventory.

@@ -1,1 +1,1 @@
-This function collects wheat in Minecraft by searching for ripe wheat blocks within a certain range, navigating to them, and then mining the block.
+This function searches for ripe wheat within a 32-block radius, navigates to the found wheat, and then digs it up.

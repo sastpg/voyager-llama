@@ -1,1 +1,1 @@
-This function plants wheat seeds using the bot. It first checks if the bot has wheat seeds in its inventory. If not, it calls the function collectWheatSeeds to obtain seeds. Then, it proceeds to plant the seeds using the plantSeeds function with "wheat_seeds" as an argument.
+This function ensures the bot has wheat seeds in its inventory, collecting them if necessary, and then plants them.

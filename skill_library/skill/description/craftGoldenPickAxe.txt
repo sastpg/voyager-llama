@@ -1,1 +1,1 @@
-This function crafts a gold pickaxe by smelting raw gold, collecting necessary materials (gold ingots and sticks), ensuring a crafting table is available, placing it, and then using it to craft the pickaxe.
+This function automates the process of crafting a gold pickaxe by first smelting raw gold, then collecting and smelting additional gold ore and crafting sticks if necessary, followed by crafting a crafting table if not already in inventory, placing it, and finally crafting the gold pickaxe using the table.

@@ -1,1 +1,1 @@
-This function crafts wooden planks from available wooden logs in the bot's inventory. It checks for various types of logs, mines one if none are found, then identifies the corresponding plank type, and crafts four of them using the craftItem function. Finally, it announces the crafting of the planks.
+This function checks if the bot has any wooden logs in its inventory, and if not, it mines one; then it crafts four wooden planks from the available log and updates the inventory accordingly.

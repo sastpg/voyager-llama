@@ -1,1 +1,1 @@
-This function crafts a boat in Minecraft by ensuring there are enough planks, crafting planks if needed, checking for a wooden shovel, crafting a crafting table if missing, placing it, and finally crafting the boat using the crafting table. It also provides inventory counts and feedback through chat messages.
+This function ensures the bot has sufficient planks and a crafting table, then crafts a boat by first crafting planks if needed, obtaining a wooden shovel and crafting table if missing, placing the crafting table, and finally crafting a boat using the available planks.
