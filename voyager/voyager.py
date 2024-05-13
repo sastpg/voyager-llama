@@ -450,10 +450,11 @@ class Voyager:
             
             self.env.reset(
                 options={
-                    "mode": "hard",
+                    "mode": "soft",
                     "wait_ticks": self.env_wait_ticks,
                 }
             )
+            self.env.step(f"bot.chat('/difficulty hard');\n")
 
             for monster in combat_order:
                 combat_para = monster
