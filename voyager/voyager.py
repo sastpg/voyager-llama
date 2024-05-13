@@ -448,6 +448,13 @@ class Voyager:
                 summon_para.insert(1, 5)  # idx =1, r=5
                 self.run_raw_skill("./test_env/summonMob.js", summon_para)
             
+            self.env.reset(
+                options={
+                    "mode": "hard",
+                    "wait_ticks": self.env_wait_ticks,
+                }
+            )
+
             for monster in combat_order:
                 combat_para = monster
                 self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para])
@@ -456,7 +463,6 @@ class Voyager:
             U.dump_text(f"Route: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
             sub_goals = self.decompose_task(task, last_tasklist=sub_goals, critique=reason.join(cirtiques))
             self.run_raw_skill("./test_env/respawnAndClear.js")
-            self.curriculum_agent.progress = 0
             self.curriculum_agent.completed_tasks = []
             self.curriculum_agent.failed_tasks = []
 
