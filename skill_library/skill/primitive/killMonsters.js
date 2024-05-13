@@ -1,10 +1,16 @@
 async function killMonsters(bot, type = null) {
+  bot.chat("/gamemode survival")
+  isAlive = true;
   // Listen for bot's death
   bot.on('death', () => {
     bot.chat("I lost the combat.");
+    isAlive = false;
     return false;
   });
   do {
+    if (!isAlive) {
+      return false;
+    }
     await equipSword(bot);
     await equipArmor(bot);
     // Find the nearest monster
@@ -21,7 +27,7 @@ async function killMonsters(bot, type = null) {
     bot.chat(`Killed a ${type}.`);
   
     // Collect the dropped items
-    await bot.pathfinder.goto(new GoalBlock(animal.position.x, animal.position.y, animal.position.z));
+    await bot.pathfinder.goto(new GoalBlock(monster.position.x, monster.position.y, monster.position.z));
     bot.chat("Collected dropped items.");
     bot.chat(`Killed a ${type}.`);
     } while (true);

@@ -1,6 +1,7 @@
 from voyager import Voyager
 
-mc_port = 59647
+mc_port = 49153
+# mc_port = 25565 # linux server port
 env_wait_ticks = 100
 
 voyager = Voyager(
@@ -16,8 +17,8 @@ task_z = "1 zombie"
 single_mob_list = ["1 zombie", "1 skeleton", "1 spider", "1 cave_spider", "1 enderman", 
                    "1 blaze", "1 ghast", "1 piglin", "1 piglin_brute", "1 wither_skeleton"]
 test_sub_goals = ["craft crafting table", "craft wooden pickaxe", "craft stone pickaxe", "craft iron pickaxe", "mine diamond"]
-while True:
-    voyager.inference_sub_goal(task="subgoal_test", sub_goals=test_sub_goals)
+# while True:
+#     voyager.inference_sub_goal(task="subgoal_test", sub_goals=test_sub_goals)
 for task in single_mob_list:
     voyager.inference(task=task)
 # voyager.learn()

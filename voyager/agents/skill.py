@@ -143,7 +143,8 @@ class SkillManager:
         return skills
 
     def load_skill_primitives(self, primitive_names=None):
-        package_path = "D:\\Desktop\\Voyager\\skill_library\\skill"
+        print(os.getcwd())
+        package_path = "skill_library/skill"
         if primitive_names is None:
             primitive_names = [
                 primitives[:-3]
