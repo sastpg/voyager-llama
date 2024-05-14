@@ -95,6 +95,7 @@ class CommentAgent:
             time_ticks=time,
             iteration=iter
         )
+        health = events[-1][1]["status"]["health"]
 
         messages = [
             self.render_system_message(),
@@ -104,10 +105,14 @@ class CommentAgent:
         if self.mode == "manual":
             return self.human_check_task_success()
         elif self.mode == "auto":
-            reason, critique = self.ai_check_task_success(
-                messages=messages, max_retries=max_retries
-            )
-            return reason, critique, result
+            # reason, critique = self.ai_check_task_success(
+            #     messages=messages, max_retries=max_retries
+            # )
+            if "won" in result:
+                critique = "You should streamline the task plan. For example, **reduce the quantity** of crafting equipment in last task list to reduce time of collecting items."
+            elif "lost" in result:
+                critique = "You need to improve the task plan. For example, **improve the quantity** of crafting equipment in last task list to win the combat."
+            return health, critique, result
         else:
             raise ValueError(f"Invalid comment agent mode: {self.mode}")
         
