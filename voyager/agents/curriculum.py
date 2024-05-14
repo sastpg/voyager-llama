@@ -370,14 +370,14 @@ class CurriculumAgent:
         )
         U.dump_json(self.failed_tasks, f"{self.ckpt_dir}/curriculum/failed_tasks.json")
 
-    def decompose_task(self, environment, monster, last_tasklist, critique):
+    def decompose_task(self, environment, monster, last_tasklist, critique, health):
         # for different test env, modify prompt here
         messages = [
             SystemMessage(
                 content=load_prompt(env_prompt[environment]),
             ),
             # self.render_human_message(events=events, chest_observation=""),
-            HumanMessage(content=f"Task list from last round: {last_tasklist}; Critique: {critique}; Monster: {monster}."),
+            HumanMessage(content=f"Task list from last round: {last_tasklist};\n Health after last combat:{health};\n Critique: {critique};\n Monster: {monster}.\n"),
         ]
         # print(f"\033[31m****Curriculum Agent task decomposition****\nFinal task: {task}\033[0m")
         response = call_with_messages(messages).content

@@ -391,7 +391,7 @@ class Voyager:
             "skills": self.skill_manager.skills,
         }
 
-    def decompose_task(self, task, last_tasklist=None, critique=None):
+    def decompose_task(self, task, last_tasklist=None, critique=None, health=None):
         if not self.last_events:
             self.last_events = self.env.reset(
                 options={
@@ -399,7 +399,7 @@ class Voyager:
                     "wait_ticks": self.env_wait_ticks,
                 }
             )
-        return self.curriculum_agent.decompose_task(self.environment, task, last_tasklist, critique)
+        return self.curriculum_agent.decompose_task(self.environment, task, last_tasklist, critique, health)
 
     def inference(self, task:str=None, sub_goals=[], reset_mode="hard", reset_env=True):
         if not task and not sub_goals:
@@ -454,7 +454,7 @@ class Voyager:
             health, cirtiques, result = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
             U.f_mkdir(f"./results/{self.environment}")
             U.dump_text(f"\n\nRoute {i}: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
-            sub_goals = self.decompose_task(task, last_tasklist=sub_goals, critique=cirtiques)
+            sub_goals = self.decompose_task(task, last_tasklist=sub_goals, critique=cirtiques, health=health)
             self.run_raw_skill("./test_env/respawnAndClear.js")
             self.env.reset(
                 options={
