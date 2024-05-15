@@ -129,8 +129,13 @@ class CurriculumAgent:
     def progress(self):
         return len(self.completed_tasks)
 
-    def render_system_message(self, environment):
-        system_message = SystemMessage(content=load_prompt(env_prompt[environment]))
+    def render_system_message(self, environment, goals):
+        prompts = load_prompt(env_prompt[environment])
+        if goals != None:
+            prompts = prompts.replace("```goals```", goals)
+        else:
+            prompts = prompts.replace("```goals```", "discover as many diverse things as possible, accomplish as many diverse tasks as possible and become the best Minecraft player in the world.")
+        system_message = SystemMessage(content=prompts)
         assert isinstance(system_message, SystemMessage)
         return system_message
 
@@ -236,7 +241,7 @@ class CurriculumAgent:
         print(f"\033[35m****Curriculum Agent human message****\n{content}\033[0m")
         return HumanMessage(content=content)
 
-    def propose_next_task(self, environment, events, chest_observation, max_retries=5):
+    def propose_next_task(self, environment, events, chest_observation, goals=None, max_retries=5):
         # if self.progress == 0 and self.mode == "auto":
         #     task = "Mine 1 wood log"
         #     context = "You can mine one of oak, birch, spruce, jungle, acacia, dark oak, or mangrove logs."
@@ -275,7 +280,7 @@ class CurriculumAgent:
             return task, context
 
         messages = [
-            self.render_system_message(environment),
+            self.render_system_message(environment, goals),
             self.render_human_message(
                 events=events, chest_observation=chest_observation
             ),

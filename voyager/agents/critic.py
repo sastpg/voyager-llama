@@ -147,3 +147,42 @@ class CriticAgent:
             )
         else:
             raise ValueError(f"Invalid critic agent mode: {self.mode}")
+
+    def ai_check_goal_success(self, messages, max_retries=5):
+        if max_retries == 0:
+            print(
+                "\033[31mFailed to parse Critic Agent response. Consider updating your prompt.\033[0m"
+            )
+            return False, ""
+
+        if messages[1] is None:
+            return False, ""
+
+        # critic = self.llm(messages).content
+        # modify
+        critic = call_with_messages(messages).content
+        print(f"\033[31m****Goal Agent ai message****\n{critic}\033[0m")
+        code_pattern = re.compile(r"{(.*?)}", re.DOTALL)
+        code_name = "".join(code_pattern.findall(critic))
+        critic = "{" + code_name + "}"
+        try:
+            response = fix_and_parse_json(critic)
+            assert response["success"] in [True, False]
+            if "reasoning" not in response:
+                response["reasoning"] = ""
+            return response["reasoning"], response["success"]
+        except Exception as e:
+            print(f"\033[31mError parsing goal response: {e} Trying again!\033[0m")
+            return self.ai_check_task_success(
+                messages=messages,
+                max_retries=max_retries - 1,
+            )
+
+    def check_goal_success(
+        self, completed_task, failed_task, goals
+    ):
+        messages = [
+            SystemMessage(content=load_prompt("goals")),
+            HumanMessage(content=f"My completed task: {completed_task};\nMy failed task: {failed_task};\nMy ultimate goals: {goals}.\n")
+        ]
+        return self.ai_check_goal_success(messages=messages)

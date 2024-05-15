@@ -8,7 +8,9 @@ voyager = Voyager(
     environment="farming",
 )
 
-voyager.learn()
+# 如果learn传入一个参数，表示探索目标；
+# 如果不传入参数，自由探索
+voyager.learn("shear sheep, obtain milk")
 ```
 
 `test.py`combat环境调用示例：
