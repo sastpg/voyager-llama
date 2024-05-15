@@ -12,7 +12,7 @@ import json
 import dashscope
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
 from pathlib import Path
-with open(Path(__file__).parent / "config.json", "r") as config_file:
+with open(Path(__file__).parent.parent.parent / "conf/config.json", "r") as config_file:
     config = json.load(config_file)
 def call_with_messages_(msgs):
     url = f'http://{config["server_host"]}:{config["server_port"]}/llama2_70b'
