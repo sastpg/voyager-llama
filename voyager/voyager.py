@@ -315,7 +315,7 @@ class Voyager:
                 break
         return messages, reward, done, info
 
-    def learn(self, reset_env=True):
+    def learn(self, goals=None, reset_env=True):
         if self.resume:
             # keep the inventory
             self.env.reset(
@@ -343,6 +343,7 @@ class Voyager:
                 events=self.last_events,
                 environment=self.environment,
                 chest_observation=self.action_agent.render_chest_observation(),
+                goals=goals,
                 max_retries=5,
             )
             print(
@@ -378,6 +379,10 @@ class Voyager:
             #     self.skill_manager.add_new_skill(info)
 
             self.curriculum_agent.update_exploration_progress(info)
+            if goals != None:
+                reason, completed = self.critic_agent.check_goal_success(self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals)
+                if completed:
+                    break
             print(
                 f"\033[35mCompleted tasks: {', '.join(self.curriculum_agent.completed_tasks)}\033[0m"
             )
