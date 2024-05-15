@@ -2,11 +2,9 @@ import os
 import http
 import dashscope
 import json
+from voyager.utils import config
 
-with open('config.json', 'r') as f:
-    config = json.load(f)
-
-dashscope.api_key = config['api_key']
+dashscope.api_key = config.get('api_key')
 
 def call_llama(js_content):
     """
