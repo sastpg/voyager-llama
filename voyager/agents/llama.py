@@ -11,8 +11,8 @@ from http import HTTPStatus
 import json
 import dashscope
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
-
-with open("config.json", "r") as config_file:
+from pathlib import Path
+with open(Path(__file__).parent / "config.json", "r") as config_file:
     config = json.load(config_file)
 def call_with_messages_(msgs):
     url = f'http://{config["server_host"]}:{config["server_port"]}/llama2_70b'
