@@ -1,15 +1,17 @@
 from voyager import Voyager
-
-mc_port = 49153
+from voyager.utils import env_config
+mc_port = env_config['MC_SERVRE_PORT']
+mc_host = env_config['MC_SERVER_HOST']
 # mc_port = 25565 # linux server port
 env_wait_ticks = 100
 
 voyager = Voyager(
     mc_port=mc_port,
+    mc_host=mc_host,
     env_wait_ticks=env_wait_ticks,
     skill_library_dir="./skill_library",
     reload=True, # set to True if the skill_json updated
-    embedding_dir="d:\\DESKTOP\\paraphrase-multilingual-MiniLM-L12-v2", # your model path
+    embedding_dir="E:\\onedrive\\桌面\\强化学习\\mc\\sentent-embedding", # your model path
     # embedding_dir="/home/MCagent/paraphrase-multilingual-MiniLM-L12-v2", # linux model path
     environment='combat'
 )

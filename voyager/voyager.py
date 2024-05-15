@@ -22,6 +22,7 @@ from .agents.llama import call_with_messages
 class Voyager:
     def __init__(
         self,
+        mc_host: str = 'localhost',
         mc_port: int = None,
         azure_login: Dict[str, str] = None,
         server_port: int = 3000,
@@ -109,6 +110,7 @@ class Voyager:
         """
         # init env
         self.env = VoyagerEnv(
+            mc_host=mc_host,
             mc_port=mc_port,
             azure_login=azure_login,
             server_port=server_port,

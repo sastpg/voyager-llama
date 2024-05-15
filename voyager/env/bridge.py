@@ -18,6 +18,7 @@ from .process_monitor import SubprocessMonitor
 class VoyagerEnv(gym.Env):
     def __init__(
         self,
+        mc_host='localhost',
         mc_port=None,
         azure_login=None,
         server_host="http://127.0.0.1",
@@ -31,6 +32,7 @@ class VoyagerEnv(gym.Env):
             warnings.warn(
                 "Both mc_port and mc_login are specified, mc_port will be ignored"
             )
+        self.mc_host = mc_host
         self.mc_port = mc_port
         self.azure_login = azure_login
         self.server = f"{server_host}:{server_port}"
@@ -140,6 +142,7 @@ class VoyagerEnv(gym.Env):
             raise RuntimeError("inventory can only be set when options is hard")
 
         self.reset_options = {
+            "host": self.mc_host,
             "port": self.mc_port,
             "reset": options.get("mode", "hard"),
             "inventory": options.get("inventory", {}),
