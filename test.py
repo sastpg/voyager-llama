@@ -1,6 +1,6 @@
 from voyager import Voyager
 from voyager.utils import config
-mc_port = config.get('MC_SERVRE_PORT')
+mc_port = config.get('MC_SERVER_PORT')
 mc_host = config.get('MC_SERVER_HOST')
 embedding_dir = config.get('SENTENT_EMBEDDING_DIR')
 
