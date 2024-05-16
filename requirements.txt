@@ -13,3 +13,4 @@ gymnasium
 psutil
 minecraft_launcher_lib
 sentence-transformers   
+dashscope
