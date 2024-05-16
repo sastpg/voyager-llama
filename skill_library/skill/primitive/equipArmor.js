@@ -28,7 +28,7 @@ async function equipArmor(bot) {
         await bot.chat("No chestplate found in inventory.");
     }
     if (Leggings) {
-        await bot.equip(Leggings, "leg");
+        await bot.equip(Leggings, "legs");
     } else {
         await bot.chat("No leggings found in inventory.");
     }
