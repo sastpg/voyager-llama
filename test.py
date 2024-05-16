@@ -15,7 +15,7 @@ voyager = Voyager(
     mc_host=mc_host,
     env_wait_ticks=env_wait_ticks,
     skill_library_dir="./skill_library",
-    reload=False, # set to True if the skill_json updated
+    reload=True, # set to True if the skill_json updated
     embedding_dir=embedding_dir, # your model path
     # embedding_dir="/home/MCagent/paraphrase-multilingual-MiniLM-L12-v2", # linux model path
     environment='combat'
@@ -33,8 +33,8 @@ farming_task_list = ["plant 1 wheat seed", "plant 1 melon seed or pumpkin seed",
                      "cook 1 meat (beef / mutton / pork / chicken)", "breed 1 chick", 
                      "make 1 bread and cook 1 meat (beef / mutton / pork / chicken)", "make 8 cookies"]
 test_sub_goals = ["craft crafting table", "craft wooden pickaxe", "craft stone pickaxe", "craft iron pickaxe", "mine diamond"]
-# while True:
-#     voyager.inference_sub_goal(task="subgoal_test", sub_goals=test_sub_goals)
+while True:
+    voyager.inference_sub_goal(task="subgoal_test", sub_goals=test_sub_goals)
 for task in multi_mob_list:
     voyager.inference(task=task)
 # voyager.learn()

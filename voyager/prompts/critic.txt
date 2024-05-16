@@ -10,8 +10,8 @@ Last inventory (xx/36): My inventory before carry out the task.
 Chat log: The logs during carrying out the task.
 
 **Note** that you only need to check the changes of my inventory to judge whether I meet the task. 
-For a `craft` task, all you need to do is checking if the item I need to craft is in my current inventory or equipment. If in, you should judge it as a success and vice versa.
-For a `mine` task, you only need to check the changes of my inventory to judge whether I mined the item (Whether the item has increased in my inventory).
+For a `craft [item]` task, all you need to do is checking if the item I need to craft is in my current inventory or equipment. If in, you should judge it as a success and vice versa.
+For a `mine [item]` task, you only need to check whether the item is in my current inventory or has an increase over last inventory.
 Do not judge the success of a `craft` task based on other materials I have!
 
 You should only respond in JSON format as described below:
