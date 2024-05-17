@@ -6,12 +6,25 @@
 
 We use [1.19 version](https://mcversions.net/download/1.19). Put it at `/path/to/your/server-1.9.jar`
 
+1.19.4-fabric-0.14.21
+
+fabric-api-0.87.1 至少要0.14.21 fabric server
+
+使用fabric-0.15.11 加载 multiserverpause-fabric-1.1.0会报错
+
 ### Download Mods
 
 - [Fabric API](https://modrinth.com/mod/fabric-api/version/0.58.0+1.19): Basic Fabric APIs.
+
 - [Mod Menu](https://cdn.modrinth.com/data/mOgUt4GM/versions/4.0.4/modmenu-4.0.4.jar): Used to manage all the mods that you download.
+
 - [Complete Config](https://www.curseforge.com/minecraft/mc-mods/completeconfig/download/3821056): Dependency of server pause.
+
 - [Multi Server Pause](https://www.curseforge.com/minecraft/mc-mods/multiplayer-server-pause-fabric/download/3822586): Used to pause the server when waiting for GPT-4 to reply.
+
+  
+
+- 
 
 Put them at `/path/to/your/mods`
 
