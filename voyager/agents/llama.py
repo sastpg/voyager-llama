@@ -32,7 +32,7 @@ def call_with_messages(msgs):
                 {'role': 'user', 'content': msgs[1].content}
                 ]
     response = dashscope.Generation.call(
-        model='llama2-13b-chat-v2',
+        model='llama3-70b-instruct',
         messages=messages,
         result_format='message',  # set the result to be "message" format.
     )

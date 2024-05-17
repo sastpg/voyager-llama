@@ -484,6 +484,9 @@ class Voyager:
                 "wait_ticks": self.env_wait_ticks,
             }
         )
+        self.run_raw_skill("./test_env/respawnAndClear.js")
+        self.totoal_time = 0
+        self.step_time = []
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
