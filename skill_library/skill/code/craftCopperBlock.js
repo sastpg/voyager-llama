@@ -5,7 +5,7 @@ async function craftCopperBlock(bot) {
     let copperIngotsCount = bot.inventory.count(mcData.itemsByName.copper_ingot.id);
     // If not enough copper ingots, mine copper ores and smelt them into copper ingots
     while (copperIngotsCount < 9) {
-      await minecopperOre(bot);
+      await mineCopperOre(bot);
       copperIngotsCount += 1;
     }
     await smeltAllRawCopper(bot);
