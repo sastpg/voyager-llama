@@ -19,7 +19,8 @@ voyager = Voyager(
     environment='combat'
 )
 mob_list = ["1 zombie", "1 skeleton", "1 spider", "1 cave_spider", "1 enderman", "1 blaze", "1 zombified_piglin", "1 wither_skeleton"]
-many_mob_list = ["5 zombie", 
+many_mob_list = [# "5 zombie", 
+                 "1 zombie, 1 skeleton, 1 spider",
                  "3 skeleton", "5 skeleton"]
 multi_mob_list = [# "1 zombie, 1 skeleton",
                   # "1 zombie, 1 spider",
@@ -30,14 +31,21 @@ farming_task_list = ["plant 1 wheat seed", "plant 1 melon seed or pumpkin seed",
 test_sub_goals = ["craft crafting table", "craft wooden pickaxe", "craft stone pickaxe", "craft iron pickaxe", "mine diamond"]
 # while True:
 #     voyager.inference_sub_goal(task="subgoal_test", sub_goals=test_sub_goals)
-# voyager.learn()
-# for task in multi_mob_list:
-#     while True:
-#         try:
-#             voyager.inference(task=task)
-#             break
-#         except Exception as e:
-#             print("error:", e)
+while True:
+    for goal in farming_task_list:
+        while True:
+            try:
+                voyager.learn(goals = goal)
+                break
+            except Exception as e:
+                print("error:", e)
+for task in multi_mob_list:
+    while True:
+        try:
+            voyager.inference(task=task)
+            break
+        except Exception as e:
+            print("error:", e)
 for task in many_mob_list:
     while True:
         try:

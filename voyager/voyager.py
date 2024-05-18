@@ -383,7 +383,7 @@ class Voyager:
             self.curriculum_agent.update_exploration_progress(info)
             if goals != None:
                 reason, completed = self.critic_agent.check_goal_success(self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals)
-                if completed:
+                if completed or self.step_time[-1] >= 24000:
                     break
             print(
                 f"\033[35mCompleted tasks: {', '.join(self.curriculum_agent.completed_tasks)}\033[0m"
@@ -392,6 +392,8 @@ class Voyager:
                 f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
             )
 
+        U.f_mkdir(f"./results/{self.environment}")
+        U.dump_text(f"\n\nTicks on each step: {self.step_time}, LLM iters: {self.total_iter}", f"./results/{self.environment}/{goals.replace(' ', '_')}.txt")
         return {
             "completed_tasks": self.curriculum_agent.completed_tasks,
             "failed_tasks": self.curriculum_agent.failed_tasks,
