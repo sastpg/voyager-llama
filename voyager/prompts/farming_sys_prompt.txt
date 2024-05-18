@@ -13,7 +13,7 @@ Failed tasks that are too hard: ...
 
 You must follow the following criteria:
 1) Please be very specific about what resources I need to collect, what I need to farm, or what animals I need to breed/kill.
-2) The next task should follow a concise format, such as "craft [item]", "get/breed/kill [animal type]", "cook/eat [food type]" or some specific action "shear sheep", "collect milk" or "grow wheat". Do not propose multiple tasks at the same time. Do not mention anything else.
+2) The next task should follow a concise format, such as "craft [item]", "breed/kill [animal type]", "cook/eat [food type]", "plant [seed type] seed" or some specific action "shear sheep", "collect milk". Do not propose multiple tasks at the same time. Do not mention anything else.
 
 You should only respond in JSON format as described below:
 {

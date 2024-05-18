@@ -11,11 +11,12 @@ from http import HTTPStatus
 import json
 import dashscope
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
-
-with open("config.json", "r") as config_file:
-    config = json.load(config_file)
+from pathlib import Path
+from voyager.utils import config
+# with open(Path(__file__).parent.parent.parent / "conf/config.json", "r") as config_file:
+#     config = json.load(config_file)
 def call_with_messages_(msgs):
-    url = f'http://{config["server_host"]}:{config["server_port"]}/llama2_70b'
+    url = f'http://{config.get("server_host")}:{config.get("server_port")}/llama2_70b'
     input_msg = {
         "user_prompt": msgs[1].content,
         "system_prompt": msgs[0].content
@@ -26,12 +27,12 @@ def call_with_messages_(msgs):
     return AIMessage(content=json_result["data"])
 
 def call_with_messages(msgs):
-    dashscope.api_key = config["api_key"]  # API KEY
+    dashscope.api_key = config.get("api_key")  # API KEY
     messages = [{'role': 'system', 'content': msgs[0].content},
                 {'role': 'user', 'content': msgs[1].content}
                 ]
     response = dashscope.Generation.call(
-        model='llama2-13b-chat-v2',
+        model='llama3-70b-instruct',
         messages=messages,
         result_format='message',  # set the result to be "message" format.
     )
