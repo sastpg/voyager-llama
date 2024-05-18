@@ -16,10 +16,10 @@ voyager = Voyager(
     reload=False, # set to True if the skill_json updated
     embedding_dir="D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2", # your model path
     # embedding_dir="/home/MCagent/paraphrase-multilingual-MiniLM-L12-v2", # linux model path
-    environment='farming'
+    environment='combat'
 )
 mob_list = ["1 zombie", "1 skeleton", "1 spider", "1 cave_spider", "1 enderman", "1 blaze", "1 zombified_piglin", "1 wither_skeleton"]
-many_mob_list = ["3 zombie", "5 zombie", 
+many_mob_list = ["5 zombie", 
                  "3 skeleton", "5 skeleton"]
 multi_mob_list = [# "1 zombie, 1 skeleton",
                   # "1 zombie, 1 spider",
@@ -30,14 +30,14 @@ farming_task_list = ["plant 1 wheat seed", "plant 1 melon seed or pumpkin seed",
 test_sub_goals = ["craft crafting table", "craft wooden pickaxe", "craft stone pickaxe", "craft iron pickaxe", "mine diamond"]
 # while True:
 #     voyager.inference_sub_goal(task="subgoal_test", sub_goals=test_sub_goals)
-voyager.learn()
-for task in multi_mob_list:
-    while True:
-        try:
-            voyager.inference(task=task)
-            break
-        except Exception as e:
-            print("error:", e)
+# voyager.learn()
+# for task in multi_mob_list:
+#     while True:
+#         try:
+#             voyager.inference(task=task)
+#             break
+#         except Exception as e:
+#             print("error:", e)
 for task in many_mob_list:
     while True:
         try:

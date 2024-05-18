@@ -463,8 +463,12 @@ class Voyager:
                 self.run_raw_skill("./test_env/summonMob.js", summon_para)
 
             for monster in combat_order:
-                combat_para = monster
-                self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para])
+                para = monster.split(' ')
+                combat_para2 = int(para[0])
+                combat_para1 = para[1].lower() # ensure no uppercase
+                kill_res = self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para1, combat_para2])
+                if 'lost' in kill_res:
+                    break
             health, cirtiques, result = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
             U.f_mkdir(f"./results/{self.environment}")
             U.dump_text(f"\n\nRoute {i}: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Health: {health:.1f}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
