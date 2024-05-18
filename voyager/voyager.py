@@ -428,7 +428,7 @@ class Voyager:
             # self.run_raw_skill("skill_library/skill/primitive/eatFood.js", ["porkchop"])
             # self.run_raw_skill("skill_library/skill/code/shearOneSheep.js")
             # self.run_raw_skill("skill_library/skill/primitive/getAnimal.js", ["sheep", 158, 64, -1341])
-        for i in range(1):
+        for i in range(5):
             self.recorder.elapsed_time = 0
             self.recorder.iteration = 0
             self.step_time = []
