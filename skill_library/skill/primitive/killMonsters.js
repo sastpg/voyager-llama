@@ -1,4 +1,4 @@
-async function killMonsters(bot, type = null) {
+async function killMonsters(bot, type = null, n = 1) {
   bot.chat("/gamemode survival")
   isAlive = true;
   // Listen for bot's death
@@ -7,12 +7,12 @@ async function killMonsters(bot, type = null) {
     isAlive = false;
     return false;
   });
-  do {
+  await equipSword(bot);
+  await equipArmor(bot);
+  for (i = 0; i < n; i++) {
     if (!isAlive) {
       return false;
     }
-    await equipSword(bot);
-    await equipArmor(bot);
     // Find the nearest monster
     const monster = bot.nearestEntity(entity => {
       return entity.name === type && entity.position.distanceTo(bot.entity.position) < 32;
@@ -30,5 +30,5 @@ async function killMonsters(bot, type = null) {
     await bot.pathfinder.goto(new GoalBlock(monster.position.x, monster.position.y, monster.position.z));
     bot.chat("Collected dropped items.");
     bot.chat(`Killed a ${type}.`);
-    } while (true);
+    } 
 }
