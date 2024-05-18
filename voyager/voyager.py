@@ -428,7 +428,10 @@ class Voyager:
             # self.run_raw_skill("skill_library/skill/primitive/eatFood.js", ["porkchop"])
             # self.run_raw_skill("skill_library/skill/code/shearOneSheep.js")
             # self.run_raw_skill("skill_library/skill/primitive/getAnimal.js", ["sheep", 158, 64, -1341])
-        for i in range(3):
+        for i in range(5):
+            self.step_time = []
+            self.total_iter = 0
+            self.total_time = 0
             while self.curriculum_agent.progress < len(sub_goals):
                 next_task = sub_goals[self.curriculum_agent.progress]
                 context = self.curriculum_agent.get_task_context(next_task)
@@ -447,6 +450,8 @@ class Voyager:
                 print(
                     f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
                 )
+                if (self.step_time[-1] >= 24000):
+                    break
             # str_list = task.split()
             self.run_raw_skill("./test_env/combatEnv.js", [10, 15, 100])
             combat_order = self.curriculum_agent.rerank_monster(task=task)
@@ -460,7 +465,7 @@ class Voyager:
                 self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para])
             health, cirtiques, result = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
             U.f_mkdir(f"./results/{self.environment}")
-            U.dump_text(f"\n\nRoute {i}: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
+            U.dump_text(f"\n\nRoute {i}: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Health: {health:.1f}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
             sub_goals = self.decompose_task(task, last_tasklist=sub_goals, critique=cirtiques, health=health)
             self.run_raw_skill("./test_env/respawnAndClear.js")
             self.env.reset(
@@ -486,7 +491,7 @@ class Voyager:
         )
         self.run_raw_skill("./test_env/respawnAndClear.js")
         self.totoal_time = 0
-        self.step_time = []
+        _time = []
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
