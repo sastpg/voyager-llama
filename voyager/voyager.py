@@ -428,10 +428,10 @@ class Voyager:
             # self.run_raw_skill("skill_library/skill/primitive/eatFood.js", ["porkchop"])
             # self.run_raw_skill("skill_library/skill/code/shearOneSheep.js")
             # self.run_raw_skill("skill_library/skill/primitive/getAnimal.js", ["sheep", 158, 64, -1341])
-        for i in range(5):
+        for i in range(1):
+            self.recorder.elapsed_time = 0
+            self.recorder.iteration = 0
             self.step_time = []
-            self.total_iter = 0
-            self.total_time = 0
             while self.curriculum_agent.progress < len(sub_goals):
                 next_task = sub_goals[self.curriculum_agent.progress]
                 context = self.curriculum_agent.get_task_context(next_task)
@@ -491,7 +491,7 @@ class Voyager:
         )
         self.run_raw_skill("./test_env/respawnAndClear.js")
         self.totoal_time = 0
-        _time = []
+        self.step_time = []
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
