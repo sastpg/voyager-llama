@@ -25,7 +25,6 @@ many_mob_list = ["3 zombie", "5 zombie",
 multi_mob_list = ["1 zombie, 1 skeleton",
                   "1 zombie, 1 spider",
                   "1 zombie, 1 skeleton, 1 spider",
-                  "1 zombie, 1 enderman, 1 piglin_brute",
                   "2 zombie, 2 skeleton, 2 spider"]
 farming_task_list = ["plant 1 wheat seed", "plant 1 melon seed or pumpkin seed", "collect 1 wool by shears or collect 1 bucket of milk", 
                      "cook 1 meat (beef / mutton / pork / chicken)", "breed 1 chick", 

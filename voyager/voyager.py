@@ -432,6 +432,8 @@ class Voyager:
             self.recorder.elapsed_time = 0
             self.recorder.iteration = 0
             self.step_time = []
+            self.critic_agent.last_inventory = "Empty"
+            self.critic_agent.last_inventory_used = 0
             while self.curriculum_agent.progress < len(sub_goals):
                 next_task = sub_goals[self.curriculum_agent.progress]
                 context = self.curriculum_agent.get_task_context(next_task)
@@ -461,7 +463,7 @@ class Voyager:
                 self.run_raw_skill("./test_env/summonMob.js", summon_para)
 
             for monster in combat_order:
-                combat_para = monster
+                combat_para = monster.lower() # Prevents LLM from outputting caps
                 self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para])
             health, cirtiques, result = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
             U.f_mkdir(f"./results/{self.environment}")
