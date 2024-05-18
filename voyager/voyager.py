@@ -463,10 +463,8 @@ class Voyager:
                 self.run_raw_skill("./test_env/summonMob.js", summon_para)
 
             for monster in combat_order:
-                para = monster.split(' ')
-                combat_para2 = int(para[0])
-                combat_para1 = para[1].lower() # Prevents LLM from outputting caps
-                self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para1, combat_para2])
+                combat_para = monster
+                self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para])
             health, cirtiques, result = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
             U.f_mkdir(f"./results/{self.environment}")
             U.dump_text(f"\n\nRoute {i}: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Health: {health:.1f}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
@@ -582,12 +580,19 @@ class Voyager:
                 retry -= 1
                 parsed_result = f"Error parsing action response (before program execution): {e}"
 
+        result = ''
         if isinstance(parsed_result, dict):
             code = parsed_result["program_code"] + "\n" + parsed_result["exec_code"]
             events = self.env.step(
                 code,
                 programs=self.skill_manager.programs,
             )
+            for event in reversed(events):
+                if event[0] == 'onChat':
+                    result = event[1]['onChat']
+                    break
             self.last_events = copy.deepcopy(events)
         else:
             print(f"\033[34m{parsed_result} Code executes error!\033[0m")
+        
+        return result
