@@ -336,7 +336,6 @@ class Voyager:
             )
             self.resume = True
         self.last_events = self.env.step("")
-
         while True:
             if self.recorder.iteration > self.max_iterations:
                 print("Iteration limit reached")
@@ -393,7 +392,7 @@ class Voyager:
             )
 
         U.f_mkdir(f"./results/{self.environment}")
-        U.dump_text(f"\n\nTicks on each step: {self.step_time}, LLM iters: {self.total_iter}", f"./results/{self.environment}/{goals.replace(' ', '_')}.txt")
+        U.dump_text(f"\n\nTicks on each step: {self.step_time}, LLM iters: {self.total_iter}, Completed: {completed}", f"./results/{self.environment}/{goals.replace(' ', '_')}.txt")
         return {
             "completed_tasks": self.curriculum_agent.completed_tasks,
             "failed_tasks": self.curriculum_agent.failed_tasks,
