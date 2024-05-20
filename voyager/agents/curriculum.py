@@ -209,7 +209,7 @@ class CurriculumAgent:
         }
         return observation
 
-    def render_human_message(self, *, events, chest_observation):
+    def render_human_message(self, *, events, chest_observation, goals=None):
         content = ""
         observation = self.render_observation(
             events=events, chest_observation=chest_observation
@@ -227,7 +227,8 @@ class CurriculumAgent:
         #         i += 1
         #         if i > 5:
         #             break
-
+        if goals:
+            content += "Ultimate goal: " + goals +"\n"
         for key in self.curriculum_observations:
             content += observation[key]
             # if self.progress >= self.warm_up[key]:
@@ -282,7 +283,7 @@ class CurriculumAgent:
         messages = [
             self.render_system_message(environment, goals),
             self.render_human_message(
-                events=events, chest_observation=chest_observation
+                events=events, chest_observation=chest_observation, goals=goals
             ),
         ]
 
@@ -513,7 +514,7 @@ class CurriculumAgent:
         ]
         print(f"\033[35mCurriculum Agent Question: {question}\033[0m")
         # qa_answer = self.qa_llm(messages).content
-        # �???改调�???
+        # �????改调�????
         qa_answer = call_with_messages(messages).content
         print(f"\033[31mCurriculum Agent {qa_answer}\033[0m")
         return qa_answer

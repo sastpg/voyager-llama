@@ -3,6 +3,7 @@ You are required to evaluate if I have met the task requirements in Minecraft. E
 I will give you the following information:
 
 Task: The objective I need to accomplish.
+Nearby blocks: 
 Equipment: My tools, weapons and armor could sometimes be here.
 Chests: If the task requires me to place items in a chest, you can find chest information here.
 Current inventory (xx/36): My final inventory after carry out the task.

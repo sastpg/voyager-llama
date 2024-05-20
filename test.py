@@ -37,7 +37,7 @@ test_sub_goals = ["craft crafting table", "craft wooden pickaxe", "craft stone p
 #                      ["craft wooden hoe", "collect wheat seed", "hoe farm land", "plant 1 wheat seed", "plant 1 wheat seed", "collect wheat", "collect wheat", "breed sheep"],
 #                      ["craft wooden hoe", "collect melon", "collect melon seed", "hoe farm land", "plant 1 melon seed"],  
 #                      ["craft wooden hoe", "collect pumpkin", "collect pumpkin seed", "hoe farm land", "plant 1 pumpkin seed"]]
-# voyager.learn()
+voyager.learn()
 # for farming_sub_goal in farming_sub_goals:
 #     while True:
 #         try:

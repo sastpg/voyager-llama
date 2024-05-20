@@ -15,8 +15,12 @@ from pathlib import Path
 from voyager.utils import config
 # with open(Path(__file__).parent.parent.parent / "conf/config.json", "r") as config_file:
 #     config = json.load(config_file)
-def call_with_messages(msgs):
-    url = f'http://{config.get("server_host")}:{config.get("server_port")}/llama3_8b_v1'
+
+class ModelType:
+    LLAMA2_70B = 'llama2_70b'
+    LLAMA3_8B_V1 = 'llama3_8b_v1'
+def call_with_messages(msgs, model_name:ModelType=ModelType.LLAMA3_8B_V1):
+    url = f'http://{config.get("server_host")}:{config.get("server_port")}/{model_name}'
     input_msg = {
         "user_prompt": msgs[1].content,
         "system_prompt": msgs[0].content

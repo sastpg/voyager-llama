@@ -1,3 +1,2 @@
 
-
-Ticks on each step: [1402, 2803, 4204, 5606, 7006, 8407, 9808, 11208, 14173, 14754, 15328, 15918, 18149, 18733, 19480, 20137], LLM iters: 16, Completed: True
+Ticks on each step: [1325], LLM iters: 1, Completed: True

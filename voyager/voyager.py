@@ -318,6 +318,11 @@ class Voyager:
         return messages, reward, done, info
 
     def learn(self, goals=None, reset_env=True):
+        self.recorder.elapsed_time = 0
+        self.recorder.iteration = 0
+        self.step_time = []
+        self.critic_agent.last_inventory = "Empty"
+        self.critic_agent.last_inventory_used = 0
         if self.resume:
             # keep the inventory
             self.env.reset(
@@ -345,7 +350,7 @@ class Voyager:
                 environment=self.environment,
                 chest_observation=self.action_agent.render_chest_observation(),
                 goals=goals,
-                max_retries=5,
+                max_retries=500,
             )
             print(
                 f"\033[35mStarting task {task} for at most {self.action_agent_task_max_retries} times\033[0m"
@@ -375,6 +380,7 @@ class Voyager:
                 # use red color background to print the error
                 print("Your last round rollout terminated due to error:")
                 print(f"\033[41m{e}\033[0m")
+                continue
 
             # if info["success"]:
             #     self.skill_manager.add_new_skill(info)
@@ -383,7 +389,7 @@ class Voyager:
             completed = None
             if goals != None:
                 reason, completed = self.critic_agent.check_goal_success(self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals)
-                if completed or self.step_time[-1] >= 48000:
+                if completed or self.step_time[-1] >= 24000:
                     break
             print(
                 f"\033[35mCompleted tasks: {', '.join(self.curriculum_agent.completed_tasks)}\033[0m"

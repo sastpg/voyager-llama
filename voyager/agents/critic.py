@@ -2,7 +2,7 @@ import re
 from voyager.prompts import load_prompt
 from voyager.utils.json_utils import fix_and_parse_json
 from langchain.schema import HumanMessage, SystemMessage
-from voyager.agents.llama import call_with_messages
+from voyager.agents.llama import call_with_messages, ModelType
 
 class CriticAgent:
     def __init__(
@@ -108,7 +108,7 @@ class CriticAgent:
 
         # critic = self.llm(messages).content
         # modify
-        critic = call_with_messages(messages).content
+        critic = call_with_messages(messages, ModelType.LLAMA2_70B).content
         print(f"\033[31m****Critic Agent ai message****\n{critic}\033[0m")
         code_pattern = re.compile(r"{(.*?)}", re.DOTALL)
         code_name = "".join(code_pattern.findall(critic))
