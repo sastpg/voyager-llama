@@ -380,9 +380,10 @@ class Voyager:
             #     self.skill_manager.add_new_skill(info)
 
             self.curriculum_agent.update_exploration_progress(info)
+            completed = None
             if goals != None:
                 reason, completed = self.critic_agent.check_goal_success(self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals)
-                if completed or self.step_time[-1] >= 24000:
+                if completed or self.step_time[-1] >= 48000:
                     break
             print(
                 f"\033[35mCompleted tasks: {', '.join(self.curriculum_agent.completed_tasks)}\033[0m"

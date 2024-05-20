@@ -29,10 +29,22 @@ farming_task_list = ["plant 1 wheat seed", "plant 1 melon seed or pumpkin seed",
                      "cook 1 meat (beef / mutton / pork / chicken)", "breed 1 chick", 
                      "make 1 bread and cook 1 meat (beef / mutton / pork / chicken)", "make 8 cookies"]
 test_sub_goals = ["craft crafting table", "craft wooden pickaxe", "craft stone pickaxe", "craft iron pickaxe", "mine diamond"]
-farming_sub_goals = [["plant 1 wheat seed"], ["plant 1 melon seed"], ["plant 1 pumpkin seed"]]
-voyager.learn()
-# while True:
-#    voyager.inference_sub_goal(task="farming_skill_test", sub_goals=farming_sub_goals)
+# farming_sub_goals = [["craft wooden hoe", "collect wheat seed", "hoe farm land", "plant 1 wheat seed"], 
+#                      ["craft a pair of shears", "shear one sheep"],
+#                      ["craft bucket", "collect milk"],
+#                      ["collect wheat seed", "breed chicken"],
+#                      ["kill pig", "cook porkchop"],
+#                      ["craft wooden hoe", "collect wheat seed", "hoe farm land", "plant 1 wheat seed", "plant 1 wheat seed", "collect wheat", "collect wheat", "breed sheep"],
+#                      ["craft wooden hoe", "collect melon", "collect melon seed", "hoe farm land", "plant 1 melon seed"],  
+#                      ["craft wooden hoe", "collect pumpkin", "collect pumpkin seed", "hoe farm land", "plant 1 pumpkin seed"]]
+# voyager.learn()
+# for farming_sub_goal in farming_sub_goals:
+#     while True:
+#         try:
+#             voyager.inference_sub_goal(task="subgoal_farming", sub_goals=farming_sub_goal)
+#             break
+#         except Exception as e:
+#             print("error:", e)
 # while True:
 #     voyager.inference_sub_goal(task="subgoal_test", sub_goals=test_sub_goals)
 while True:

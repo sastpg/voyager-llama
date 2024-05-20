@@ -12,6 +12,7 @@ Chat log: The logs during carrying out the task.
 **Note** that you only need to check the changes of my inventory to judge whether I meet the task. 
 For a `craft [item]` task, all you need to do is checking if the item I need to craft is in my current inventory or equipment. If in, you should judge it as a success and vice versa.
 For a `mine [item]` task, you only need to check whether the item is in my current inventory or has an increase over last inventory.
+For a `hoe` or `plant` task, you only need to check whether the `farmland` or `seed` is in Nearby Blocks.
 Do not judge the success of a `craft` task based on other materials I have!
 You can only judge a task failure via chat log, not as a reason to judge a task's success.
 

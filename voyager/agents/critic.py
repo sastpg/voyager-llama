@@ -44,10 +44,10 @@ class CriticAgent:
 
         # observation += f"Time: {time_of_day}\n\n"
 
-        # if voxels:
-        #     observation += f"Nearby blocks: {', '.join(voxels)}\n\n"
-        # else:
-        #     observation += f"Nearby blocks: None\n\n"
+        if voxels:
+            observation += f"Nearby blocks: {', '.join(voxels)}\n\n"
+        else:
+            observation += f"Nearby blocks: None\n\n"
 
         # observation += f"Health: {health:.1f}/20\n\n"
         # observation += f"Hunger: {hunger:.1f}/20\n\n"
@@ -63,16 +63,18 @@ class CriticAgent:
         else:
             observation += f"Current Inventory ({inventory_used}/36): Empty\n\n"
 
-        observation += f"Last inventory ({self.last_inventory_used}/36): {self.last_inventory}"
+        observation += f"Last inventory ({self.last_inventory_used}/36): {self.last_inventory}\n"
 
         self.last_inventory_used = inventory_used
         self.last_inventory = inventory
 
+        chatlog = None
         for event_type, event in events:
             if event_type == 'onChat':
                 chatlog = event['onChat']
-        
-        observation += f"Chat log: {chatlog}"
+                
+        if chatlog:
+            observation += f"Chat log: {chatlog}"
     
         # if context:
         #     observation += f"Context: {context}\n\n"

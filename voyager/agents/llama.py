@@ -16,7 +16,7 @@ from voyager.utils import config
 # with open(Path(__file__).parent.parent.parent / "conf/config.json", "r") as config_file:
 #     config = json.load(config_file)
 def call_with_messages(msgs):
-    url = f'http://{config.get("server_host")}:{config.get("server_port")}/llama2_70b'
+    url = f'http://{config.get("server_host")}:{config.get("server_port")}/llama3_8b_v1'
     input_msg = {
         "user_prompt": msgs[1].content,
         "system_prompt": msgs[0].content
@@ -24,6 +24,7 @@ def call_with_messages(msgs):
     # print(input_msg)
     result = requests.post(url, json = input_msg)
     json_result = result.json()
+    # print(json_result)
     return AIMessage(content=json_result["data"])
 
 def call_with_messages_(msgs):
@@ -32,7 +33,7 @@ def call_with_messages_(msgs):
                 {'role': 'user', 'content': msgs[1].content}
                 ]
     response = dashscope.Generation.call(
-        model='llama3-70b-instruct',
+        model='llama3-8b-instruct',
         messages=messages,
         result_format='message',  # set the result to be "message" format.
     )

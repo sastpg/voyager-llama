@@ -1,0 +1,22 @@
+Subgoal: craft wooden hoe, Ticks: 732
+Subgoal: collect wheat seed, Ticks: 1501
+Subgoal: hoe farm land, Ticks: 1863
+Subgoal: plant 1 wheat seed, Ticks: 2696
+
+Subgoal: craft wooden hoe, Ticks: 672
+Subgoal: collect pumpkin, Ticks: 3669
+Subgoal: collect pumpkin seed, Ticks: 3870
+Subgoal: hoe farm land, Ticks: 4557
+Subgoal: plant 1 pumpkin seed, Ticks: 5076
+
+Subgoal: craft a pair of shears, Ticks: 4245
+Subgoal: shear one sheep, Ticks: 6911
+
+Subgoal: craft bucket, Ticks: 4173
+Subgoal: collect milk, Ticks: 6565
+
+Subgoal: collect wheat seed, Ticks: 472
+Subgoal: breed chicken, Ticks: 1872
+
+Subgoal: kill pig, Ticks: 6261
+Subgoal: cook porkchop, Ticks: 7891
