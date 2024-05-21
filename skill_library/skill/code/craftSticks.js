@@ -5,15 +5,9 @@ async function craftSticks(bot) {
     const logInInventory = logNames.find(logName => bot.inventory.count(mcData.itemsByName[logName].id) > 0);
     // If not enough planks
     if (totalPlanksCount < requiredPlanks) {
-      bot.chat("Not enough planks. Mining a log and crafting more...");
-      if (!logInInventory) {
-        await mineWoodLog(bot);
-      } else {
-        await craftWoodenPlanks(bot);
-      }
+      await craftWoodenPlanks(bot);
       bot.chat("Planks crafted.");
     }
-  
     await craftItem(bot, "stick", 1);
     bot.chat("4 sticks crafted.");
   }

@@ -21,7 +21,7 @@ async function craftItem(bot, name, count = 1) {
         "stick", "torch", "flint_and_steel",
         "oak_planks", "birch_planks", "spruce_planks", "jungle_planks", "acacia_planks", "dark_oak_planks", "mangrove_planks"];
     if (noCraftingTableList.includes(name)) {
-        const recipe = bot.recipesFor(itemByName.id, null, 1, craftingTable)[0];
+        const recipe = bot.recipesFor(itemByName.id, null, 1, null)[0];
         try {
             await bot.craft(recipe, count, null);
             bot.chat(`I did the recipe for ${name} ${count} times`);
