@@ -1,11 +1,11 @@
 async function craftDiamondBoots(bot) {
     // Check if there are enough diamond in the inventory
-    let diamondsCount = bot.inventory.count(mcData.itemsByName.diamond_ingot.id);
+    let diamondsCount = bot.inventory.count(mcData.itemsByName.diamond.id);
   
     // If not enough diamonds, collect some
     while (diamondsCount < 4) {
       await mineDiamond(bot);
-      diamondsCount = bot.inventory.count(mcData.itemsByName.diamond_ingot.id);
+      diamondsCount = bot.inventory.count(mcData.itemsByName.diamond.id);
     }
     // check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
