@@ -25,7 +25,7 @@ def call_llama(js_content):
                 {'role': 'user', 'content': js_content}]
 
     response = dashscope.Generation.call(
-        model='llama3-70b-instruct',
+        model='llama3-8b-instruct',
         # model='qwen1.5-72b-chat',
         messages=messages,
         result_format='message'

@@ -1,4 +1,4 @@
-async function collectTenCobblestone(bot) {
+async function collectCobblestone(bot) {
     await equipPickaxeOrCraftOne(bot);
     // Use the exploreUntil function to find cobblestone blocks
     const cobblestoneBlocks = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {

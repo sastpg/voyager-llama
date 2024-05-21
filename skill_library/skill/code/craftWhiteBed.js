@@ -1,4 +1,4 @@
-async function craftBed(bot) {
+async function craftWhiteBed(bot) {
     // Check if there are enough planks and wools in the inventory
     let planksCount = await getPlanksCount(bot);
     let woolsCount = bot.inventory.count(mcData.itemsByName.white_wool.id);
@@ -20,6 +20,6 @@ async function craftBed(bot) {
     const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
     // Craft a bed using the crafting table
-    await craftItem(bot, "bed", 1);
-    bot.chat("Crafted a bed.");
+    await craftItem(bot, "white_bed", 1);
+    bot.chat("Crafted a white bed.");
   }

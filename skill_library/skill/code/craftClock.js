@@ -1,14 +1,19 @@
-async function craftGoldBlock(bot) {
+async function craftClock(bot) {
     // smelt all raw gold first
     await smeltAllRawGold(bot);
-    // Check if there are enough gold ingots in the inventory
+    // Check if there are enough gold ingots and redstone in the inventory
     let goldIngotsCount = bot.inventory.count(mcData.itemsByName.gold_ingot.id);
+    let redstoneCount = bot.inventory.count(mcData.itemsByName.redstone.id);
     // If not enough gold ingots, mine gold ores and smelt them into gold ingots
-    while (goldIngotsCount < 9) {
+    while (goldIngotsCount < 4) {
       await mineGoldOre(bot);
       goldIngotsCount += 1;
     }
     await smeltAllRawgold(bot);
+    // If not enough redstone, mine 1
+    if (redstoneCount < 1) {
+        await mineRedstoneOre(bot);
+    }
     // check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
@@ -18,7 +23,7 @@ async function craftGoldBlock(bot) {
     // Place the crafting table near the bot
     const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
-    // Craft a gold block using the crafting table
-    await craftItem(bot, "gold_block", 1);
-    bot.chat("Crafted a gold block.");
+    // Craft a clock using the crafting table
+    await craftItem(bot, "clock", 1);
+    bot.chat("Crafted a clock.");
 }

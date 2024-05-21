@@ -18,8 +18,9 @@ async function craftItem(bot, name, count = 1) {
     const noCraftingTableList = [
         "crafting_table", 
         "melon_seeds", "pumpkin_seeds", "sugar",
-        "stick", "torch", "flint_and_steel",
-        "oak_planks", "birch_planks", "spruce_planks", "jungle_planks", "acacia_planks", "dark_oak_planks", "mangrove_planks"];
+        "stick", "torch", "flint_and_steel", "lever",
+        "oak_planks", "birch_planks", "spruce_planks", "jungle_planks", "acacia_planks", "dark_oak_planks", "mangrove_planks",
+        "cut_sandstone"];
     if (noCraftingTableList.includes(name)) {
         const recipe = bot.recipesFor(itemByName.id, null, 1, null)[0];
         try {
