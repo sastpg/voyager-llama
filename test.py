@@ -34,7 +34,7 @@ farming_task_list = ["plant 1 wheat seed and cook 1 meat (beef / mutton / pork /
                      # "make 1 bread and cook 1 meat (beef / mutton / pork / chicken)", "make 8 cookies"
                      ]
 test_sub_goals = ["craft crafting table", "craft wooden pickaxe", "craft stone pickaxe", "craft iron pickaxe", "mine diamond"]
-test_skills = ["craft wooden sword", "craft wooden axe", "craft wooden hoe", "craft wooden shovel"]
+test_skills = ["collect flowers"]
 farming_sub_goals = [["craft wooden hoe", "collect wheat seed", "hoe farm land", "plant 1 wheat seed", "kill pig", "craft furnace", "mine coal ore", "cook porkchop"],
                      ["craft wooden hoe", "collect melon", "collect melon seed", "collect pumpkin", "collect pumpkin seed", "hoe farm land", "plant 1 melon seed"],
                      ["craft a pair of shears", "shear one sheep", "craft bucket", "collect milk"],
