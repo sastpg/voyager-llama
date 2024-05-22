@@ -1,5 +1,6 @@
 tqdm
 langchain
+langchain_community
 javascript
 setuptools
 openai
