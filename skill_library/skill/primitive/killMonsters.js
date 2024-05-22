@@ -17,11 +17,6 @@ async function killMonsters(bot, type = null, n = 1) {
     const monster = bot.nearestEntity(entity => {
       return entity.name === type && entity.position.distanceTo(bot.entity.position) < 32;
     });
-    if (!monster) {
-      await bot.chat(`Could not find a ${type}.`);
-      await bot.chat("I won the combat.");
-      return true;
-    }
     // Kill the animal using the sword
     await killMob(bot, type, 300);
     await bot.chat(`Killed a ${type}.`);
@@ -30,5 +25,7 @@ async function killMonsters(bot, type = null, n = 1) {
     await bot.pathfinder.goto(new GoalBlock(monster.position.x, monster.position.y, monster.position.z));
     await bot.chat("Collected dropped items.");
     await bot.chat(`Killed a ${type}.`);
-    } 
+  }
+  await bot.chat("I won the combat.");
+  return true;
 }

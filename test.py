@@ -19,7 +19,7 @@ voyager = Voyager(
     # embedding_dir="/home/MCagent/paraphrase-multilingual-MiniLM-L12-v2", # linux model path
     environment='combat'
 )
-mob_list = ["1 zombie", "1 skeleton", "1 spider", "1 cave_spider", "1 enderman", "1 blaze", "1 zombified_piglin", "1 wither_skeleton"]
+mob_list = ["1 zombie", "1 skeleton",  "1 blaze", "1 zombified_piglin", "1 wither_skeleton"]
 many_mob_list = [# "5 zombie", 
                  "1 zombie, 1 skeleton, 1 spider",
                  "3 skeleton", "5 skeleton"]
