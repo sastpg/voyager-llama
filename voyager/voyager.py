@@ -388,7 +388,7 @@ class Voyager:
             self.curriculum_agent.update_exploration_progress(info)
             completed = None
             if goals != None:
-                reason, completed = self.critic_agent.check_goal_success(self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals)
+                reason, completed = self.critic_agent.check_goal_success(self.last_events, self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals)
                 if completed or self.step_time[-1] >= 30000:
                     break
             print(

@@ -242,7 +242,11 @@ class CurriculumAgent:
             #         should_include = True
             #     if should_include:
             #         content += observation[key]
-
+        for event in reversed(events):
+            if event[0] == 'onChat':
+                result = event[1]['onChat']
+                break
+        content += f"Logs: {result}"
         print(f"\033[35m****Curriculum Agent human message****\n{content}\033[0m")
         return HumanMessage(content=content)
 

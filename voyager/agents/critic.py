@@ -180,11 +180,77 @@ class CriticAgent:
                 max_retries=max_retries - 1,
             )
 
+    def render_observation(self, *, events, completed_tasks, failed_tasks):
+        assert events[-1][0] == "observe", "Last event must be observe"
+        event = events[-1][1]
+        biome = event["status"]["biome"]
+        time_of_day = event["status"]["timeOfDay"]
+        voxels = event["voxels"]
+        block_records = event["blockRecords"]
+        entities = event["status"]["entities"]
+        health = event["status"]["health"]
+        hunger = event["status"]["food"]
+        position = event["status"]["position"]
+        equipment = event["status"]["equipment"]
+        inventory_used = event["status"]["inventoryUsed"]
+        inventory = event["inventory"]
+
+        if not any(
+            "dirt" in block
+            or "log" in block
+            or "grass" in block
+            or "sand" in block
+            or "snow" in block
+            for block in voxels
+        ):
+            biome = "underground"
+
+        other_blocks = ", ".join(
+            list(
+                set(block_records).difference(set(voxels).union(set(inventory.keys())))
+            )
+        )
+
+        other_blocks = other_blocks if other_blocks else "None"
+
+        nearby_entities = (
+            ", ".join([k for k, v in sorted(entities.items(), key=lambda x: x[1])])
+            if entities
+            else "None"
+        )
+
+        completed_tasks = (
+            ", ".join(completed_tasks) if completed_tasks else "None"
+        )
+        failed_tasks = ", ".join(failed_tasks) if failed_tasks else "None"
+
+        observation = {
+            "context": "",
+            "biome": f"Biome: {biome}\n\n",
+            "time": f"Time: {time_of_day}\n\n",
+            "nearby_blocks": f"Nearby blocks: {', '.join(voxels) if voxels else 'None'}\n\n",
+            "other_blocks": f"Other blocks that are recently seen: {other_blocks}\n\n",
+            "nearby_entities": f"Nearby entities: {nearby_entities}\n\n",
+            "health": f"Health: {health:.1f}/20\n\n",
+            "hunger": f"Hunger: {hunger:.1f}/20\n\n",
+            "position": f"Position: x={position['x']:.1f}, y={position['y']:.1f}, z={position['z']:.1f}\n\n",
+            "equipment": f"Equipment: {equipment}\n\n",
+            "inventory": f"Inventory ({inventory_used}/36): {inventory if inventory else 'Empty'}\n\n",
+            "completed_tasks": f"Completed tasks so far: {completed_tasks}\n\n",
+            "failed_tasks": f"Failed tasks that are too hard: {failed_tasks}\n\n",
+        }
+        return observation
+    
     def check_goal_success(
-        self, completed_task, failed_task, goals
+        self, events, completed_task, failed_task, goals
     ):
+        observations = self.render_observation(events=events, completed_tasks=completed_task, failed_tasks=failed_task)
+        content = ''
+        for key in observations:
+            content += observations[key]
+        content += f"My ultimate goals: {goals}"
         messages = [
             SystemMessage(content=load_prompt("goals")),
-            HumanMessage(content=f"My completed task: {completed_task};\nMy failed task: {failed_task};\nMy ultimate goals: {goals}.\n")
+            HumanMessage(content=content)
         ]
         return self.ai_check_goal_success(messages=messages)
