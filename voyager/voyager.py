@@ -540,6 +540,8 @@ class Voyager:
             U.f_mkdir(f"./results/{self.environment}")
             if info['success']:
                 U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
+            else:
+                U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}\n, Failed.", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
 
     def run_raw_skill(self, skill_path, parameters = []):
         retry = 3
