@@ -133,3 +133,5 @@ config.json
 *.zip
 
 yarn.lock
+
+paraphrase-multilingual-MiniLM-L12-v2/
