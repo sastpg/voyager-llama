@@ -1,0 +1,2 @@
+Subgoal: craft crafting table, Ticks: 1201
+Subgoal: craft crafting table, Ticks: 1612

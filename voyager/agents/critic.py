@@ -147,8 +147,30 @@ class CriticAgent:
             return self.ai_check_task_success(
                 messages=messages, max_retries=max_retries
             )
+        # elif self.mode == 'pragram':
+        #     return self.program_check_task_success(
+        #         events=events, task=task
+        #     )
         else:
             raise ValueError(f"Invalid critic agent mode: {self.mode}")
+    
+    def check_subgoal_success(self, events, task)->bool:
+        inventory = self.get_inventory(events=events)
+        if task == 'craft crafting table':
+            return 'crafting_table' in inventory
+        if task == 'craft wooden pickaxe':
+            return 'wooden_pickaxe' in inventory
+        if task == 'craft stone pickaxe':
+            return 'stone_pickaxe' in inventory
+        if task == 'craft iron pickaxe':
+            return 'iron_pickaxe' in inventory
+        if task == 'mine diamond':
+            return 'diamond' in inventory
+        
+
+    def program_check_task_success(self, events, task)->bool:
+        inventory = self.get_inventory(events=events)
+        return task in inventory
 
     def ai_check_goal_success(self, messages, max_retries=5):
         if max_retries == 0:
@@ -179,6 +201,11 @@ class CriticAgent:
                 messages=messages,
                 max_retries=max_retries - 1,
             )
+    def get_inventory(self, events)->dict:
+        assert events[-1][0] == "observe", "Last event must be observe"
+        event = events[-1][1]
+        inventory = event["inventory"]
+        return inventory
 
     def render_observation(self, *, events, completed_tasks, failed_tasks):
         assert events[-1][0] == "observe", "Last event must be observe"

@@ -242,13 +242,21 @@ class Voyager:
             )
             self.totoal_time, self.total_iter = self.recorder.record(events, self.task)
             self.action_agent.update_chest_memory(events[-1][1]["nearbyChests"])
-            success, critique = self.critic_agent.check_task_success(
-                events=events,
-                task=self.task,
-                context=self.context,
-                chest_observation=self.action_agent.render_chest_observation(),
-                max_retries=5,
-            )
+            if self.environment == 'subgoal':
+                success = self.critic_agent.check_subgoal_success(
+                    events=events,
+                    task=self.task,
+                )
+                critique = ''
+            else:
+                success, critique = self.critic_agent.check_task_success(
+                    events=events,
+                    task=self.task,
+                    context=self.context,
+                    chest_observation=self.action_agent.render_chest_observation(),
+                    max_retries=5,
+                    
+                )
 
             if self.reset_placed_if_failed and not success:
                 # revert all the placing event in the last step
@@ -504,7 +512,8 @@ class Voyager:
             }
         )
         self.run_raw_skill("./test_env/respawnAndClear.js")
-        self.totoal_time = 0
+        self.recorder.elapsed_time = 0
+        self.recorder.iteration = 0
         self.step_time = []
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
@@ -528,8 +537,9 @@ class Voyager:
             print(
                 f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
             )
-            U.f_mkdir(f"./results/subgoal_test")
-            U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}\n", f"./results/subgoal_test/{task.replace(' ', '_')}.txt")
+            U.f_mkdir(f"./results/{self.environment}")
+            if info['success']:
+                U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
 
     def run_raw_skill(self, skill_path, parameters = []):
         retry = 3

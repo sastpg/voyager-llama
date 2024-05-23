@@ -50,7 +50,11 @@ Critic等表现不佳的模块，继续尝试改善prompt。
 
 使用 sentence_transformer 模型替代 openai 模型。
 
-下载模型：
+下载模型需要安装[git-lfs](https://git-lfs.com)
+
+先 `git lfs install`
+
+再：
 
 ```git
 git clone https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2.git
