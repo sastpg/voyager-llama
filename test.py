@@ -28,7 +28,7 @@ combat_benchmark = [
                     ]
 farming_benchmark = [
                     # Single-goal tasks
-                    "hoe a farmland", "breed one chicken", "collect 1 wool by shears or collect 1 bucket of milk",
+                    "hoe a farmland", "breed 1 chicken", "collect 1 wool by shears or collect 1 bucket of milk",
                     "cook meat (beef / mutton / pork / chicken)", "plant 1 seed (wheat / melon / pumpkin)",
                     # Multi-goal tasks
                     "plant 1 seed (wheat / melon / pumpkin) and cook 1 meat (beef / mutton / pork / chicken)",
