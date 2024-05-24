@@ -7,7 +7,7 @@ from voyager.agents.llama import call_with_messages, ModelType
 class CriticAgent:
     def __init__(
         self,
-        model_name="gpt-3.5-turbo",
+        model_name=ModelType.LLAMA2_70B,
         temperature=0,
         request_timout=120,
         mode="auto",
@@ -16,6 +16,7 @@ class CriticAgent:
         self.mode = mode
         self.last_inventory = "Empty"
         self.last_inventory_used = 0
+        self.model_name = model_name
 
     def render_system_message(self):
         system_message = SystemMessage(content=load_prompt("critic"))
@@ -108,7 +109,7 @@ class CriticAgent:
 
         # critic = self.llm(messages).content
         # modify
-        critic = call_with_messages(messages, ModelType.LLAMA2_70B).content
+        critic = call_with_messages(messages, self.model_name).content
         print(f"\033[31m****Critic Agent ai message****\n{critic}\033[0m")
         code_pattern = re.compile(r"{(.*?)}", re.DOTALL)
         code_name = "".join(code_pattern.findall(critic))
