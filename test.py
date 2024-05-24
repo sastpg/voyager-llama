@@ -4,10 +4,11 @@ mc_port = config.get('MC_SERVER_PORT')
 mc_host = config.get('MC_SERVER_HOST')
 embedding_dir = config.get('SENTENT_EMBEDDING_DIR')
 
-# mc_host = "10.214.211.110"
-mc_port = 52649
+mc_host = "10.214.211.110"
+mc_port = 25565
 # mc_host = "127.0.0.1"
 # mc_port = 49741 # local server
+embedding_dir = "D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2" # local dir
 env_wait_ticks = 100
 
 voyager = Voyager(
@@ -15,9 +16,8 @@ voyager = Voyager(
     mc_host=mc_host,
     env_wait_ticks=env_wait_ticks,
     skill_library_dir="./skill_library",
-    reload=False, # set to True if the skill_json updated
+    reload=True, # set to True if the skill_json updated
     embedding_dir=embedding_dir, # your model path
-    # embedding_dir="/home/MCagent/paraphrase-multilingual-MiniLM-L12-v2", # linux model path
     environment='combat'
 )
 combat_benchmark = [

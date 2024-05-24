@@ -19,6 +19,7 @@ from voyager.utils import config
 class ModelType:
     LLAMA2_70B = 'llama2_70b'
     LLAMA3_8B_V1 = 'llama3_8b_v1'
+    LLAMA3_8B = 'llama3_8b'
 def call_with_messages(msgs, model_name:ModelType=ModelType.LLAMA3_8B_V1):
     url = f'http://{config.get("server_host")}:{config.get("server_port")}/{model_name}'
     input_msg = {
