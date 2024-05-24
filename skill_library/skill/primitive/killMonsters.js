@@ -1,5 +1,5 @@
 async function killMonsters(bot, type = null, n = 1) {
-  await bot.chat("/gamemode survival")
+  await bot.chat("/gamemode survival");
   isAlive = true;
   // Listen for bot's death
   bot.on('death', () => {
@@ -27,5 +27,6 @@ async function killMonsters(bot, type = null, n = 1) {
     await bot.chat(`Killed a ${type}.`);
   }
   await bot.chat("I won the combat.");
+  await bot.chat("/gamemode survival");
   return true;
 }

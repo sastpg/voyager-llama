@@ -493,9 +493,6 @@ class Voyager:
             self.curriculum_agent.completed_tasks = []
             self.curriculum_agent.failed_tasks = []
 
-    def respawn_and_clear(self):
-        self.run_raw_skill("./test_env/respawnAndClear.js")
-
     def inference_sub_goal(self, task:str=None, sub_goals=[], reset_mode="hard", reset_env=True):
         if not sub_goals:
             raise ValueError("Sub_goals must be provided")
