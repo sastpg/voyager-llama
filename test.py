@@ -8,7 +8,7 @@ mc_host = "10.214.211.110"
 mc_port = 25565
 # mc_host = "127.0.0.1"
 # mc_port = 49741 # local server
-embedding_dir = "D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2" # local dir
+# embedding_dir = "D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2" # local dir
 env_wait_ticks = 100
 
 voyager = Voyager(
@@ -16,7 +16,7 @@ voyager = Voyager(
     mc_host=mc_host,
     env_wait_ticks=env_wait_ticks,
     skill_library_dir="./skill_library",
-    reload=True, # set to True if the skill_json updated
+    reload=False, # set to True if the skill_json updated
     embedding_dir=embedding_dir, # your model path
     environment='combat'
 )

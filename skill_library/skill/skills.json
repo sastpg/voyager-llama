@@ -96,7 +96,7 @@
         "description": "Name: collectWaterWithBucket; Description:This function searches for a bucket in the inventory, crafts one if not found, then searches for a nearby water block, explores to find one if not found, navigates to the water block, equips the bucket, looks at the water block, and activates the bucket to collect water.\n"
     },
     "collectWheat": {
-        "code": "async function collectWheat(bot) {\n    // Use the exploreUntil function to find wheat\n    const ripe_wheat = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {\n        const wheat = bot.findBlocks({\n            matching: block => block.name === \"wheat\" && block.getProperties().age === 7,\n            maxDistance: 32,\n            count: 1\n        });\n        return wheat.length >= 1 ? wheat : null;\n    });\n    if (!ripe_wheat) {\n        bot.chat(\"Could not find ripe wheat. Plant seeds or wait for seeds to ripen first!\");\n        return;\n    }\n    const block = bot.blockAt(ripe_wheat[0]);\n    // const blockProperties = block.getProperties();\n    // bot.chat(`${blockProperties.age}`);\n    // bot.chat(JSON.stringify(blockProperties));\n    await bot.pathfinder.goto(new GoalBlock(ripe_wheat[0].x, ripe_wheat[0].y, ripe_wheat[0].z));\n    await bot.dig(block);\n  }",
+        "code": "async function collectWheat(bot, pos = None) {\n    if (pos) {\n        await bot.pathfinder.goto(new GoalBlock(pos.x, pos.y, pos.z));\n    }\n    // Use the exploreUntil function to find wheat\n    const ripe_wheat = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {\n        const wheat = bot.findBlocks({\n            matching: block => block.name === \"wheat\" && block.getProperties().age === 7,\n            maxDistance: 32,\n            count: 1\n        });\n        return wheat.length >= 1 ? wheat : null;\n    });\n    if (!ripe_wheat) {\n        bot.chat(\"Could not find ripe wheat. Plant seeds or wait for seeds to ripen first!\");\n        return;\n    }\n    const block = bot.blockAt(ripe_wheat[0]);\n    // const blockProperties = block.getProperties();\n    // bot.chat(`${blockProperties.age}`);\n    // bot.chat(JSON.stringify(blockProperties));\n    await bot.pathfinder.goto(new GoalBlock(ripe_wheat[0].x, ripe_wheat[0].y, ripe_wheat[0].z));\n    await bot.dig(block);\n  }",
         "description": "Name: collectWheat; Description:This function searches for ripe wheat within a 32-block radius, navigates to the found wheat, and then digs it up.\n"
     },
     "collectWheatSeeds": {
@@ -676,15 +676,15 @@
         "description": "Name: placeWater; Description:This function searches for a water bucket in the inventory, equips it, looks at the current position, and activates the item to place water at that location.\n"
     },
     "plantMelonSeeds": {
-        "code": "async function plantMelonSeeds(bot) {\n  // check seeds\n  const seeds = bot.inventory.findInventoryItem(mcData.itemsByName.melon_seeds.id);\n  if (!seeds) {\n    await collectMelonSeeds(bot);\n  }\n  await plantSeeds(bot, \"melon_seeds\");\n}",
+        "code": "async function plantMelonSeeds(bot) {\n  // check seeds\n  const seeds = bot.inventory.findInventoryItem(mcData.itemsByName.melon_seeds.id);\n  if (!seeds) {\n    bot.chat(\"No melon seeds found in inventory, collect melon seeds first!\");\n  }\n  await plantSeeds(bot, \"melon_seeds\");\n  return bot.entity.position;\n}",
         "description": "Name: plantMelonSeeds; Description:This function ensures the bot has melon seeds in its inventory, collecting them if needed, and then plants them.\n"
     },
     "plantPumpkinSeeds": {
-        "code": "async function plantPumpkinSeeds(bot) {\n  // check seeds\n  const seeds = bot.inventory.findInventoryItem(mcData.itemsByName.pumpkin_seeds.id);\n  if (!seeds) {\n    await collectPumpkinSeeds(bot);\n  }\n  await plantSeeds(bot, \"pumpkin_seeds\");\n}",
+        "code": "async function plantPumpkinSeeds(bot) {\n  // check seeds\n  const seeds = bot.inventory.findInventoryItem(mcData.itemsByName.pumpkin_seeds.id);\n  if (!seeds) {\n    await bot.chat(\"No pumpkin seeds found in inventory, collect pumpkin seeds first!\");\n  }\n  await plantSeeds(bot, \"pumpkin_seeds\");\n  return bot.entity.position;\n}",
         "description": "Name: plantPumpkinSeeds; Description:This function ensures the bot has pumpkin seeds in its inventory, collecting them if necessary, and then plants them.\n"
     },
     "plantWheatSeeds": {
-        "code": "async function plantWheatSeeds(bot) {\n  // check seeds\n  const seeds = bot.inventory.findInventoryItem(mcData.itemsByName.wheat_seeds.id);\n  if (!seeds) {\n    await collectWheatSeeds(bot);\n  }\n  await plantSeeds(bot, \"wheat_seeds\");\n}",
+        "code": "async function plantWheatSeeds(bot) {\n  // check seeds\n  const seeds = bot.inventory.findInventoryItem(mcData.itemsByName.wheat_seeds.id);\n  if (!seeds) {\n    await bot.chat(\"No wheat seeds found in inventory, collect wheat seeds first!\");\n  }\n  await plantSeeds(bot, \"wheat_seeds\");\n  return bot.entity.position;\n}",
         "description": "Name: plantWheatSeeds; Description:This function ensures the bot has wheat seeds in its inventory, collecting them if necessary, and then plants them.\n"
     },
     "shearOneSheep": {

@@ -1,4 +1,7 @@
-async function collectWheat(bot) {
+async function collectWheat(bot, pos = None) {
+    if (pos) {
+        await bot.pathfinder.goto(new GoalBlock(pos.x, pos.y, pos.z));
+    }
     // Use the exploreUntil function to find wheat
     const ripe_wheat = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
         const wheat = bot.findBlocks({
