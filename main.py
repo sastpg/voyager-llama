@@ -6,14 +6,14 @@ mc_port = config.get('MC_SERVER_PORT')
 mc_host = config.get('MC_SERVER_HOST')
 node_port = config.get('NODE_SERVER_PORT')
 embedding_dir = config.get('SENTENT_EMBEDDING_DIR')
-mc_host = "localhost"
-mc_port = 25576
-embedding_dir = '/home/jovyan/notebook/mc_voyager/sentent-embedding'
-
+# mc_host = "localhost"
+# mc_port = 25576
+# embedding_dir = '/home/jovyan/notebook/mc_voyager/sentent-embedding'
 mc_host = "10.214.211.110"
 mc_port = 25565
-embedding_dir = "D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2" # local dir
-
+node_port = 3000
+# mc_host = "127.0.0.1"
+# mc_port = 49741 # local server
 env_wait_ticks = 100
 def test_subgoal():
     voyager = Voyager(
