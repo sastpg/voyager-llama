@@ -1,2 +1,10 @@
-Subgoal: craft crafting table, Ticks: 1201
-Subgoal: craft crafting table, Ticks: 1612
+Subgoal: craft crafting table, Ticks: 329
+Subgoal: craft wooden pickaxe, Ticks: 793
+Subgoal: craft crafting table, Ticks: 7094
+Subgoal: craft wooden pickaxe, Ticks: 7467
+Subgoal: craft stone pickaxe, Ticks: 7923
+Subgoal: craft iron pickaxe, Ticks: 10269
+Subgoal: mine diamond, Ticks: 11567
+Subgoal: craft crafting table, Ticks: 589
+Subgoal: craft wooden pickaxe, Ticks: 1049
+Subgoal: craft stone pickaxe, Ticks: 1566

@@ -1,4 +1,0 @@
-
-
-
-Ticks on each step: [200, 400, 600, 800, 2976, 3176, 3377, 3577, 3777, 3977, 4177], LLM iters: 11, Completed: True

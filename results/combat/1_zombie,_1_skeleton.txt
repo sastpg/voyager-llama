@@ -1,3 +1,0 @@
-
-
-Route 0: ['craft wooden sword', 'craft iron helmet', 'craft iron chestplate', 'craft iron leggings', 'craft iron boots'], Ticks on each step: [248, 449, 649, 863, 5068, 8272, 11478, 14682], LLM iters: 8, Health: 12.1, Combat result: I won the combat.

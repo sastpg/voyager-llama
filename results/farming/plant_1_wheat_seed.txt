@@ -1,2 +1,0 @@
-
-Ticks on each step: [1325], LLM iters: 1, Completed: True
