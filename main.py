@@ -100,17 +100,16 @@ def test_combat():
                         "3 zombie", "5 zombie", "1 zombie, 1 skeleton", "1 zombie, 1 spider", "1 zombie, 1 skeleton, 1 spider"
                         ]
     while True:
-        try:
-            for task in combat_benchmark:
+        for task in combat_benchmark:
+            try:
                 voyager_l3_8b.inference(task=task)
-        except Exception as e:
-            print(e)
-
-        try:
-            for task in combat_benchmark:
+            except Exception as e:
+                print(e)
+        for task in combat_benchmark:
+            try:
                 voyager_l3_70b.inference(task=task)
-        except Exception as e:
-            print(e)
+            except Exception as e:
+                print(e)
 
 if __name__ == '__main__':
     test_combat()
