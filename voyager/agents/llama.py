@@ -30,9 +30,11 @@ def call_with_messages(msgs, model_name:ModelType=ModelType.LLAMA3_8B_V3):
     }
     # print(input_msg)
     result = requests.post(url, json = input_msg)
-    if result is None:
+    if result.status_code != HTTPStatus.OK:
         return AIMessage(content="")
     json_result = result.json()
+    if json_result['data'] is None:
+        return AIMessage(content="")
     # print(json_result)
     return AIMessage(content=json_result["data"])
 
