@@ -15,7 +15,7 @@ from langchain.schema import HumanMessage, SystemMessage
 from langchain_community.vectorstores import Chroma
 
 # llama
-from voyager.agents.llama import call_with_messages
+from voyager.agents.llama import call_with_messages, ModelType
 
 env_prompt = {
     'combat': 'combat_sys_prompt',
@@ -26,10 +26,8 @@ env_prompt = {
 class CurriculumAgent:
     def __init__(
         self,
-        model_name="gpt-3.5-turbo",
-        temperature=0,
-        qa_model_name="gpt-3.5-turbo",
-        qa_temperature=0,
+        model_name=ModelType.LLAMA2_70B,
+        qa_model_name=ModelType.LLAMA3_8B_V1,
         request_timout=120,
         ckpt_dir="ckpt",
         resume=False,
@@ -89,6 +87,8 @@ class CurriculumAgent:
         self.warm_up["inventory"] = 0
         self.warm_up["completed_tasks"] = 0
         self.warm_up["failed_tasks"] = 0
+        self.qa_model_name = qa_model_name
+        self.model_name = model_name
 
     @property
     def default_warmup(self):
@@ -305,7 +305,7 @@ class CurriculumAgent:
     def propose_next_ai_task(self, *, messages, max_retries=5):
         if max_retries == 0:
             raise RuntimeError("Max retries reached, failed to propose ai task.")
-        curriculum = call_with_messages(messages).content
+        curriculum = call_with_messages(messages, self.model_name).content
         print(f"\033[31m****Curriculum Agent ai message****\n{curriculum}\033[0m")
         code_pattern = re.compile(r"{(.*?)}", re.DOTALL)
         code_name = "".join(code_pattern.findall(curriculum))
@@ -394,7 +394,7 @@ class CurriculumAgent:
             HumanMessage(content=f"Task list from last round: {last_tasklist};\n Health after last combat:{health};\n Critique: {critique};\n Monster: {monster}.\n"),
         ]
         # print(f"\033[31m****Curriculum Agent task decomposition****\nFinal task: {task}\033[0m")
-        response = call_with_messages(messages).content
+        response = call_with_messages(messages, self.qa_model_name).content
         print(f"\033[31m****Curriculum Agent task decomposition****\n{response}\033[0m")
         return fix_and_parse_list(response)
     
@@ -405,7 +405,7 @@ class CurriculumAgent:
             ),
             HumanMessage(content=task),
         ]
-        response = call_with_messages(messages).content
+        response = call_with_messages(messages, self.qa_model_name).content
         print(f"\033[31m****Curriculum Agent monster rerank****\n{response}\033[0m")
         return fix_and_parse_list(response)
 
@@ -523,6 +523,6 @@ class CurriculumAgent:
         print(f"\033[35mCurriculum Agent Question: {question}\033[0m")
         # qa_answer = self.qa_llm(messages).content
         # ï¿????æ¹è°ï¿????
-        qa_answer = call_with_messages(messages).content
+        qa_answer = call_with_messages(messages, model_name=self.qa_model_name).content
         print(f"\033[31mCurriculum Agent {qa_answer}\033[0m")
         return qa_answer

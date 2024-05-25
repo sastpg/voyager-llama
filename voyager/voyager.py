@@ -15,7 +15,7 @@ from .agents import CurriculumAgent
 from .agents import SkillManager
 
 # add llama
-from .agents.llama import call_with_messages
+from .agents.llama import call_with_messages, ModelType
 
 
 # TODO: remove event memory
@@ -31,23 +31,23 @@ class Voyager:
         env_request_timeout: int = 600,
         max_iterations: int = 160,
         reset_placed_if_failed: bool = False,
-        action_agent_model_name: str = "gpt-4",
+        action_agent_model_name: str = ModelType.LLAMA3_8B_V1,
         action_agent_temperature: float = 0,
         action_agent_task_max_retries: int = 4,
         action_agent_show_chat_log: bool = True,
         action_agent_show_execution_error: bool = True,
-        curriculum_agent_model_name: str = "gpt-4",
+        curriculum_agent_model_name: str = ModelType.LLAMA2_70B,
         curriculum_agent_temperature: float = 0,
-        curriculum_agent_qa_model_name: str = "gpt-3.5-turbo",
+        curriculum_agent_qa_model_name: str = ModelType.LLAMA3_8B_V1,
         curriculum_agent_qa_temperature: float = 0,
         curriculum_agent_warm_up: Dict[str, int] = None,
         curriculum_agent_core_inventory_items: str = r".*_log|.*_planks|stick|crafting_table|furnace"
         r"|cobblestone|dirt|coal|.*_pickaxe|.*_sword|.*_axe",
         curriculum_agent_mode: str = "auto",
-        critic_agent_model_name: str = "gpt-4",
+        critic_agent_model_name: str = ModelType.LLAMA2_70B,
+        comment_agent_model_name: str = ModelType.LLAMA3_8B_V1,
         critic_agent_temperature: float = 0,
         critic_agent_mode: str = "auto",
-        skill_manager_model_name: str = "gpt-3.5-turbo",
         skill_manager_temperature: float = 0,
         skill_manager_retrieval_top_k: int = 5,
         openai_api_request_timeout: int = 240,
@@ -122,13 +122,17 @@ class Voyager:
         self.totoal_time = 0 
         self.total_iter = 0 
         self.step_time = []
+        self.action_agent_model_name = action_agent_model_name
+        self.curriculum_agent_model_name = curriculum_agent_model_name
+        self.curriculum_agent_qa_model_name = curriculum_agent_qa_model_name
+        self.critic_agent_model_name = critic_agent_model_name
+        self.comment_agent_model_name = comment_agent_model_name
 
         # set openai api key
         # os.environ["OPENAI_API_KEY"] = openai_api_key
 
         # init agents
         self.action_agent = ActionAgent(
-            model_name=action_agent_model_name,
             temperature=action_agent_temperature,
             request_timout=openai_api_request_timeout,
             ckpt_dir=ckpt_dir,
@@ -158,9 +162,9 @@ class Voyager:
         )
         self.comment_agent = CommentAgent(
             environment=environment,
+            model_name=comment_agent_model_name
         )
         self.skill_manager = SkillManager(
-            model_name=skill_manager_model_name,
             temperature=skill_manager_temperature,
             retrieval_top_k=skill_manager_retrieval_top_k,
             request_timout=openai_api_request_timeout,
@@ -226,7 +230,7 @@ class Voyager:
             raise ValueError("Agent must be reset before stepping")
         # ai_message = self.action_agent.llm(self.messages)
         # modify
-        ai_message = call_with_messages(self.messages)
+        ai_message = call_with_messages(self.messages, self.action_agent_model_name)
         print(f"\033[34m****Action Agent ai message****\n{ai_message.content}\033[0m")
         self.conversations.append(
             (self.messages[0].content, self.messages[1].content, ai_message.content)
@@ -396,7 +400,7 @@ class Voyager:
             self.curriculum_agent.update_exploration_progress(info)
             completed = None
             if goals != None:
-                reason, completed = self.critic_agent.check_goal_success(self.last_events, self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals)
+                reason, completed = self.critic_agent.check_goal_success(self.last_events, self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals, mode = "program")
                 if completed or self.step_time[-1] >= 30000:
                     break
             print(
@@ -438,12 +442,6 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
-        # while True:
-            # self.run_raw_skill("skill_library/skill/code/breedSheep.js")
-            # self.run_raw_skill("skill_library/skill/primitive/killAnimal.js", ["pig"])
-            # self.run_raw_skill("skill_library/skill/primitive/eatFood.js", ["porkchop"])
-            # self.run_raw_skill("skill_library/skill/code/shearOneSheep.js")
-            # self.run_raw_skill("skill_library/skill/primitive/getAnimal.js", ["sheep", 158, 64, -1341])
         for i in range(5):
             self.recorder.elapsed_time = 0
             self.recorder.iteration = 0
@@ -488,6 +486,7 @@ class Voyager:
             health, cirtiques, result = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
             U.f_mkdir(f"./results/{self.environment}")
             U.dump_text(f"\n\nRoute {i}: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Health: {health:.1f}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
+            U.dump_text(f"Model {i}: action_agent: {self.action_agent_model_name}; curriculum_agent_qa: {self.curriculum_agent_qa_model_name}; curriculum_agent: {self.curriculum_agent_model_name}; critic_agent: {self.critic_agent_model_name}; comment_agent: {self.comment_agent_model_name}\n")
             sub_goals = self.decompose_task(task, last_tasklist=sub_goals, critique=cirtiques, health=health)
             self.run_raw_skill("./test_env/respawnAndClear.js")
             self.env.reset(
@@ -498,9 +497,6 @@ class Voyager:
             )
             self.curriculum_agent.completed_tasks = []
             self.curriculum_agent.failed_tasks = []
-
-    def respawn_and_clear(self):
-        self.run_raw_skill("./test_env/respawnAndClear.js")
 
     def inference_sub_goal(self, task:str=None, sub_goals=[], reset_mode="hard", reset_env=True):
         if not sub_goals:
@@ -541,9 +537,13 @@ class Voyager:
             if info['success']:
                 U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
             else:
+<<<<<<< HEAD
                 U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}\n, Failed.", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
             if (self.step_time[-1] >= 24000):
                 break
+=======
+                U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}, Failed.", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
+>>>>>>> 9ece4dc3442401af49eb28f1e09e622ca88991dd
 
     def run_raw_skill(self, skill_path, parameters = []):
         retry = 3

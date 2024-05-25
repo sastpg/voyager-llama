@@ -2,7 +2,8 @@ async function plantWheatSeeds(bot) {
   // check seeds
   const seeds = bot.inventory.findInventoryItem(mcData.itemsByName.wheat_seeds.id);
   if (!seeds) {
-    await collectWheatSeeds(bot);
+    await bot.chat("No wheat seeds found in inventory, collect wheat seeds first!");
   }
   await plantSeeds(bot, "wheat_seeds");
+  return bot.entity.position;
 }

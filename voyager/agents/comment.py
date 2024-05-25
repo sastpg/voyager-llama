@@ -2,7 +2,7 @@ import re
 from voyager.prompts import load_prompt
 from voyager.utils.json_utils import fix_and_parse_json
 from langchain.schema import HumanMessage, SystemMessage
-from voyager.agents.llama import call_with_messages
+from voyager.agents.llama import call_with_messages, ModelType
 
 env_prompt = {
     'combat': 'combat_critic_prompt'
@@ -12,11 +12,13 @@ class CommentAgent:
     def __init__(
         self,
         environment,
+        model_name=ModelType.LLAMA3_8B_V1,
         mode="auto",
     ):
         assert mode in ["auto", "manual"]
         self.env = environment
         self.mode = mode
+        self.model_name = model_name
 
     def render_system_message(self):
         system_message = SystemMessage(content=load_prompt(env_prompt[self.env]))
@@ -66,7 +68,7 @@ class CommentAgent:
             return "", ""
 
         # modify
-        critic = call_with_messages(messages).content
+        critic = call_with_messages(messages, self.model_name).content
         print(f"\033[31m****Comment Agent ai message****\n{critic}\033[0m")
         code_pattern = re.compile(r"{(.*?)}", re.DOTALL)
         code_name = "".join(code_pattern.findall(critic))

@@ -1,4 +1,15 @@
 # Voyager-llama
+
+模型参数说明：
+
+| 模型名                         | 用途                                          |
+| ------------------------------ | --------------------------------------------- |
+| action_agent_model_name        | 用于决策使用检索出来的哪一个代码              |
+| curriculum_agent_model_name    | 用于farming和explore动态提出任务              |
+| curriculum_agent_qa_model_name | 用于combat任务规划、生成问答context、打怪排序 |
+| critic_agent_model_name        | 用于生成action的 critic                       |
+| comment_agent_model_name       | 用于生成打怪任务重新规划的 critic             |
+
 目前llama仍然存在输出格式不能保持一致的问题。
 `test.py` farming环境调用示例：
 ```python
