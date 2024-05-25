@@ -18,13 +18,9 @@ from voyager.utils import config
 
 class ModelType:
     LLAMA2_70B = 'llama2_70b'
-<<<<<<< HEAD
-    LLAMA3_8B_V1 = 'llama3_8b_v3'
-=======
-    LLAMA3_8B_V1 = 'llama3_8b_v1'
+    LLAMA3_8B_V3 = 'llama3_8b_v3'
     LLAMA3_8B = 'llama3_8b'
->>>>>>> 9ece4dc3442401af49eb28f1e09e622ca88991dd
-def call_with_messages(msgs, model_name:ModelType=ModelType.LLAMA3_8B_V1):
+def call_with_messages(msgs, model_name:ModelType=ModelType.LLAMA3_8B_V3):
     url = f'http://{config.get("server_host")}:{config.get("server_port")}/{model_name}'
     input_msg = {
         "user_prompt": msgs[1].content,

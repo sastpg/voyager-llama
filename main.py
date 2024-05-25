@@ -1,6 +1,7 @@
 
 from voyager import Voyager
 from voyager.utils import config
+from voyager.agents.llama import ModelType
 mc_port = config.get('MC_SERVER_PORT')
 mc_host = config.get('MC_SERVER_HOST')
 node_port = config.get('NODE_SERVER_PORT')
@@ -24,7 +25,12 @@ def test_subgoal():
         # embedding_dir="/home/MCagent/paraphrase-multilingual-MiniLM-L12-v2", # linux model path
         environment='subgoal',
         resume=False,
-        server_port=node_port
+        server_port=node_port,
+        critic_agent_model_name = ModelType.LLAMA2_70B,
+        comment_agent_model_name = ModelType.LLAMA2_70B,
+        curriculum_agent_qa_model_name = ModelType.LLAMA2_70B,
+        curriculum_agent_model_name = ModelType.LLAMA2_70B,
+        action_agent_model_name = ModelType.LLAMA2_70B,
     )
     # 5 classic MC tasks
     test_sub_goals = ["craft crafting table", "craft wooden pickaxe", "craft stone pickaxe", "craft iron pickaxe", "mine diamond"]

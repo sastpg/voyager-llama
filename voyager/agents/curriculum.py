@@ -27,7 +27,7 @@ class CurriculumAgent:
     def __init__(
         self,
         model_name=ModelType.LLAMA2_70B,
-        qa_model_name=ModelType.LLAMA3_8B_V1,
+        qa_model_name=ModelType.LLAMA3_8B_V3,
         request_timout=120,
         ckpt_dir="ckpt",
         resume=False,

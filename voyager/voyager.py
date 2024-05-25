@@ -31,21 +31,21 @@ class Voyager:
         env_request_timeout: int = 600,
         max_iterations: int = 160,
         reset_placed_if_failed: bool = False,
-        action_agent_model_name: str = ModelType.LLAMA3_8B_V1,
+        action_agent_model_name: str = ModelType.LLAMA3_8B_V3,
         action_agent_temperature: float = 0,
         action_agent_task_max_retries: int = 4,
         action_agent_show_chat_log: bool = True,
         action_agent_show_execution_error: bool = True,
         curriculum_agent_model_name: str = ModelType.LLAMA2_70B,
         curriculum_agent_temperature: float = 0,
-        curriculum_agent_qa_model_name: str = ModelType.LLAMA3_8B_V1,
+        curriculum_agent_qa_model_name: str = ModelType.LLAMA3_8B_V3,
         curriculum_agent_qa_temperature: float = 0,
         curriculum_agent_warm_up: Dict[str, int] = None,
         curriculum_agent_core_inventory_items: str = r".*_log|.*_planks|stick|crafting_table|furnace"
         r"|cobblestone|dirt|coal|.*_pickaxe|.*_sword|.*_axe",
         curriculum_agent_mode: str = "auto",
         critic_agent_model_name: str = ModelType.LLAMA2_70B,
-        comment_agent_model_name: str = ModelType.LLAMA3_8B_V1,
+        comment_agent_model_name: str = ModelType.LLAMA3_8B_V3,
         critic_agent_temperature: float = 0,
         critic_agent_mode: str = "auto",
         skill_manager_temperature: float = 0,
@@ -143,9 +143,9 @@ class Voyager:
         self.action_agent_task_max_retries = action_agent_task_max_retries
         self.curriculum_agent = CurriculumAgent(
             model_name=curriculum_agent_model_name,
-            temperature=curriculum_agent_temperature,
+            # temperature=curriculum_agent_temperature,
             qa_model_name=curriculum_agent_qa_model_name,
-            qa_temperature=curriculum_agent_qa_temperature,
+            # qa_temperature=curriculum_agent_qa_temperature,
             request_timout=openai_api_request_timeout,
             ckpt_dir=ckpt_dir,
             resume=resume,
@@ -537,13 +537,7 @@ class Voyager:
             if info['success']:
                 U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
             else:
-<<<<<<< HEAD
-                U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}\n, Failed.", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
-            if (self.step_time[-1] >= 24000):
-                break
-=======
                 U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}, Failed.", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
->>>>>>> 9ece4dc3442401af49eb28f1e09e622ca88991dd
 
     def run_raw_skill(self, skill_path, parameters = []):
         retry = 3

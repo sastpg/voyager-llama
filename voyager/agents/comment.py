@@ -12,7 +12,7 @@ class CommentAgent:
     def __init__(
         self,
         environment,
-        model_name=ModelType.LLAMA3_8B_V1,
+        model_name=ModelType.LLAMA3_8B_V3,
         mode="auto",
     ):
         assert mode in ["auto", "manual"]
