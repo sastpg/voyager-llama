@@ -16,7 +16,7 @@ embedding_dir = "D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2" # local dir
 # mc_port = 49741 # local server
 env_wait_ticks = 100
 def test_subgoal():
-    voyager_l2_8b = Voyager(
+    voyager_l3_8b = Voyager(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
@@ -54,12 +54,12 @@ def test_subgoal():
     test_sub_goals = ["craft crafting table", "craft wooden pickaxe", "craft stone pickaxe", "craft iron pickaxe", "mine diamond"]
     while True:
         try:
-            voyager_l2_8b.inference_sub_goal(task="subgoal_llama2_8b_v3", sub_goals=test_sub_goals)
+            voyager_l3_8b.inference_sub_goal(task="subgoal_llama3_8b_v3", sub_goals=test_sub_goals)
             voyager_l3_70b.inference_sub_goal(task="subgoal_llama3_70b_v1", sub_goals=test_sub_goals)
         except:
             continue
 def test_combat():
-    voyager_l2_8b = Voyager(
+    voyager_l3_8b = Voyager(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
@@ -102,7 +102,7 @@ def test_combat():
     while True:
         try:
             for task in combat_benchmark:
-                voyager_l2_8b.inference(task=task)
+                voyager_l3_8b.inference(task=task)
         except Exception as e:
             print(e)
 

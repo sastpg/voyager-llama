@@ -1,3 +1,0 @@
-
-
-Route 0: ['craft stone sword', 'craft iron chestplate'], Ticks on each step: [296, 757, 1992, 5367, 8727], LLM iters: 5, Health: 20.0, Combat result: I won the combat.
