@@ -1,4 +1,3 @@
-
 from voyager import Voyager
 from voyager.utils import config
 from voyager.agents.llama import ModelType
@@ -12,6 +11,7 @@ embedding_dir = config.get('SENTENT_EMBEDDING_DIR')
 mc_host = "10.214.211.110"
 mc_port = 25565
 node_port = 3000
+embedding_dir = "D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2" # local dir
 # mc_host = "127.0.0.1"
 # mc_port = 49741 # local server
 env_wait_ticks = 100
