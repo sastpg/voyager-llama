@@ -442,7 +442,7 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
-        for i in range(5):
+        for i in range(3):
             self.recorder.elapsed_time = 0
             self.recorder.iteration = 0
             self.step_time = []
@@ -485,8 +485,7 @@ class Voyager:
                     break
             health, cirtiques, result = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
             U.f_mkdir(f"./results/{self.environment}")
-            U.dump_text(f"\n\nRoute {i}: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Health: {health:.1f}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
-            U.dump_text(f"Model {i}: action_agent: {self.action_agent_model_name}; curriculum_agent_qa: {self.curriculum_agent_qa_model_name}; curriculum_agent: {self.curriculum_agent_model_name}; critic_agent: {self.critic_agent_model_name}; comment_agent: {self.comment_agent_model_name}\n")
+            U.dump_text(f"\n\nRoute {i}: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Health: {health:.1f}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
             sub_goals = self.decompose_task(task, last_tasklist=sub_goals, critique=cirtiques, health=health)
             self.run_raw_skill("./test_env/respawnAndClear.js")
             self.env.reset(

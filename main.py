@@ -9,10 +9,11 @@ embedding_dir = config.get('SENTENT_EMBEDDING_DIR')
 mc_host = "localhost"
 mc_port = 25576
 embedding_dir = '/home/jovyan/notebook/mc_voyager/sentent-embedding'
-# mc_host = "10.214.211.110"
-# mc_port = 25565
-# mc_host = "127.0.0.1"
-# mc_port = 49741 # local server
+
+mc_host = "10.214.211.110"
+mc_port = 25565
+embedding_dir = "D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2" # local dir
+
 env_wait_ticks = 100
 def test_subgoal():
     voyager = Voyager(
@@ -20,7 +21,7 @@ def test_subgoal():
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
         skill_library_dir="./skill_library",
-        reload=False, # set to True if the skill_json updated
+        reload=True, # set to True if the skill_json updated
         embedding_dir=embedding_dir, # your model path
         # embedding_dir="/home/MCagent/paraphrase-multilingual-MiniLM-L12-v2", # linux model path
         environment='subgoal',
@@ -42,11 +43,11 @@ def test_combat():
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
         skill_library_dir="./skill_library",
-        reload=False, # set to True if the skill_json updated
+        reload=True, # set to True if the skill_json updated
         embedding_dir=embedding_dir, # your model path
         # embedding_dir="/home/MCagent/paraphrase-multilingual-MiniLM-L12-v2", # linux model path
         environment='combat',
-        resume=True,
+        resume=False,
     )
     combat_benchmark = [
                         # Single-mob tasks
@@ -59,4 +60,4 @@ def test_combat():
             voyager.inference(task=task)
 
 if __name__ == '__main__':
-    test_subgoal()
+    test_combat()
