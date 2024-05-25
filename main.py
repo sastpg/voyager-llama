@@ -16,7 +16,7 @@ node_port = 3000
 # mc_port = 49741 # local server
 env_wait_ticks = 100
 def test_subgoal():
-    voyager = Voyager(
+    voyager_l2_8b = Voyager(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
@@ -27,18 +27,39 @@ def test_subgoal():
         environment='subgoal',
         resume=False,
         server_port=node_port,
-        critic_agent_model_name = ModelType.LLAMA2_70B,
-        comment_agent_model_name = ModelType.LLAMA2_70B,
-        curriculum_agent_qa_model_name = ModelType.LLAMA2_70B,
-        curriculum_agent_model_name = ModelType.LLAMA2_70B,
-        action_agent_model_name = ModelType.LLAMA2_70B,
+        critic_agent_model_name = ModelType.LLAMA3_8B_V3,
+        comment_agent_model_name = ModelType.LLAMA3_8B_V3,
+        curriculum_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
+        curriculum_agent_model_name = ModelType.LLAMA3_8B_V3,
+        action_agent_model_name = ModelType.LLAMA3_8B_V3,
+    )
+    voyager_l3_70b = Voyager(
+        mc_port=mc_port,
+        mc_host=mc_host,
+        env_wait_ticks=env_wait_ticks,
+        skill_library_dir="./skill_library",
+        reload=False, # set to True if the skill_json updated
+        embedding_dir=embedding_dir, # your model path
+        # embedding_dir="/home/MCagent/paraphrase-multilingual-MiniLM-L12-v2", # linux model path
+        environment='subgoal',
+        resume=False,
+        server_port=node_port,
+        critic_agent_model_name = ModelType.LLAMA3_70B_V1,
+        comment_agent_model_name = ModelType.LLAMA3_70B_V1,
+        curriculum_agent_qa_model_name = ModelType.LLAMA3_70B_V1,
+        curriculum_agent_model_name = ModelType.LLAMA3_70B_V1,
+        action_agent_model_name = ModelType.LLAMA3_70B_V1,
     )
     # 5 classic MC tasks
     test_sub_goals = ["craft crafting table", "craft wooden pickaxe", "craft stone pickaxe", "craft iron pickaxe", "mine diamond"]
     while True:
-        voyager.inference_sub_goal(task="subgoal_test", sub_goals=test_sub_goals)
+        try:
+            voyager_l2_8b.inference_sub_goal(task="subgoal_llama2_8b_v3", sub_goals=test_sub_goals)
+            voyager_l3_70b.inference_sub_goal(task="subgoal_llama3_70b_v1", sub_goals=test_sub_goals)
+        except:
+            continue
 def test_combat():
-    voyager = Voyager(
+    voyager_l2_8b = Voyager(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
@@ -48,6 +69,29 @@ def test_combat():
         # embedding_dir="/home/MCagent/paraphrase-multilingual-MiniLM-L12-v2", # linux model path
         environment='combat',
         resume=False,
+        server_port=node_port,
+        critic_agent_model_name = ModelType.LLAMA3_8B_V3,
+        comment_agent_model_name = ModelType.LLAMA3_8B_V3,
+        curriculum_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
+        curriculum_agent_model_name = ModelType.LLAMA3_8B_V3,
+        action_agent_model_name = ModelType.LLAMA3_8B_V3,
+    )
+    voyager_l3_70b = Voyager(
+        mc_port=mc_port,
+        mc_host=mc_host,
+        env_wait_ticks=env_wait_ticks,
+        skill_library_dir="./skill_library",
+        reload=True, # set to True if the skill_json updated
+        embedding_dir=embedding_dir, # your model path
+        # embedding_dir="/home/MCagent/paraphrase-multilingual-MiniLM-L12-v2", # linux model path
+        environment='combat',
+        resume=False,
+        server_port=node_port,
+        critic_agent_model_name = ModelType.LLAMA3_70B_V1,
+        comment_agent_model_name = ModelType.LLAMA3_70B_V1,
+        curriculum_agent_qa_model_name = ModelType.LLAMA3_70B_V1,
+        curriculum_agent_model_name = ModelType.LLAMA3_70B_V1,
+        action_agent_model_name = ModelType.LLAMA3_70B_V1,
     )
     combat_benchmark = [
                         # Single-mob tasks
@@ -56,8 +100,17 @@ def test_combat():
                         "3 zombie", "5 zombie", "1 zombie, 1 skeleton", "1 zombie, 1 spider", "1 zombie, 1 skeleton, 1 spider"
                         ]
     while True:
-        for task in combat_benchmark:
-            voyager.inference(task=task)
+        try:
+            for task in combat_benchmark:
+                voyager_l2_8b.inference(task=task)
+        except Exception as e:
+            print(e)
+
+        try:
+            for task in combat_benchmark:
+                voyager_l3_70b.inference(task=task)
+        except Exception as e:
+            print(e)
 
 if __name__ == '__main__':
     test_combat()
