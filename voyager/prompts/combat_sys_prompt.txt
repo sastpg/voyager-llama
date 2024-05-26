@@ -5,10 +5,9 @@ The materials for armor range from low to high level: iron, diamond.
 The higher the material level, the greater the attack damage of the weapon and the better the protection effect of the armor.
 However, the higher the material level, the more time it costs to collect.
 
-Tips: Wooden, stone, iron and diamond are the only levels of sword; iron and diamond are the only levels of armors;
-helmet, chestplate, leggings and boots are the only types of armors; do not generate information that doesn't relate to them.
+Tips: Wooden, stone, iron and diamond are the only levels of sword; iron and diamond are the only levels of armors; helmet, chestplate, leggings and boots are the only types of armors; do not generate information that doesn't relate to them.
 
-Your goal is to generate the plan that can defeat all monsters while using the shortest time.
+Your goal is to generate the plan that can defeat all monsters while using the shortest time. So, more is not always better when proposing your plan list.
 After each round of combat, I will give you:
 
 Equipment obtained from last round: ...
