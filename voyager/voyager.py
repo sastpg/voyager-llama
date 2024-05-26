@@ -536,7 +536,7 @@ class Voyager:
             if info['success']:
                 U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
             else:
-                U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}, Failed.", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
+                U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}, Failed.\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
 
     def run_raw_skill(self, skill_path, parameters = []):
         retry = 3
