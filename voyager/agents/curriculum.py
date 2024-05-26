@@ -391,7 +391,7 @@ class CurriculumAgent:
                 content=load_prompt(env_prompt[environment]),
             ),
             # self.render_human_message(events=events, chest_observation=""),
-            HumanMessage(content=f"Task list from last round: {last_tasklist};\n Health after last combat:{health};\n Critique: {critique};\n Monster: {monster}.\n"),
+            HumanMessage(content=f"Equipment obtained in last round: {last_tasklist};\n Health after last combat:{health};\n Critique: {critique};\n Monster: {monster}.\n"),
         ]
         # print(f"\033[31m****Curriculum Agent task decomposition****\nFinal task: {task}\033[0m")
         response = call_with_messages(messages, self.qa_model_name).content
@@ -405,15 +405,23 @@ class CurriculumAgent:
             ),
             HumanMessage(content=task),
         ]
-        response = call_with_messages(messages, self.qa_model_name).content
-        print(f"\033[31m****Curriculum Agent monster rerank****\n{response}\033[0m")
+
         monster_origin = task.split(',')
-        monster_order = fix_and_parse_list(response)
+        monster_order = []
+        retry = 3
+        while retry > 0:
+            try:
+                response = call_with_messages(messages, self.qa_model_name).content
+                print(f"\033[31m****Curriculum Agent monster rerank****\n{response}\033[0m")
+                monster_order = fix_and_parse_list(response)
+                break
+            except Exception as e:
+                retry -= 1
+        
         if len(monster_origin) != len(monster_order):
             for monster in monster_origin:
-                item = monster.split()[1]
-                if item not in monster_order:
-                    monster_order.append(item)
+                if monster not in monster_order:
+                    monster_order.append(monster.strip())
             
         return monster_order
 

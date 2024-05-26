@@ -483,10 +483,10 @@ class Voyager:
                 kill_res = self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para1, combat_para2])
                 if 'lost' in kill_res:
                     break
-            health, cirtiques, result = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
+            health, cirtiques, result, equipment = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
             U.f_mkdir(f"./results/{self.environment}")
-            U.dump_text(f"Route {i}: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Health: {health:.1f}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
-            sub_goals = self.decompose_task(task, last_tasklist=sub_goals, critique=cirtiques, health=health)
+            U.dump_text(f"Route {i}: Plan list: {sub_goals}, Equipments obtained: {equipment}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Health: {health:.1f}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
+            sub_goals = self.decompose_task(task, last_tasklist=equipment, critique=cirtiques, health=health)
             self.run_raw_skill("./test_env/respawnAndClear.js")
             self.env.reset(
                 options={

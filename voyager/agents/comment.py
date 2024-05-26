@@ -116,7 +116,7 @@ class CommentAgent:
             # elif "lost" in result:
                 health = 0
                 critique = "You need to improve the task plan. For example, **improve the quantity or quality** of crafting equipment in last task list to win the combat."
-            return health, critique, result
+            return health, critique, result, events[-1][1]["status"]["equipment"]
         else:
             raise ValueError(f"Invalid comment agent mode: {self.mode}")
         
