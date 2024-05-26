@@ -433,6 +433,7 @@ class Voyager:
             raise ValueError("Either task or sub_goals must be provided")
         if not sub_goals:
             sub_goals = self.decompose_task(task)
+        print(f'subgoals: {sub_goals}')
         self.env.reset(
             options={
                 "mode": reset_mode,
