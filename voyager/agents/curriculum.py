@@ -131,7 +131,7 @@ class CurriculumAgent:
 
     @property
     def progress(self):
-        return len(self.completed_tasks)
+        return len(self.completed_tasks)+len(self.failed_tasks)
 
     def render_system_message(self, environment, goals):
         prompts = load_prompt(env_prompt[environment])
