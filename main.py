@@ -1,4 +1,3 @@
-
 from voyager import Voyager
 from voyager.utils import config
 from voyager.agents.llama import ModelType
@@ -12,11 +11,12 @@ embedding_dir = config.get('SENTENT_EMBEDDING_DIR')
 mc_host = "10.214.211.110"
 mc_port = 25565
 node_port = 3000
+embedding_dir = "D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2" # local dir
 # mc_host = "127.0.0.1"
 # mc_port = 49741 # local server
 env_wait_ticks = 100
 def test_subgoal():
-    voyager_l2_8b = Voyager(
+    voyager_l3_8b = Voyager(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
@@ -54,12 +54,12 @@ def test_subgoal():
     test_sub_goals = ["craft crafting table", "craft wooden pickaxe", "craft stone pickaxe", "craft iron pickaxe", "mine diamond"]
     while True:
         try:
-            voyager_l2_8b.inference_sub_goal(task="subgoal_llama2_8b_v3", sub_goals=test_sub_goals)
+            voyager_l3_8b.inference_sub_goal(task="subgoal_llama3_8b_v3", sub_goals=test_sub_goals)
             voyager_l3_70b.inference_sub_goal(task="subgoal_llama3_70b_v1", sub_goals=test_sub_goals)
         except:
             continue
 def test_combat():
-    voyager_l2_8b = Voyager(
+    voyager_l3_8b = Voyager(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
@@ -100,17 +100,16 @@ def test_combat():
                         "3 zombie", "5 zombie", "1 zombie, 1 skeleton", "1 zombie, 1 spider", "1 zombie, 1 skeleton, 1 spider"
                         ]
     while True:
-        try:
-            for task in combat_benchmark:
-                voyager_l2_8b.inference(task=task)
-        except Exception as e:
-            print(e)
-
-        try:
-            for task in combat_benchmark:
+        for task in combat_benchmark:
+            try:
+                voyager_l3_8b.inference(task=task)
+            except Exception as e:
+                print(e)
+        for task in combat_benchmark:
+            try:
                 voyager_l3_70b.inference(task=task)
-        except Exception as e:
-            print(e)
+            except Exception as e:
+                print(e)
 
 if __name__ == '__main__':
     test_combat()

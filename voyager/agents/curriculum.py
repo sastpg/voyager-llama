@@ -407,7 +407,15 @@ class CurriculumAgent:
         ]
         response = call_with_messages(messages, self.qa_model_name).content
         print(f"\033[31m****Curriculum Agent monster rerank****\n{response}\033[0m")
-        return fix_and_parse_list(response)
+        monster_origin = task.split(',')
+        monster_order = fix_and_parse_list(response)
+        if len(monster_origin) != len(monster_order):
+            for monster in monster_origin:
+                item = monster.split()[1]
+                if item not in monster_order:
+                    monster_order.append(item)
+            
+        return monster_order
 
     def run_qa(self, *, events, chest_observation):
         questions_new, _ = self.run_qa_step1_ask_questions(
