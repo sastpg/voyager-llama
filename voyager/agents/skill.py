@@ -7,7 +7,7 @@ from langchain.vectorstores import Chroma
 
 from voyager.prompts import load_prompt
 from voyager.control_primitives import load_control_primitives
-
+from voyager.utils.logger import get_logger
 
 class SkillManager:
     def __init__(
@@ -29,9 +29,10 @@ class SkillManager:
         # programs for env execution
         self.control_primitives = load_control_primitives()
         self.skill_primitives = self.load_skill_primitives()
+        self.logger = get_logger("SkillManager")
         if resume:
             self.skills = U.load_json(f"{ckpt_dir}/skill/skills.json")
-            print(f"\033[33mLoading\033[0m " + str(len(self.skills)) + f" skills from {ckpt_dir}/skill")
+            self.logger.info(f"Loading {len(self.skills)} skills from {ckpt_dir}/skill")
         else:
             self.skills = {}
         self.retrieval_top_k = retrieval_top_k
@@ -76,11 +77,9 @@ class SkillManager:
         program_name = info["program_name"]
         program_code = info["program_code"]
         skill_description = self.generate_skill_description(program_name, program_code)
-        print(
-            f"\033[33mSkill Manager generated description for {program_name}:\n{skill_description}\033[0m"
-        )
+        self.logger.info(f"Skill Manager generated description for {program_name}:\n{skill_description}")
         if program_name in self.skills:
-            print(f"\033[33mSkill {program_name} already exists. Rewriting!\033[0m")
+            self.logger.warning(f"Skill {program_name} already exists. Rewriting!")
             self.vectordb._collection.delete(ids=[program_name])
             i = 2
             while f"{program_name}V{i}.js" in os.listdir(f"{self.ckpt_dir}/skill/code"):
@@ -126,12 +125,13 @@ class SkillManager:
         k = min(self.vectordb._collection.count(), self.retrieval_top_k)
         if k == 0:
             return []
-        print(f"\033[33mSkill Manager retrieving for {k} skills\033[0m")
+        self.logger.info(f"Skill Manager retrieving for {k} skills")
         docs_and_scores = self.vectordb.similarity_search_with_score(query, k=k)
-        print(
-            f"\033[33mSkill Manager retrieved skills: "
-            f"{', '.join([doc.metadata['name'] for doc, _ in docs_and_scores])}\033[0m"
+        self.logger.debug(
+            f"Skill Manager retrieved skills: "
+            f"{', '.join([doc.metadata['name'] for doc, _ in docs_and_scores])}"
         )
+
         code = []
         description = []
         for doc, _ in docs_and_scores:
@@ -143,7 +143,6 @@ class SkillManager:
         return skills
 
     def load_skill_primitives(self, primitive_names=None):
-        print(os.getcwd())
         package_path = "skill_library/skill"
         if primitive_names is None:
             primitive_names = [

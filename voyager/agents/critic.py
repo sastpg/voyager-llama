@@ -3,7 +3,7 @@ from voyager.prompts import load_prompt
 from voyager.utils.json_utils import fix_and_parse_json
 from langchain.schema import HumanMessage, SystemMessage
 from voyager.agents.llama import call_with_messages, ModelType
-
+from voyager.utils.logger import get_logger
 class CriticAgent:
     def __init__(
         self,
@@ -13,6 +13,7 @@ class CriticAgent:
         mode="auto",
     ):
         assert mode in ["auto", "manual"]
+        self.logger = get_logger('CriticAgent')
         self.mode = mode
         self.last_inventory = "Empty"
         self.last_inventory_used = 0
@@ -36,7 +37,7 @@ class CriticAgent:
 
         for i, (event_type, event) in enumerate(events):
             if event_type == "onError":
-                print(f"\033[31mCritic Agent: Error occurs {event['onError']}\033[0m")
+                self.logger.warning(f"Critic Agent: Error occurs {event['onError']}")
                 return None
 
         observation = ""
@@ -82,7 +83,7 @@ class CriticAgent:
         # else:
         #     observation += f"Context: None\n\n"
 
-        print(f"\033[31m****Critic Agent human message****\n{observation}\033[0m")
+        self.logger.debug(f"****Critic Agent human message****\n{observation}")
         return HumanMessage(content=observation)
 
     def human_check_task_success(self):
@@ -93,15 +94,13 @@ class CriticAgent:
             success = input("Success? (y/n)")
             success = success.lower() == "y"
             critique = input("Enter your critique:")
-            print(f"Success: {success}\nCritique: {critique}")
+            self.logger.debug(f"Success: {success}\nCritique: {critique}")
             confirmed = input("Confirm? (y/n)") in ["y", ""]
         return success, critique
 
     def ai_check_task_success(self, messages, max_retries=5):
         if max_retries == 0:
-            print(
-                "\033[31mFailed to parse Critic Agent response. Consider updating your prompt.\033[0m"
-            )
+            self.logger.warning("Failed to parse Critic Agent response. Consider updating your prompt.")
             return False, ""
 
         if messages[1] is None:
@@ -110,7 +109,7 @@ class CriticAgent:
         # critic = self.llm(messages).content
         # modify
         critic = call_with_messages(messages, self.model_name).content
-        print(f"\033[31m****Critic Agent ai message****\n{critic}\033[0m")
+        self.logger.debug(f"****Critic Agent ai message****\n{critic}")
         code_pattern = re.compile(r"{(.*?)}", re.DOTALL)
         code_name = "".join(code_pattern.findall(critic))
         critic = "{" + code_name + "}"
@@ -121,7 +120,7 @@ class CriticAgent:
                 response["critique"] = ""
             return response["success"], response["critique"]
         except Exception as e:
-            print(f"\033[31mError parsing critic response: {e} Trying again!\033[0m")
+            self.logger.warning(f"Error parsing critic response: {e} Trying again!")
             return self.ai_check_task_success(
                 messages=messages,
                 max_retries=max_retries - 1,
@@ -175,9 +174,7 @@ class CriticAgent:
 
     def ai_check_goal_success(self, messages, max_retries=5):
         if max_retries == 0:
-            print(
-                "\033[31mFailed to parse Critic Agent response. Consider updating your prompt.\033[0m"
-            )
+            self.logger.warning("Failed to parse Critic Agent response. Consider updating your prompt.")
             return False, ""
 
         if messages[1] is None:
@@ -186,7 +183,7 @@ class CriticAgent:
         # critic = self.llm(messages).content
         # modify
         critic = call_with_messages(messages).content
-        print(f"\033[31m****Goal Agent ai message****\n{critic}\033[0m")
+        self.logger.debug(f"****Goal Agent ai message****\n{critic}")
         code_pattern = re.compile(r"{(.*?)}", re.DOTALL)
         code_name = "".join(code_pattern.findall(critic))
         critic = "{" + code_name + "}"
@@ -197,7 +194,7 @@ class CriticAgent:
                 response["reasoning"] = ""
             return response["reasoning"], response["success"]
         except Exception as e:
-            print(f"\033[31mError parsing goal response: {e} Trying again!\033[0m")
+            self.logger.warning(f"Error parsing goal response: {e} Trying again!")
             return self.ai_check_task_success(
                 messages=messages,
                 max_retries=max_retries - 1,

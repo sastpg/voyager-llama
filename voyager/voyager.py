@@ -16,7 +16,7 @@ from .agents import SkillManager
 
 # add llama
 from .agents.llama import call_with_messages, ModelType
-
+from .utils.logger import get_logger
 
 # TODO: remove event memory
 class Voyager:
@@ -109,6 +109,7 @@ class Voyager:
         :param resume: whether to resume from checkpoint
         """
         # init env
+        self.logger = get_logger("Voyager")
         self.env = VoyagerEnv(
             mc_host=mc_host,
             mc_port=mc_port,
@@ -207,17 +208,15 @@ class Voyager:
             + f"bot.chat('/difficulty {difficulty}');\n"
         )
         self.skills = self.skill_manager.retrieve_skills(query=self.context)
-        print(
-            f"\033[33mRender Action Agent system message with {len(self.skills[0])} skills\033[0m"
-        )
+        self.logger.info(f"Render Action Agent system message with {len(self.skills[0])} skills")
         system_message = self.action_agent.render_system_message()
+        # skills: [code, description] code 和 description 是长度相同的列表
+        # skills[0] 是技能code，skills[1] 是技能的description
         human_message = self.action_agent.render_human_message(
             events=events, code="", task=self.task, context=context, critique="", skills=self.skills[1]
         )
         self.messages = [system_message, human_message]
-        print(
-            f"\033[32m****Action Agent human message****\n{human_message.content}\033[0m"
-        )
+        self.logger.debug(f"****Action Agent human message****\n{human_message.content}")
         assert len(self.messages) == 2
         self.conversations = []
         return self.messages
@@ -231,7 +230,7 @@ class Voyager:
         # ai_message = self.action_agent.llm(self.messages)
         # modify
         ai_message = call_with_messages(self.messages, self.action_agent_model_name)
-        print(f"\033[34m****Action Agent ai message****\n{ai_message.content}\033[0m")
+        self.logger.debug(f"****Action Agent ai message****\n{ai_message.content}")
         self.conversations.append(
             (self.messages[0].content, self.messages[1].content, ai_message.content)
         )
@@ -296,7 +295,7 @@ class Voyager:
         else:
             assert isinstance(parsed_result, str)
             self.totoal_time, self.total_iter = self.recorder.record([], self.task)
-            print(f"\033[34m{parsed_result} Trying again!\033[0m")
+            self.logger.warning(f"{parsed_result} Trying again!")
         self.step_time.append(self.totoal_time)
         assert len(self.messages) == 2
         self.action_agent_rollout_num_iter += 1
@@ -316,9 +315,7 @@ class Voyager:
             info["program_code"] = parsed_result["program_code"]
             info["program_name"] = parsed_result["program_name"]
         else:
-            print(
-                f"\033[32m****Action Agent human message****\n{self.messages[-1].content}\033[0m"
-            )
+            self.logger.debug(f"****Action Agent human message****\n{self.messages[-1].content}")
         return self.messages, 0, done, info
 
     def rollout(self, *, task, context, reset_env=True):
@@ -355,7 +352,7 @@ class Voyager:
         self.last_events = self.env.step("")
         while True:
             if self.recorder.iteration > self.max_iterations:
-                print("Iteration limit reached")
+                self.logger.warning("Iteration limit reached")
                 break
             task, context = self.curriculum_agent.propose_next_task(
                 events=self.last_events,
@@ -364,9 +361,7 @@ class Voyager:
                 goals=goals,
                 max_retries=500,
             )
-            print(
-                f"\033[35mStarting task {task} for at most {self.action_agent_task_max_retries} times\033[0m"
-            )
+            self.logger.info(f"Starting task {task} for at most {self.action_agent_task_max_retries} times")
             try:
                 messages, reward, done, info = self.rollout(
                     task=task,
@@ -390,8 +385,7 @@ class Voyager:
                     }
                 )
                 # use red color background to print the error
-                print("Your last round rollout terminated due to error:")
-                print(f"\033[41m{e}\033[0m")
+                self.logger.critical("Your last round rollout terminated due to error: "+e)
                 continue
 
             # if info["success"]:
@@ -403,12 +397,8 @@ class Voyager:
                 reason, completed = self.critic_agent.check_goal_success(self.last_events, self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals, mode = "program")
                 if completed or self.step_time[-1] >= 30000:
                     break
-            print(
-                f"\033[35mCompleted tasks: {', '.join(self.curriculum_agent.completed_tasks)}\033[0m"
-            )
-            print(
-                f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
-            )
+            self.logger.success(f"Completed tasks: {', '.join(self.curriculum_agent.completed_tasks)}")
+            self.logger.failed(f"Failed tasks: {', '.join(self.curriculum_agent.failed_tasks)}")
 
         U.f_mkdir(f"./results/{self.environment}")
         U.dump_text(f"\n\nTicks on each step: {self.step_time}, LLM iters: {self.total_iter}, Completed: {completed}", f"./results/{self.environment}/{goals.replace(' ', '_')}.txt")
@@ -433,7 +423,6 @@ class Voyager:
             raise ValueError("Either task or sub_goals must be provided")
         if not sub_goals:
             sub_goals = self.decompose_task(task)
-        print(f'subgoals: {sub_goals}')
         self.env.reset(
             options={
                 "mode": reset_mode,
@@ -443,6 +432,7 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
+        # TODO: hard coding problem, 这样代码越来越..
         for i in range(3):
             self.recorder.elapsed_time = 0
             self.recorder.iteration = 0
@@ -452,24 +442,19 @@ class Voyager:
             while self.curriculum_agent.progress < len(sub_goals):
                 next_task = sub_goals[self.curriculum_agent.progress]
                 context = self.curriculum_agent.get_task_context(next_task)
-                print(
-                    f"\033[35mStarting task {next_task} for at most {self.action_agent_task_max_retries} times\033[0m"
-                )
+                self.logger.info(f"Starting task {next_task} for at most {self.action_agent_task_max_retries} times")
                 messages, reward, done, info = self.rollout(
                     task=next_task,
                     context=context,
                     reset_env=reset_env,
                 )
                 self.curriculum_agent.update_exploration_progress(info)
-                print(
-                    f"\033[35mCompleted tasks: {', '.join(self.curriculum_agent.completed_tasks)}\033[0m"
-                )
-                print(
-                    f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
-                )
+                self.logger.success(f"Completed tasks: {', '.join(self.curriculum_agent.completed_tasks)}")
+                self.logger.failed(f"Failed tasks: {', '.join(self.curriculum_agent.failed_tasks)}")
                 if (self.step_time[-1] >= 24000):
                     break
             # str_list = task.split()
+            # TODO: hard coding
             self.run_raw_skill("./test_env/combatEnv.js", [10, 15, 100])
             combat_order = self.curriculum_agent.rerank_monster(task=task)
             for task_item in task.split(','):
@@ -518,21 +503,15 @@ class Voyager:
         while self.curriculum_agent.progress < len(sub_goals):
             next_task = sub_goals[self.curriculum_agent.progress]
             context = self.curriculum_agent.get_task_context(next_task)
-            print(
-                f"\033[35mStarting task {next_task} for at most {self.action_agent_task_max_retries} times\033[0m"
-            )
+            self.logger.info(f"Starting task {next_task} for at most {self.action_agent_task_max_retries} times")
             messages, reward, done, info = self.rollout(
                 task=next_task,
                 context=context,
                 reset_env=reset_env,
             )
             self.curriculum_agent.update_exploration_progress(info)
-            print(
-                f"\033[35mCompleted tasks: {', '.join(self.curriculum_agent.completed_tasks)}\033[0m"
-            )
-            print(
-                f"\033[35mFailed tasks: {', '.join(self.curriculum_agent.failed_tasks)}\033[0m"
-            )
+            self.logger.success(f"Completed tasks: {', '.join(self.curriculum_agent.completed_tasks)}")
+            self.logger.failed(f"Failed tasks: {', '.join(self.curriculum_agent.failed_tasks)}")
             U.f_mkdir(f"./results/{self.environment}")
             if info['success']:
                 U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
@@ -614,6 +593,6 @@ class Voyager:
                     break
             self.last_events = copy.deepcopy(events)
         else:
-            print(f"\033[34m{parsed_result} Code executes error!\033[0m")
+            self.logger.warning(f"{parsed_result} Code executes error!")
         
         return result

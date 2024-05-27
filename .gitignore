@@ -136,3 +136,5 @@ config.json
 yarn.lock
 
 paraphrase-multilingual-MiniLM-L12-v2/
+
+docs/function_explanation*

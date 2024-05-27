@@ -14,6 +14,8 @@ from langchain_community.embeddings.huggingface import HuggingFaceEmbeddings
 from langchain.schema import HumanMessage, SystemMessage
 from langchain_community.vectorstores import Chroma
 
+from voyager.utils.logger import get_logger
+
 # llama
 from voyager.agents.llama import call_with_messages, ModelType
 
@@ -40,11 +42,12 @@ class CurriculumAgent:
             "auto",
             "manual",
         ], f"mode {mode} not supported"
+        self.logger = get_logger("CurriculumAgent")
         self.mode = mode
         self.ckpt_dir = ckpt_dir
         U.f_mkdir(f"{ckpt_dir}/curriculum/vectordb")
         if resume:
-            print(f"\033[35mLoading Curriculum Agent from {ckpt_dir}/curriculum\033[0m")
+            self.logger.info(f"Loading Curriculum Agent from {ckpt_dir}/curriculum")
             self.completed_tasks = U.load_json(
                 f"{ckpt_dir}/curriculum/completed_tasks.json"
             )
@@ -247,7 +250,7 @@ class CurriculumAgent:
                 result = event[1]['onChat']
                 break
         content += f"Logs: {result}"
-        print(f"\033[35m****Curriculum Agent human message****\n{content}\033[0m")
+        self.logger.info(f"****Curriculum Agent human message****\n{content}")
         return HumanMessage(content=content)
 
     def propose_next_task(self, environment, events, chest_observation, goals=None, max_retries=5):
@@ -306,7 +309,7 @@ class CurriculumAgent:
         if max_retries == 0:
             raise RuntimeError("Max retries reached, failed to propose ai task.")
         curriculum = call_with_messages(messages, self.model_name).content
-        print(f"\033[31m****Curriculum Agent ai message****\n{curriculum}\033[0m")
+        self.logger.info(f"****Curriculum Agent ai message****\n{curriculum}")
         code_pattern = re.compile(r"{(.*?)}", re.DOTALL)
         code_name = "".join(code_pattern.findall(curriculum))
         curriculum = "{" + code_name + "}"
@@ -318,9 +321,7 @@ class CurriculumAgent:
             context = self.get_task_context(response["task"])
             return response["task"], context
         except Exception as e:
-            print(
-                f"\033[35mError parsing curriculum response: {e}. Trying again!\033[0m"
-            )
+            self.logger.warning(f"Error parsing curriculum response: {e}. Trying again!")
             return self.propose_next_ai_task(
                 messages=messages,
                 max_retries=max_retries - 1,
@@ -340,7 +341,7 @@ class CurriculumAgent:
         while not confirmed:
             task = input("Enter task: ")
             context = input("Enter context: ")
-            print(f"Task: {task}\nContext: {context}")
+            self.logger.info(f"Task: {task}\nContext: {context}")
             confirmed = input("Confirm? (y/n)").lower() in ["y", ""]
         return task, context
 
@@ -350,12 +351,10 @@ class CurriculumAgent:
             # No need to record the deposit task
             return
         if info["success"]:
-            print(f"\033[35mCompleted task {task}.\033[0m")
+            self.logger.success(f"Completed task {task}.")
             self.completed_tasks.append(task)
         else:
-            print(
-                f"\033[35mFailed to complete task {task}. Skipping to next task.\033[0m"
-            )
+            self.logger.failed(f"Failed to complete task {task}. Skipping to next task.")
             self.failed_tasks.append(task)
 
         # clean up tasks and dump to disk
@@ -395,7 +394,7 @@ class CurriculumAgent:
         ]
         # print(f"\033[31m****Curriculum Agent task decomposition****\nFinal task: {task}\033[0m")
         response = call_with_messages(messages, self.qa_model_name).content
-        print(f"\033[31m****Curriculum Agent task decomposition****\n{response}\033[0m")
+        self.logger.debug(f"****Curriculum Agent task decomposition****\n{response}")
         return fix_and_parse_list(response)
     
     def rerank_monster(self, task):
@@ -412,7 +411,7 @@ class CurriculumAgent:
         while retry > 0:
             try:
                 response = call_with_messages(messages, self.qa_model_name).content
-                print(f"\033[31m****Curriculum Agent monster rerank****\n{response}\033[0m")
+                self.logger.debug(f"****Curriculum Agent monster rerank****\n{response}")
                 monster_order = fix_and_parse_list(response)
                 break
             except Exception as e:
@@ -516,9 +515,8 @@ class CurriculumAgent:
             questions.extend(questions_new)
             concepts.extend(concepts_new)
         except Exception as e:
-            print(
-                f"\033[35mError parsing curriculum response for "
-                f"QA step 1 ask questions: {e}.\033[0m"
+            self.logger.warning(
+                f"Error parsing curriculum response for QA step 1 ask questions: {e}."
             )
         return questions, concepts
 
@@ -536,9 +534,9 @@ class CurriculumAgent:
             self.render_system_message_qa_step2_answer_questions(),
             self.render_human_message_qa_step2_answer_questions(question=question),
         ]
-        print(f"\033[35mCurriculum Agent Question: {question}\033[0m")
+        self.logger.debug(f"Curriculum Agent Question: {question}")
         # qa_answer = self.qa_llm(messages).content
         # ï¿????æ¹è°ï¿????
         qa_answer = call_with_messages(messages, model_name=self.qa_model_name).content
-        print(f"\033[31mCurriculum Agent {qa_answer}\033[0m")
+        self.logger.debug(f"Curriculum Agent Answer: {qa_answer}")
         return qa_answer

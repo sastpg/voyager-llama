@@ -2,7 +2,7 @@ import time
 
 from .file_utils import *
 from .json_utils import *
-
+from .logger import get_logger
 
 class EventRecorder:
     def __init__(
@@ -11,6 +11,7 @@ class EventRecorder:
         resume=False,
         init_position=None,
     ):
+        self.logger = get_logger("EventRecorder")
         self.ckpt_dir = ckpt_dir
         self.item_history = set()
         self.item_vs_time = {}
@@ -39,10 +40,10 @@ class EventRecorder:
             self.update_items(event)
             if event_type == "observe":
                 self.update_elapsed_time(event)
-        print(
-            f"\033[96m****Recorder message: {self.elapsed_time} ticks have elapsed****\033[0m\n"
-            f"\033[96m****Recorder message: {self.iteration} iteration passed****\033[0m"
-        )
+        
+        
+        self.logger.info(f"****Recorder message: {self.elapsed_time} ticks have elapsed****")
+        self.logger.info(f"****Recorder message: {self.iteration} iteration passed****")
         dump_json(events, f_join(self.ckpt_dir, "events", task))
         return self.elapsed_time, self.iteration
 

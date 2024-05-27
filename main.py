@@ -1,6 +1,8 @@
 from voyager import Voyager
 from voyager.utils import config
+from voyager.utils.logger import get_logger
 from voyager.agents.llama import ModelType
+logger = get_logger('main')
 mc_port = config.get('MC_SERVER_PORT')
 mc_host = config.get('MC_SERVER_HOST')
 node_port = config.get('NODE_SERVER_PORT')
@@ -9,9 +11,9 @@ embedding_dir = config.get('SENTENT_EMBEDDING_DIR')
 # mc_port = 25576
 # embedding_dir = '/home/jovyan/notebook/mc_voyager/sentent-embedding'
 mc_host = "10.214.211.110"
-mc_port = 25565
+mc_port = 25576
 node_port = 3000
-embedding_dir = "D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2" # local dir
+# embedding_dir = "D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2" # local dir
 # mc_host = "127.0.0.1"
 # mc_port = 49741 # local server
 env_wait_ticks = 100
@@ -56,8 +58,8 @@ def test_subgoal():
         try:
             voyager_l3_8b.inference_sub_goal(task="subgoal_llama3_8b_v3", sub_goals=test_sub_goals)
             voyager_l3_70b.inference_sub_goal(task="subgoal_llama3_70b_v1", sub_goals=test_sub_goals)
-        except:
-            continue
+        except Exception as e:
+            logger.critical(e)
 def test_combat():
     voyager_l3_8b = Voyager(
         mc_port=mc_port,
@@ -102,14 +104,14 @@ def test_combat():
     while True:
         for task in combat_benchmark:
             try:
-                voyager_l3_8b.inference(task=task)
+                voyager_l3_8b.inference(task=task, reset_env=False)
             except Exception as e:
-                print(e)
+                logger.critical(e)
         for task in combat_benchmark:
             try:
-                voyager_l3_70b.inference(task=task)
+                voyager_l3_70b.inference(task=task, reset_env=False)
             except Exception as e:
-                print(e)
+                logger.critical(e)
 
 if __name__ == '__main__':
     test_combat()

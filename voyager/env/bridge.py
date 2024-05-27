@@ -13,7 +13,7 @@ import voyager.utils as U
 
 from .minecraft_launcher import MinecraftInstance
 from .process_monitor import SubprocessMonitor
-
+from voyager.utils.logger import get_logger
 
 class VoyagerEnv(gym.Env):
     def __init__(
@@ -32,6 +32,7 @@ class VoyagerEnv(gym.Env):
             warnings.warn(
                 "Both mc_port and mc_login are specified, mc_port will be ignored"
             )
+        self.logger = get_logger('VoyagerEnv')
         self.mc_host = mc_host
         self.mc_port = mc_port
         self.azure_login = azure_login
@@ -64,7 +65,7 @@ class VoyagerEnv(gym.Env):
         )
 
     def get_mc_instance(self):
-        print("Creating Minecraft server")
+        self.logger.info('create minecraft server')
         U.f_mkdir(self.log_path, "minecraft")
         return MinecraftInstance(
             **self.azure_login,
@@ -77,21 +78,24 @@ class VoyagerEnv(gym.Env):
             # if self.mc_instance:
             #     self.mc_instance.check_process()
             #     if not self.mc_instance.is_running:
-            print("Starting Minecraft server")
+
+            self.logger.info('Start Minecraft server')
             self.mc_instance.run()
             self.mc_port = self.mc_instance.port
             self.reset_options["port"] = self.mc_instance.port
-            print(f"Server started on port {self.reset_options['port']}")
+            self.logger.info(f"Server started on port {self.reset_options['port']}")
         retry = 0
         while not self.mineflayer.is_running:
-            print("Mineflayer process has exited, restarting")
+            self.logger.info('Mineflayer process has exited, restarting')
             self.mineflayer.run()
             if not self.mineflayer.is_running:
                 if retry > 3:
                     raise RuntimeError("Mineflayer process failed to start")
                 else:
                     continue
-            print(self.mineflayer.ready_line)
+            self.logger.info('mineflayer ready line: '+self.mineflayer.ready_line)
+            if self.mineflayer.ready_line is None:
+                self.logger.critical('mineflayer read line is None.')
             res = requests.post(
                 f"{self.server}/start",
                 json=self.reset_options,
@@ -127,14 +131,19 @@ class VoyagerEnv(gym.Env):
                     break
                 else:
                     retry -= 1
-                    print("Step Minecraft server failed, retrying")
+                    self.logger.warning(f"Step Minecraft server failed, retrying")
                     if retry == 0:
                         raise RuntimeError("Step Minecraft server failed!")
             except requests.exceptions.Timeout:
                 retry -= 1
-                print("Step Minecraft server timeout, retrying")
+                self.logger.warning(f"Step Minecraft server timeout, retrying")
                 if retry == 0:
                     raise RuntimeError("Step Minecraft server timeout!")
+                res = requests.post(
+                    f"{self.server}/start",
+                    json=self.reset_options,
+                    timeout=self.request_timeout,
+                )
 
         
         # if res.status_code != 200:
@@ -152,6 +161,7 @@ class VoyagerEnv(gym.Env):
         seed=None,
         options=None,
     ) -> Tuple[ObsType, Dict[str, Any]]:
+        self.logger.info('reset node server')
         if options is None:
             options = {}
 
@@ -205,5 +215,5 @@ class VoyagerEnv(gym.Env):
             if res.status_code == 200:
                 self.server_paused = False
             else:
-                print(res.json())
+                self.logger.debug(res.json())
         return self.server_paused

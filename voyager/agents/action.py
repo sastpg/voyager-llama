@@ -8,7 +8,7 @@ from langchain.schema import AIMessage, HumanMessage, SystemMessage
 
 from voyager.prompts import load_prompt
 from voyager.control_primitives_context import load_control_primitives_context
-
+from voyager.utils.logger import get_logger
 
 class ActionAgent:
     def __init__(
@@ -24,9 +24,10 @@ class ActionAgent:
         self.ckpt_dir = ckpt_dir
         self.chat_log = chat_log
         self.execution_error = execution_error
+        self.logger = get_logger("ActionAgent")
         U.f_mkdir(f"{ckpt_dir}/action")
         if resume:
-            print(f"\033[32mLoading Action Agent from {ckpt_dir}/action\033[0m")
+            self.logger.info(f"Loading Action Agent from {ckpt_dir}/action")
             self.chest_memory = U.load_json(f"{ckpt_dir}/action/chest_memory.json")
         else:
             self.chest_memory = {}
@@ -37,13 +38,11 @@ class ActionAgent:
                 if isinstance(chest, dict):
                     self.chest_memory[position] = chest
                 if chest == "Invalid":
-                    print(
-                        f"\033[32mAction Agent removing chest {position}: {chest}\033[0m"
-                    )
+                    self.logger.debug(f"Removing chest {position}: {chest}")
                     self.chest_memory.pop(position)
             else:
                 if chest != "Invalid":
-                    print(f"\033[32mAction Agent saving chest {position}: {chest}\033[0m")
+                    self.logger.debug(f"Saving chest {position}: {chest}")
                     self.chest_memory[position] = chest
         U.dump_json(self.chest_memory, f"{self.ckpt_dir}/action/chest_memory.json")
 
@@ -207,7 +206,7 @@ class ActionAgent:
                 action_resp = fix_and_parse_json(action)
                 assert "program" in action_resp
                 code_name = action_resp['program']
-                print(code_name)
+                self.logger.debug(f'code name: {code_name}')
 
                 code = [c for c in skills if code_name in c]
                 parsed = babel.parse(code[0])

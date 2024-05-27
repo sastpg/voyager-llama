@@ -71,6 +71,7 @@ class SubprocessMonitor:
         self.ready_line = None
         self.thread = threading.Thread(target=self._start)
         self.thread.start()
+        # block until read_event is set
         self.ready_event.wait()
 
     def stop(self):
@@ -87,4 +88,7 @@ class SubprocessMonitor:
     def is_running(self):
         if self.process is None:
             return False
+        # TODO: 
+        if self.process.is_running() and self.ready_line is None:
+            raise RuntimeError('Subprocess is running but ready_line is None. It may mean that the process has not started yet.')
         return self.process.is_running()
