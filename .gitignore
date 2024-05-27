@@ -1,5 +1,6 @@
 main_bingxing.py
 ckpt*
+results/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
