@@ -90,5 +90,6 @@ class SubprocessMonitor:
             return False
         # TODO: 
         if self.process.is_running() and self.ready_line is None:
+            self.stop()
             raise RuntimeError('Subprocess is running but ready_line is None. It may mean that the process has not started yet.')
         return self.process.is_running()
