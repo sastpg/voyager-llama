@@ -251,6 +251,7 @@ class ActionAgent:
             except Exception as e:
                 retry -= 1
                 error = e
+                self.logger.warning(e)
                 time.sleep(1)
         return f"Error parsing action response (before program execution): {error}"
 
