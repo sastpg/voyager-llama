@@ -44,7 +44,9 @@ class SubprocessMonitor:
 
     def _start(self):
         self.logger.info(f"Starting subprocess with commands: {self.commands}")
-
+        if self.process is not None:
+            self.process.terminate()
+            self.process.wait()
         self.process = psutil.Popen(
             self.commands,
             stdout=subprocess.PIPE,
@@ -79,6 +81,7 @@ class SubprocessMonitor:
         if self.process and self.process.is_running():
             self.process.terminate()
             self.process.wait()
+            self.process = None
 
     # def __del__(self):
     #     if self.process.is_running():

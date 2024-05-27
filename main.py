@@ -102,15 +102,22 @@ def test_combat():
                         "3 zombie", "5 zombie", "1 zombie, 1 skeleton", "1 zombie, 1 spider", "1 zombie, 1 skeleton, 1 spider"
                         ]
     while True:
-        for task in combat_benchmark:
+        # for task in combat_benchmark:
+        i = 0
+        while i < len(combat_benchmark):
             try:
-                voyager_l3_8b.inference(task=task, reset_env=False)
+                voyager_l3_8b.inference(task=combat_benchmark[i], reset_env=False)
+                i += 1
             except Exception as e:
+                logger.critical(combat_benchmark[i]+' failed. retry...')
                 logger.critical(e)
-        for task in combat_benchmark:
+        i = 0
+        while i < len(combat_benchmark):
             try:
-                voyager_l3_70b.inference(task=task, reset_env=False)
+                voyager_l3_70b.inference(task=combat_benchmark[i], reset_env=False)
+                i += 1
             except Exception as e:
+                logger.critical(combat_benchmark[i]+' failed. retry...')
                 logger.critical(e)
 
 if __name__ == '__main__':
