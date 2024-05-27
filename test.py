@@ -1,5 +1,6 @@
 from voyager import Voyager
 from voyager.utils import config
+# import traceback
 mc_port = config.get('MC_SERVER_PORT')
 mc_host = config.get('MC_SERVER_HOST')
 embedding_dir = config.get('SENTENT_EMBEDDING_DIR')
@@ -8,7 +9,7 @@ mc_host = "10.214.211.110"
 mc_port = 25565
 # mc_host = "127.0.0.1"
 # mc_port = 49741 # local server
-# embedding_dir = "D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2" # local dir
+embedding_dir = "D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2" # local dir
 env_wait_ticks = 100
 
 voyager = Voyager(
@@ -18,7 +19,7 @@ voyager = Voyager(
     skill_library_dir="./skill_library",
     reload=False, # set to True if the skill_json updated
     embedding_dir=embedding_dir, # your model path
-    environment='combat'
+    environment='farming'
 )
 combat_benchmark = [
                     # Single-mob tasks
@@ -42,16 +43,17 @@ test_sub_goals = ["craft crafting table", "craft wooden pickaxe", "craft stone p
 # skill test
 test_skills = ["collect flowers"]
 # voyager.learn()
-while True:
-    voyager.inference_sub_goal(task="subgoal_test", sub_goals=test_skills)
+# while True:
+#    voyager.inference_sub_goal(task="subgoal_test", sub_goals=test_skills)
 while True:
     for goal in farming_benchmark:
         while True:
             try:
-                voyager.learn(goals = goal)
+                voyager.learn(goals = goal, reset_env=False)
                 break
             except Exception as e:
                 print("error:", e)
+                # traceback.print_exc()
 for task in combat_benchmark:
     while True:
         try:

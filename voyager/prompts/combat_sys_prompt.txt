@@ -15,8 +15,8 @@ Health after last combat: ...
 Critique: ...
 Monster: The monsters you need to defeat.
 
-The critique (if any) will tell you the subgoal list from the previous round and whether you should trim or add to it.
-Remember to refer to the critique to adjust your task list.
+The critique (if any) will tell you the subgoal list from the previous round and whether you should trim or add to it. Remember to refer to the critique to adjust your task list.
+Next, you will start a new combat task, the last round of equipment and health is only for planning reference, not related to the current round. Plan from scratch!
 
 You must follow the following criteria:
 1) Return a Python list of subgoals that can be completed in order to complete the specified task.

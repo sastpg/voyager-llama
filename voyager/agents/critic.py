@@ -280,17 +280,18 @@ class CriticAgent:
             ]
             return self.ai_check_goal_success(messages=messages)
         elif mode == "program":
+            print("observations = " + str(observations))
             inventory = self.get_inventory(events=events)
             wool_in_inventory = '_wool' in inventory.keys()
             milk_in_inventory = 'milk_bucket' in inventory
             wheat_in_inventory = 'wheat' in inventory
             cookie_in_inventory = 'cookie' in inventory
             meat_in_inventory = 'cooked_porkchop' in inventory or 'cooked_mutton' in inventory or 'cooked_beef' in inventory or 'cooked_chicken' in inventory
+            farmland_nearby = 'farmland' in observations["nearby_blocks"]
+            seed_nearby = 'wheat_seed' in observations["nearby_blocks"] or 'melon_seed' in observations["nearby_blocks"] or 'pumpkin_seed' in observations["nearby_blocks"]
             # to do
-            farmland_nearby = True
-            seed_nearby = True
-            breed_chick = True
-            breed_sheep = True
+            breed_chick = 'chicken' in observations["nearby_entities"]
+            breed_sheep = 'sheep' in observations["nearby_entities"]
             if goals == 'hoe a farmland':
                 return farmland_nearby
             if goals == 'breed 1 chicken':

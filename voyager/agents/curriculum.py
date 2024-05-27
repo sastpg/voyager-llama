@@ -245,6 +245,7 @@ class CurriculumAgent:
             #         should_include = True
             #     if should_include:
             #         content += observation[key]
+        result = None
         for event in reversed(events):
             if event[0] == 'onChat':
                 result = event[1]['onChat']
