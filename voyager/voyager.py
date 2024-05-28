@@ -210,8 +210,8 @@ class Voyager:
         self.skills = self.skill_manager.retrieve_skills(query=self.context)
         self.logger.info(f"Render Action Agent system message with {len(self.skills[0])} skills")
         system_message = self.action_agent.render_system_message()
-        # skills: [code, description] code �? description �?长度相同的列�?
-        # skills[0] �?技能code，skills[1] �?技能的description
+        # skills: [code, description] code �? description �?长度相同的列�?
+        # skills[0] �?技能code，skills[1] �?技能的description
         human_message = self.action_agent.render_human_message(
             events=events, code="", task=self.task, context=context, critique="", skills=self.skills[1]
         )
@@ -349,6 +349,7 @@ class Voyager:
                 }
             )
             self.resume = True
+        self.run_raw_skill("./test_env/respawnAndClear.js") # clear inventory without reset
         self.last_events = self.env.step("")
         while True:
             if self.recorder.iteration > self.max_iterations:
@@ -432,7 +433,7 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
-        # TODO: hard coding problem, 这样代码越来�?..
+        # TODO: hard coding problem, 这样代码越来�?..
         for i in range(3):
             self.recorder.elapsed_time = 0
             self.recorder.iteration = 0

@@ -21,6 +21,7 @@ async function hoeFarmland(bot) {
         });
         // hoe a farmland
         for (pos of dirtNearWater) {   
+            await equipHoe(bot);
             const farmland = await bot.blockAt(pos);
             // if there's air above this block and water near this block
             if (await checkBlockAbove(bot, "air", pos) && await checkBlocksAround(bot, "water", pos)) {

@@ -160,8 +160,8 @@ def test_farming():
     )
     farming_benchmark = [
                     # Single-goal tasks
-                    "hoe a farmland", "breed 1 chicken", "collect 1 wool by shears or collect 1 bucket of milk",
-                    "cook meat (beef / mutton / pork / chicken)", "plant 1 seed (wheat / melon / pumpkin)",
+                    "hoe a farmland", "collect 1 wool by shears or collect 1 bucket of milk",
+                    "cook meat (beef / mutton / pork / chicken)", "plant 1 seed (wheat / melon / pumpkin)", "breed 1 chicken",
                     # Multi-goal tasks
                     "plant 1 seed (wheat / melon / pumpkin) and cook 1 meat (beef / mutton / pork / chicken)",
                     "collect 1 wheat and cook 1 meat  (beef / mutton / pork / chicken)",
