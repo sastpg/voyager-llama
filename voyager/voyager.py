@@ -210,8 +210,8 @@ class Voyager:
         self.skills = self.skill_manager.retrieve_skills(query=self.context)
         self.logger.info(f"Render Action Agent system message with {len(self.skills[0])} skills")
         system_message = self.action_agent.render_system_message()
-        # skills: [code, description] code 和 description 是长度相同的列表
-        # skills[0] 是技能code，skills[1] 是技能的description
+        # skills: [code, description] code �? description �?长度相同的列�?
+        # skills[0] �?技能code，skills[1] �?技能的description
         human_message = self.action_agent.render_human_message(
             events=events, code="", task=self.task, context=context, critique="", skills=self.skills[1]
         )
@@ -394,7 +394,7 @@ class Voyager:
             self.curriculum_agent.update_exploration_progress(info)
             completed = None
             if goals != None:
-                reason, completed = self.critic_agent.check_goal_success(self.last_events, self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals, mode = "program")
+                completed = self.critic_agent.check_goal_success(self.last_events, self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals, mode = "program")
                 if completed or self.step_time[-1] >= 30000:
                     break
             self.logger.success(f"Completed tasks: {', '.join(self.curriculum_agent.completed_tasks)}")
@@ -432,7 +432,7 @@ class Voyager:
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
-        # TODO: hard coding problem, 这样代码越来越..
+        # TODO: hard coding problem, 这样代码越来�?..
         for i in range(3):
             self.recorder.elapsed_time = 0
             self.recorder.iteration = 0
