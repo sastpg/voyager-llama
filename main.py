@@ -2,6 +2,7 @@ from voyager import Voyager
 from voyager.utils import config
 from voyager.utils.logger import get_logger
 from voyager.agents.llama import ModelType
+import traceback
 logger = get_logger('main')
 mc_port = config.get('MC_SERVER_PORT')
 mc_host = config.get('MC_SERVER_HOST')
@@ -60,6 +61,7 @@ def test_subgoal():
             voyager_l3_70b.inference_sub_goal(task="subgoal_llama3_70b_v1", sub_goals=test_sub_goals)
         except Exception as e:
             logger.critical(e)
+            traceback.print_exc()
 def test_combat():
     voyager_l3_8b = Voyager(
         mc_port=mc_port,
@@ -111,6 +113,7 @@ def test_combat():
             except Exception as e:
                 logger.critical(combat_benchmark[i]+' failed. retry...')
                 logger.critical(e)
+                traceback.print_exc()
         i = 0
         while i < len(combat_benchmark):
             try:
@@ -119,6 +122,7 @@ def test_combat():
             except Exception as e:
                 logger.critical(combat_benchmark[i]+' failed. retry...')
                 logger.critical(e)
+                traceback.print_exc()
 
 if __name__ == '__main__':
     test_combat()
