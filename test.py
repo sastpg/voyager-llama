@@ -57,8 +57,7 @@ def test_subgoal():
     test_sub_goals = ["craft crafting table", "craft wooden pickaxe", "craft stone pickaxe", "craft iron pickaxe", "mine diamond"]
     while True:
         try:
-            voyager_l3_8b.inference_sub_goal(task="subgoal_llama3_8b_v3", sub_goals=test_sub_goals)
-            voyager_l3_70b.inference_sub_goal(task="subgoal_llama3_70b_v1", sub_goals=test_sub_goals)
+            voyager_l3_70b.inference_sub_goal(task="subgoal_llama3_70b_v3", sub_goals=test_sub_goals)
         except Exception as e:
             logger.critical(e)
             traceback.print_exc()
@@ -191,4 +190,4 @@ def test_farming():
                 traceback.print_exc()                
 
 if __name__ == '__main__':
-    test_farming()
+    test_subgoal()

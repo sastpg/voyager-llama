@@ -49,7 +49,7 @@ class Voyager:
         critic_agent_temperature: float = 0,
         critic_agent_mode: str = "auto",
         skill_manager_temperature: float = 0,
-        skill_manager_retrieval_top_k: int = 5,
+        skill_manager_retrieval_top_k: int = 10,
         openai_api_request_timeout: int = 240,
         ckpt_dir: str = "ckpt",
         skill_library_dir: str = None,
