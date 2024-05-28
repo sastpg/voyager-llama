@@ -93,7 +93,7 @@ class VoyagerEnv(gym.Env):
                     raise RuntimeError("Mineflayer process failed to start")
                 else:
                     continue
-            self.logger.info('mineflayer ready line: '+self.mineflayer.ready_line)
+            self.logger.info(f'mineflayer ready line: {self.mineflayer.ready_line}')
             if self.mineflayer.ready_line is None:
                 self.logger.critical('mineflayer read line is None.')
             res = requests.post(
