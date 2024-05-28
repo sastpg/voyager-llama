@@ -14,6 +14,6 @@ async function collectSandstone(bot) {
       return;
     }
     // Mine 10 sandstone blocks using the mineBlock function
-    await mineBlock(bot, "stone", 10);
+    await mineBlock(bot, "sandstone", 10);
     bot.chat(`10 sandstones mined.`);
   }
