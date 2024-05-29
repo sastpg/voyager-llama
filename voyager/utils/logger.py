@@ -1,4 +1,5 @@
 import coloredlogs, logging
+import time
 # Define a new logging level
 SUCCESS_LEVEL_NUM = 35  # Between WARNING (30) and ERROR (40)
 FAILED_LEVEL_NUM = 36
@@ -28,6 +29,22 @@ def get_logger(name: str, level: int = logging.DEBUG):
     logger.setLevel(level)
     coloredlogs.install(level=level, logger=logger, field_styles=field_styles, level_styles=level_styles)
     return logger
+
+
+
+class Timer:
+    def __init__(self, description):
+        self.description = description
+        self.logger = get_logger(description)
+    
+    def __enter__(self):
+        self.start = time.time()
+        self.logger.debug(f"{self.description} starts.")
+        return self
+    
+    def __exit__(self, type, value, traceback):
+        self.end = time.time()
+        self.logger.debug(f"{self.description} ends. Cost {self.end - self.start} seconds")
 
 
 if __name__ == '__main__':
