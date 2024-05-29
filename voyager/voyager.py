@@ -56,6 +56,7 @@ class Voyager:
         resume: bool = False,
         reload = False,
         embedding_dir = "",
+        username = 'bot'
     ):
         """
         The main class for Voyager.
@@ -109,6 +110,7 @@ class Voyager:
         :param resume: whether to resume from checkpoint
         """
         # init env
+        self.username = username
         self.logger = get_logger("Voyager")
         self.env = VoyagerEnv(
             mc_host=mc_host,
@@ -197,6 +199,7 @@ class Voyager:
                 options={
                     "mode": "soft",
                     "wait_ticks": self.env_wait_ticks,
+                    "username": self.username
                 }
             )
         difficulty = (
@@ -339,6 +342,7 @@ class Voyager:
                 options={
                     "mode": "soft",
                     "wait_ticks": self.env_wait_ticks,
+                    "username": self.username
                 }
             )
         else:
@@ -347,6 +351,7 @@ class Voyager:
                 options={
                     "mode": "hard",
                     "wait_ticks": self.env_wait_ticks,
+                    "username": self.username
                 }
             )
             self.resume = True
@@ -384,6 +389,7 @@ class Voyager:
                         "inventory": self.last_events[-1][1]["inventory"],
                         "equipment": self.last_events[-1][1]["status"]["equipment"],
                         "position": self.last_events[-1][1]["status"]["position"],
+                        "username": self.username
                     }
                 )
                 # use red color background to print the error
@@ -398,7 +404,7 @@ class Voyager:
 
             self.curriculum_agent.update_exploration_progress(info)
             completed = None
-            if goals != None:
+            if goals is not None:
                 completed = self.critic_agent.check_goal_success(self.last_events, self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals, mode = "program")
                 if completed or self.step_time[-1] >= 30000:
                     break
@@ -419,11 +425,12 @@ class Voyager:
                 options={
                     "mode": "hard",
                     "wait_ticks": self.env_wait_ticks,
+                    "username": self.username
                 }
             )
         return self.curriculum_agent.decompose_task(self.environment, task, last_tasklist, critique, health)
 
-    def inference(self, task:str=None, sub_goals=[], reset_mode="hard", reset_env=True):
+    def inference(self, task:str=None, sub_goals=[], reset_mode="hard", reset_env=True, feedback_rounds:int=1):
         if not task and not sub_goals:
             raise ValueError("Either task or sub_goals must be provided")
         if not sub_goals:
@@ -432,13 +439,13 @@ class Voyager:
             options={
                 "mode": reset_mode,
                 "wait_ticks": self.env_wait_ticks,
+                "username": self.username
             }
         )
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
-        # TODO: hard coding problem, 这样代码越来�?..
-        for i in range(3):
+        for i in range(feedback_rounds):
             self.recorder.elapsed_time = 0
             self.recorder.iteration = 0
             self.step_time = []
@@ -483,6 +490,7 @@ class Voyager:
                 options={
                     "mode": "hard",
                     "wait_ticks": self.env_wait_ticks,
+                    "username": self.username
                 }
             )
             self.curriculum_agent.completed_tasks = []
@@ -495,6 +503,7 @@ class Voyager:
             options={
                 "mode": reset_mode,
                 "wait_ticks": self.env_wait_ticks,
+                "username": self.username
             }
         )
         self.run_raw_skill("./test_env/respawnAndClear.js")
