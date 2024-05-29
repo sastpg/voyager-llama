@@ -42,8 +42,8 @@ class EventRecorder:
                 self.update_elapsed_time(event)
         
         
-        # self.logger.info(f"****Recorder message: {self.elapsed_time} ticks have elapsed****")
-        # self.logger.info(f"****Recorder message: {self.iteration} iteration passed****")
+        self.logger.info(f"****Recorder message: {self.elapsed_time} ticks have elapsed****")
+        self.logger.info(f"****Recorder message: {self.iteration} iteration passed****")
         dump_json(events, f_join(self.ckpt_dir, "events", task))
         return self.elapsed_time, self.iteration
 
