@@ -316,7 +316,7 @@ class Voyager:
             info["program_name"] = parsed_result["program_name"]
         else:
             self.logger.debug(f"****Action Agent human message****\n{self.messages[-1].content}")
-        return self.messages, 0, done, info
+        return self.messages, events[-1][1]["inventory"], done, info
 
     def rollout(self, *, task, context, reset_env=True):
         self.reset(task=task, context=context, reset_env=reset_env)
@@ -327,6 +327,7 @@ class Voyager:
         return messages, reward, done, info
 
     def learn(self, goals=None, reset_env=True):
+        self.inventory = []
         self.recorder.elapsed_time = 0
         self.recorder.iteration = 0
         self.step_time = []
@@ -364,7 +365,7 @@ class Voyager:
             )
             self.logger.info(f"Starting task {task} for at most {self.action_agent_task_max_retries} times")
             try:
-                messages, reward, done, info = self.rollout(
+                messages, inventory, done, info = self.rollout(
                     task=task,
                     context=context,
                     reset_env=reset_env,
@@ -391,6 +392,9 @@ class Voyager:
 
             # if info["success"]:
             #     self.skill_manager.add_new_skill(info)
+            new_inventory = [key for key in inventory if key not in self.inventory]
+            self.inventory += new_inventory
+            U.dump_text(f"\n\nIteration: {self.recorder.iteration}, Inventory obtained: {new_inventory}, Total inventory: {self.inventory}", f"./results/{self.environment}.txt")
 
             self.curriculum_agent.update_exploration_progress(info)
             completed = None
