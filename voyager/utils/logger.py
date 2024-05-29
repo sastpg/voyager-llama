@@ -27,7 +27,10 @@ def get_logger(name: str, level: int = logging.DEBUG):
 
     logger = logging.getLogger(name)
     logger.setLevel(level)
-    coloredlogs.install(level=level, logger=logger, field_styles=field_styles, level_styles=level_styles)
+    coloredlogs.install(
+        fmt='%(asctime)s %(message)s',datefmt='%Y-%m-%d %H:%M:%S',
+        level=level, logger=logger, field_styles=field_styles, level_styles=level_styles
+    )
     return logger
 
 
@@ -35,7 +38,7 @@ def get_logger(name: str, level: int = logging.DEBUG):
 class Timer:
     def __init__(self, description):
         self.description = description
-        self.logger = get_logger(description)
+        self.logger = get_logger('Timer')
     
     def __enter__(self):
         self.start = time.time()
@@ -48,8 +51,9 @@ class Timer:
 
 
 if __name__ == '__main__':
-    logger = get_logger('logger_test')
-    logger.success('success')
-    logger.failed('failed')
-    logger.critical('critical')
-    logger.debug('debug'*20)
+    with Timer('logger'):
+        logger = get_logger('logger_test')
+        logger.success('success')
+        logger.failed('failed')
+        logger.critical('critical')
+        logger.debug('debug'*20)
