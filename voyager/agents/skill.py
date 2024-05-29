@@ -131,6 +131,10 @@ class SkillManager:
             f"Skill Manager retrieved skills: "
             f"{', '.join([doc.metadata['name'] for doc, _ in docs_and_scores])}"
         )
+        self.logger.debug(
+            f"Skill Manager retrieved skills Scores: "
+            f"{[score for _, score in docs_and_scores]}"
+        )
 
         code = []
         description = []

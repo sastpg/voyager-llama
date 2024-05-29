@@ -3,7 +3,7 @@ from voyager.prompts import load_prompt
 from voyager.utils.json_utils import fix_and_parse_json
 from langchain.schema import HumanMessage, SystemMessage
 from voyager.agents.llama import call_with_messages, ModelType
-from voyager.utils.logger import get_logger
+from voyager.utils.logger import get_logger, Timer
 class CriticAgent:
     def __init__(
         self,
@@ -83,7 +83,7 @@ class CriticAgent:
         # else:
         #     observation += f"Context: None\n\n"
 
-        self.logger.debug(f"****Critic Agent human message****\n{observation}")
+        # self.logger.debug(f"****Critic Agent human message****\n{observation}")
         return HumanMessage(content=observation)
 
     def human_check_task_success(self):
@@ -109,7 +109,6 @@ class CriticAgent:
         # critic = self.llm(messages).content
         # modify
         critic = call_with_messages(messages, self.model_name).content
-        self.logger.debug(f"****Critic Agent ai message****\n{critic}")
         code_pattern = re.compile(r"{(.*?)}", re.DOTALL)
         code_name = "".join(code_pattern.findall(critic))
         critic = "{" + code_name + "}"
@@ -129,12 +128,15 @@ class CriticAgent:
     def check_task_success(
         self, *, events, task, context, chest_observation, max_retries=5
     ):
-        human_message = self.render_human_message(
-            events=events,
-            task=task,
-            context=context,
-            chest_observation=chest_observation,
-        )
+        
+        with Timer('Check Task Success render_human_message'):
+            human_message = self.render_human_message(
+                events=events,
+                task=task,
+                context=context,
+                chest_observation=chest_observation,
+            )
+            self.logger.debug(f'human message: {human_message}')
 
         messages = [
             self.render_system_message(),

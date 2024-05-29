@@ -45,7 +45,7 @@ class CommentAgent:
         observation += f"Result: {result}"
         observation += f"Health: {health}"
 
-        self.logger.debug(f"****Critic Agent human message****\n{observation}")
+        # self.logger.debug(f"****Critic Agent human message****\n{observation}")
         return HumanMessage(content=observation), result
 
     def human_check_task_success(self):

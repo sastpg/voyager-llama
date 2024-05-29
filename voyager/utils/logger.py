@@ -1,4 +1,5 @@
 import coloredlogs, logging
+import time
 # Define a new logging level
 SUCCESS_LEVEL_NUM = 35  # Between WARNING (30) and ERROR (40)
 FAILED_LEVEL_NUM = 36
@@ -26,13 +27,33 @@ def get_logger(name: str, level: int = logging.DEBUG):
 
     logger = logging.getLogger(name)
     logger.setLevel(level)
-    coloredlogs.install(level=level, logger=logger, field_styles=field_styles, level_styles=level_styles)
+    coloredlogs.install(
+        fmt='%(asctime)s %(message)s',datefmt='%Y-%m-%d %H:%M:%S',
+        level=level, logger=logger, field_styles=field_styles, level_styles=level_styles
+    )
     return logger
 
 
+
+class Timer:
+    def __init__(self, description):
+        self.description = description
+        self.logger = get_logger('Timer')
+    
+    def __enter__(self):
+        self.start = time.time()
+        self.logger.info('='*15+f"{self.description} starts."+'='*15)
+        return self
+    
+    def __exit__(self, type, value, traceback):
+        self.end = time.time()
+        self.logger.info('='*10+f"{self.description} ends. Cost {self.end - self.start} seconds"+'='*10)
+
+
 if __name__ == '__main__':
-    logger = get_logger('logger_test')
-    logger.success('success')
-    logger.failed('failed')
-    logger.critical('critical')
-    logger.debug('debug'*20)
+    with Timer('logger'):
+        logger = get_logger('logger_test')
+        logger.success('success')
+        logger.failed('failed')
+        logger.critical('critical')
+        logger.debug('debug'*20)
