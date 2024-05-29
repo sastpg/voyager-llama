@@ -42,6 +42,7 @@ class Timer:
     
     def __enter__(self):
         self.start = time.time()
+        print('')
         self.logger.info('='*15+f"{self.description} starts."+'='*15)
         return self
     
