@@ -16,7 +16,7 @@ from .agents import SkillManager
 
 # add llama
 from .agents.llama import call_with_messages, ModelType
-from .utils.logger import get_logger
+from .utils.logger import get_logger, Timer
 
 # TODO: remove event memory
 class Voyager:
@@ -210,8 +210,9 @@ class Voyager:
             "bot.chat(`/time set ${getNextTime()}`);\n"
             + f"bot.chat('/difficulty {difficulty}');\n"
         )
-        self.skills = self.skill_manager.retrieve_skills(query=self.context)
-        self.logger.info(f"Render Action Agent system message with {len(self.skills[0])} skills")
+        with Timer('retrieve skills'):
+            self.skills = self.skill_manager.retrieve_skills(query=self.context)
+            self.logger.info(f"Render Action Agent system message with {len(self.skills[0])} skills")
         system_message = self.action_agent.render_system_message()
         # skills: [code, description] code �? description �?长度相同的列�?
         # skills[0] �?技能code，skills[1] �?技能的description
@@ -219,7 +220,8 @@ class Voyager:
             events=events, code="", task=self.task, context=context, critique="", skills=self.skills[1]
         )
         self.messages = [system_message, human_message]
-        self.logger.debug(f"****Action Agent human message****\n{human_message.content}")
+        self.logger.debug(f'Select Skill Human Message: {human_message.content}')
+        # self.logger.debug(f"****Action Agent human message****\n{human_message.content}")
         assert len(self.messages) == 2
         self.conversations = []
         return self.messages
@@ -232,37 +234,47 @@ class Voyager:
             raise ValueError("Agent must be reset before stepping")
         # ai_message = self.action_agent.llm(self.messages)
         # modify
-        ai_message = call_with_messages(self.messages, self.action_agent_model_name)
-        self.logger.debug(f"****Action Agent ai message****\n{ai_message.content}")
+        with Timer('step: Select Skill'):
+            self.logger.debug(f'human mesasges: {self.messages[1]}')
+            ai_message = call_with_messages(self.messages, self.action_agent_model_name)
+            self.logger.debug(f"response: {ai_message.content}")
         self.conversations.append(
             (self.messages[0].content, self.messages[1].content, ai_message.content)
         )
-        parsed_result = self.action_agent.process_ai_message(message=ai_message, skills=self.skills[0])
+        with Timer('Process Select Skill Response'):
+            parsed_result = self.action_agent.process_ai_message(message=ai_message, skills=self.skills[0])
+            self.logger.debug(f"parsed_result: {parsed_result}")
 
         success = False
         if isinstance(parsed_result, dict):
             code = parsed_result["program_code"] + "\n" + parsed_result["exec_code"]
-            events = self.env.step(
-                code,
-                programs=self.skill_manager.programs,
-            )
+            with Timer('env step'):
+                events = self.env.step(
+                    code,
+                    programs=self.skill_manager.programs,
+                )
             self.totoal_time, self.total_iter = self.recorder.record(events, self.task)
             self.action_agent.update_chest_memory(events[-1][1]["nearbyChests"])
             if self.environment == 'subgoal':
-                success = self.critic_agent.check_subgoal_success(
-                    events=events,
-                    task=self.task,
-                )
-                critique = ''
+                with Timer('Check Subgoal Success'):
+                    success = self.critic_agent.check_subgoal_success(
+                        events=events,
+                        task=self.task,
+                    )
+                    critique = ''
+                    self.logger.debug(f'success: {success}')
             else:
-                success, critique = self.critic_agent.check_task_success(
-                    events=events,
-                    task=self.task,
-                    context=self.context,
-                    chest_observation=self.action_agent.render_chest_observation(),
-                    max_retries=5,
-                    
-                )
+                with Timer('Check Task Success'):
+                    success, critique = self.critic_agent.check_task_success(
+                        events=events,
+                        task=self.task,
+                        context=self.context,
+                        chest_observation=self.action_agent.render_chest_observation(),
+                        max_retries=5,
+                        
+                    )
+                    self.logger.debug(f'success: {success}')
+                    self.logger.debug(f'critique: {critique}')
 
             if self.reset_placed_if_failed and not success:
                 # revert all the placing event in the last step
@@ -317,8 +329,8 @@ class Voyager:
             ), "program and program_name must be returned when success"
             info["program_code"] = parsed_result["program_code"]
             info["program_name"] = parsed_result["program_name"]
-        else:
-            self.logger.debug(f"****Action Agent human message****\n{self.messages[-1].content}")
+        # else:
+        #     self.logger.debug(f"****Action Agent human message****\n{self.messages[-1].content}")
         return self.messages, events[-1][1]["inventory"], done, info
 
     def rollout(self, *, task, context, reset_env=True):
@@ -433,15 +445,20 @@ class Voyager:
     def inference(self, task:str=None, sub_goals=[], reset_mode="hard", reset_env=True, feedback_rounds:int=1):
         if not task and not sub_goals:
             raise ValueError("Either task or sub_goals must be provided")
+        self.logger.debug(f"Starting inference for task: {task}")
+        with Timer('env reset'):
+            self.last_events = self.env.reset(
+                options={
+                    "mode": reset_mode,
+                    "wait_ticks": self.env_wait_ticks,
+                    "username": self.username
+                }
+            )
         if not sub_goals:
-            sub_goals = self.decompose_task(task)
-        self.env.reset(
-            options={
-                "mode": reset_mode,
-                "wait_ticks": self.env_wait_ticks,
-                "username": self.username
-            }
-        )
+            with Timer('decompose task'):
+                sub_goals = self.decompose_task(task)
+                self.logger.debug(f'Decomposed sub_goals: {sub_goals}')
+        
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
@@ -453,22 +470,31 @@ class Voyager:
             self.critic_agent.last_inventory_used = 0
             while self.curriculum_agent.progress < len(sub_goals):
                 next_task = sub_goals[self.curriculum_agent.progress]
-                context = self.curriculum_agent.get_task_context(next_task)
-                self.logger.info(f"Starting task {next_task} for at most {self.action_agent_task_max_retries} times")
-                messages, reward, done, info = self.rollout(
-                    task=next_task,
-                    context=context,
-                    reset_env=reset_env,
-                )
-                self.curriculum_agent.update_exploration_progress(info)
-                self.logger.success(f"Completed tasks: {', '.join(self.curriculum_agent.completed_tasks)}")
-                self.logger.failed(f"Failed tasks: {', '.join(self.curriculum_agent.failed_tasks)}")
+                self.logger.debug(f'Next subgoal: {next_task}, All subgoals: {sub_goals}')
+                with Timer('get task context'):
+                    context = self.curriculum_agent.get_task_context(next_task)
+                    self.logger.debug(f'Got task context: {context}')
+                with Timer('rollout'):
+                    messages, reward, done, info = self.rollout(
+                        task=next_task,
+                        context=context,
+                        reset_env=reset_env,
+                    )
+                    self.logger.debug(f'info: {info}')
+                with Timer('update exploration progress'):
+                    self.curriculum_agent.update_exploration_progress(info)
+                    self.logger.success(f"Completed tasks: {', '.join(self.curriculum_agent.completed_tasks)}")
+                    self.logger.failed(f"Failed tasks: {', '.join(self.curriculum_agent.failed_tasks)}")
                 if (self.step_time[-1] >= 24000):
+                    self.logger.warning('Inference Time limit reached >=24000')
                     break
             # str_list = task.split()
             # TODO: hard coding
             self.run_raw_skill("./test_env/combatEnv.js", [10, 15, 100])
-            combat_order = self.curriculum_agent.rerank_monster(task=task)
+            with Timer('rerank monsters'):
+                combat_order = self.curriculum_agent.rerank_monster(task=task)
+                self.logger.debug(f'Combat order: {combat_order}')
+
             for task_item in task.split(','):
                 summon_para = task_item.split()
                 summon_para.insert(1, 5)  # idx =1, r=5
@@ -478,13 +504,18 @@ class Voyager:
                 para = monster.split(' ')
                 combat_para2 = int(para[0])
                 combat_para1 = para[1].lower() # ensure no uppercase
-                kill_res = self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para1, combat_para2])
+                with Timer('kill monsters'):
+                    kill_res = self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para1, combat_para2])
                 if 'lost' in kill_res:
                     break
-            health, cirtiques, result, equipment = self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
+            with Timer('check task success'):
+                health, cirtiques, result, equipment = \
+                    self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
             U.f_mkdir(f"./results/{self.environment}")
             U.dump_text(f"Route {i}: Plan list: {sub_goals}, Equipments obtained: {equipment}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Health: {health:.1f}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
-            sub_goals = self.decompose_task(task, last_tasklist=equipment, critique=cirtiques, health=health)
+            with Timer('decompose task again based on feedback'):
+                sub_goals = self.decompose_task(task, last_tasklist=equipment, critique=cirtiques, health=health)
+                self.logger.debug('Decomposed sub_goals based on feedback: {sub_goals}')
             self.run_raw_skill("./test_env/respawnAndClear.js")
             self.env.reset(
                 options={

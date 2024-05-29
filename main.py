@@ -2,6 +2,7 @@ from voyager import Voyager
 from voyager.utils import config
 from voyager.utils.logger import get_logger
 from voyager.agents.llama import ModelType
+
 import traceback
 logger = get_logger('main')
 mc_port = config.get('MC_SERVER_PORT')
@@ -12,7 +13,7 @@ embedding_dir = config.get('SENTENT_EMBEDDING_DIR')
 # mc_port = 25576
 # embedding_dir = '/home/jovyan/notebook/mc_voyager/sentent-embedding'
 mc_host = "10.214.211.110"
-mc_port = 25576
+mc_port = 25575
 node_port = 3000
 # embedding_dir = "D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2" # local dir
 # mc_host = "127.0.0.1"

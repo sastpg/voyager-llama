@@ -42,12 +42,12 @@ class Timer:
     
     def __enter__(self):
         self.start = time.time()
-        self.logger.debug(f"{self.description} starts.")
+        self.logger.debug('='*15+f"{self.description} starts."+'='*15)
         return self
     
     def __exit__(self, type, value, traceback):
         self.end = time.time()
-        self.logger.debug(f"{self.description} ends. Cost {self.end - self.start} seconds")
+        self.logger.debug('='*10+f"{self.description} ends. Cost {self.end - self.start} seconds"+'='*10)
 
 
 if __name__ == '__main__':

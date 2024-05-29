@@ -395,7 +395,6 @@ class CurriculumAgent:
         ]
         # print(f"\033[31m****Curriculum Agent task decomposition****\nFinal task: {task}\033[0m")
         response = call_with_messages(messages, self.qa_model_name).content
-        self.logger.debug(f"****Curriculum Agent task decomposition****\n{response}")
         return fix_and_parse_list(response)
     
     def rerank_monster(self, task):
@@ -535,9 +534,9 @@ class CurriculumAgent:
             self.render_system_message_qa_step2_answer_questions(),
             self.render_human_message_qa_step2_answer_questions(question=question),
         ]
-        self.logger.debug(f"Curriculum Agent Question: {question}")
+        # self.logger.debug(f"Curriculum Agent Question: {question}")
         # qa_answer = self.qa_llm(messages).content
         # ï¿????æ¹è°ï¿????
         qa_answer = call_with_messages(messages, model_name=self.qa_model_name).content
-        self.logger.debug(f"Curriculum Agent Answer: {qa_answer}")
+        # self.logger.debug(f"Curriculum Agent Answer: {qa_answer}")
         return qa_answer
