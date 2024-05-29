@@ -7,4 +7,5 @@ async function placeChest(bot) {
     // Place the chest
     const chestPosition = await findSuitablePosition(bot);
     await placeItem(bot, "chest", chestPosition);
+    return chestPosition;
 }
