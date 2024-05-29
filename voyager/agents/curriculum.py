@@ -417,6 +417,12 @@ class CurriculumAgent:
             except Exception as e:
                 retry -= 1
         
+        for item in monster_order:
+            if len(item.split()) != 2:
+                for monster in monster_origin:
+                    if item in monster.strip():
+                        item = monster.strip()
+
         if len(monster_origin) != len(monster_order):
             for monster in monster_origin:
                 if monster not in monster_order:
