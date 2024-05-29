@@ -537,13 +537,13 @@ class Voyager:
                 "username": self.username
             }
         )
-        self.run_raw_skill("./test_env/respawnAndClear.js")
         self.recorder.elapsed_time = 0
         self.recorder.iteration = 0
         self.step_time = []
         self.curriculum_agent.completed_tasks = []
         self.curriculum_agent.failed_tasks = []
         self.last_events = self.env.step("")
+        self.run_raw_skill("./test_env/respawnAndClear.js")
         
         while self.curriculum_agent.progress < len(sub_goals):
             next_task = sub_goals[self.curriculum_agent.progress]
@@ -564,6 +564,7 @@ class Voyager:
                 U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}, Failed.\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")
             if (self.step_time[-1] >= 24000):
                 break
+
     def run_raw_skill(self, skill_path, parameters = []):
         retry = 3
         while retry > 0:
