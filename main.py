@@ -99,9 +99,6 @@ def test_combat():
         action_agent_model_name = ModelType.LLAMA3_70B_V1,
     )
     combat_benchmark = [
-        #
-        "3 zombie",
-        #
                         # Single-mob tasks
                          "1 skeleton",  "1 spider", "1 zombified_piglin", "1 enderman",
                         # Multi-mob tasks
