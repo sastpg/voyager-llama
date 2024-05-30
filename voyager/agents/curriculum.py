@@ -21,7 +21,8 @@ from voyager.agents.llama import call_with_messages, ModelType
 
 env_prompt = {
     'combat': 'combat_sys_prompt',
-    'farming': 'farming_sys_prompt'
+    'farming': 'farming_sys_prompt',
+    'explore': 'explore_sys_prompt'
 }
 
 
@@ -140,8 +141,7 @@ class CurriculumAgent:
         prompts = load_prompt(env_prompt[environment])
         if goals != None:
             prompts = prompts.replace("```goals```", goals)
-        else:
-            prompts = prompts.replace("```goals```", "discover as many diverse things as possible, accomplish as many diverse tasks as possible and become the best Minecraft player in the world.")
+        
         system_message = SystemMessage(content=prompts)
         assert isinstance(system_message, SystemMessage)
         return system_message
@@ -262,34 +262,9 @@ class CurriculumAgent:
 
         # hard code task when inventory is almost full
         inventoryUsed = events[-1][1]["status"]["inventoryUsed"]
-        if inventoryUsed >= 33:
-            if chest_observation != "Chests: None\n\n":
-                chests = chest_observation[8:-2].split("\n")
-                for chest in chests:
-                    content = chest.split(":")[1]
-                    if content == " Unknown items inside" or content == " Empty":
-                        position = chest.split(":")[0]
-                        task = f"Deposit useless items into the chest at {position}"
-                        context = (
-                            f"Your inventory have {inventoryUsed} occupied slots before depositing. "
-                            "After depositing, your inventory should only have 20 occupied slots. "
-                            "You should deposit useless items such as andesite, dirt, cobblestone, etc. "
-                            "Also, you can deposit low-level tools, "
-                            "For example, if you have a stone pickaxe, you can deposit a wooden pickaxe. "
-                            "Make sure the list of useless items are in your inventory "
-                            "(do not list items already in the chest), "
-                            "You can use bot.inventoryUsed() to check how many inventory slots are used."
-                        )
-                        return task, context
-            if "chest" in events[-1][1]["inventory"]:
-                task = "Place a chest"
-                context = (
-                    f"You have a chest in inventory, place it around you. "
-                    f"If chests is not None, or nearby blocks contains chest, this task is success."
-                )
-            else:
-                task = "Craft 1 chest"
-                context = "Craft 1 chest with 8 planks of any kind of wood."
+        if inventoryUsed > 32:
+            task = "deposit items into chest"
+            context = "You should deposits non-iron and non-diamond items from the your inventory into a chest at a specified position, using a placed chest as a deposit location."
             return task, context
 
         messages = [

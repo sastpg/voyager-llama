@@ -25,11 +25,9 @@ You must follow the following criteria:
 7) Tasks that require information beyond the player's status to verify should be avoided. For instance, "Placing 4 torches" and "Dig a 2x1x2 hole" are not ideal since they require visual confirmation from the screen. All the placing, building and trading tasks should be avoided. Do not propose task starting with these keywords.
 8) For wood-related tasks, you don't need to emphasize the type of wood, just propose "mine log" or "craft planks".
 
-You should only respond in the JSON format as described below:
-RESPONSE FORMAT:
-"Reasoning": "Based on the information I listed above, do reasoning about what the next task should be."
-"Task": "The next task."
-
-Here's an example response:
-"Reasoning": "The inventory is empty now, chop down a tree to get some wood."
-"Task": "Obtain a wood log."
+You should only respond in JSON format as described below:
+{
+    "reasoning": "Based on the information I listed above, do reasoning about what the next task should be.",
+    "task": "The next task."
+}
+Ensure the response can be parsed by Python `json.loads`, e.g.: no trailing commas, no single quotes, etc.
