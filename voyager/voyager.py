@@ -264,7 +264,7 @@ class Voyager:
                     critique = ''
                     self.logger.debug(f'success: {success}')
             else:
-                with Timer('Check Task Success'):
+                with Timer('Critic Check Task Success'):
                     success, critique = self.critic_agent.check_task_success(
                         events=events,
                         task=self.task,
@@ -481,7 +481,7 @@ class Voyager:
                         reset_env=reset_env,
                     )
                     self.logger.debug(f'info: {info}')
-                with Timer('update exploration progress'):
+                with Timer('Update Exploration Progress'):
                     self.curriculum_agent.update_exploration_progress(info)
                     self.logger.success(f"Completed tasks: {', '.join(self.curriculum_agent.completed_tasks)}")
                     self.logger.failed(f"Failed tasks: {', '.join(self.curriculum_agent.failed_tasks)}")
@@ -505,10 +505,11 @@ class Voyager:
                 combat_para2 = int(para[0])
                 combat_para1 = para[1].lower() # ensure no uppercase
                 with Timer('kill monsters'):
+                    self.logger.debug(f'kill monster skill parameter: {combat_para1}, {combat_para2}')
                     kill_res = self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para1, combat_para2])
                 if 'lost' in kill_res:
                     break
-            with Timer('check task success'):
+            with Timer('Comment Check Task Success'):
                 health, cirtiques, result, equipment = \
                     self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
             U.f_mkdir(f"./results/{self.environment}")

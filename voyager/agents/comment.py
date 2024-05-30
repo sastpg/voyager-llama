@@ -4,6 +4,7 @@ from voyager.utils.json_utils import fix_and_parse_json
 from langchain.schema import HumanMessage, SystemMessage
 from voyager.agents.llama import call_with_messages, ModelType
 from voyager.utils.logger import get_logger
+from typing import Union
 env_prompt = {
     'combat': 'combat_critic_prompt'
 }
@@ -25,7 +26,7 @@ class CommentAgent:
         system_message = SystemMessage(content=load_prompt(env_prompt[self.env]))
         return system_message
 
-    def render_human_message(self, events, task_list, time_ticks, iteration):
+    def render_human_message(self, events, task_list, time_ticks, iteration)->Union[None, tuple[HumanMessage, str]]:
         assert events[-1][0] == "observe", "Last event must be observe"
         health = events[-1][1]["status"]["health"]
 
@@ -90,12 +91,17 @@ class CommentAgent:
     def check_task_success(
         self, *, events, task, time, iter, max_retries=5
     ):
-        human_message, result = self.render_human_message(
+        res = self.render_human_message(
             events=events,
             task_list=task,
             time_ticks=time,
             iteration=iter
         )
+        if res is None:
+            human_message = None
+            result = 'failed'
+        else:
+            human_message, result = res
 
         messages = [
             self.render_system_message(),
