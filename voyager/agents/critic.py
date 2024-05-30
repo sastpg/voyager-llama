@@ -300,8 +300,8 @@ class CriticAgent:
                 return seed_nearby
             if goals == 'cook meat (beef / mutton / pork / chicken)':
                 return meat_in_inventory
-            if goals == 'plant 1 seed (wheat / melon / pumpkin) and cook 1 meat (beef / mutton / pork / chicken)':
-                return seed_nearby and meat_in_inventory
+            if goals == 'hoe a farmland and cook 1 meat (beef / mutton / pork / chicken)':
+                return farmland_nearby and meat_in_inventory
             if goals == 'collect 1 wool by shears and collect 1 bucket of milk':
                 return wool_in_inventory and milk_in_inventory
 

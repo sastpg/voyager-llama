@@ -565,7 +565,16 @@ class Voyager:
             if (self.step_time[-1] >= 24000):
                 break
 
-    def run_raw_skill(self, skill_path, parameters = []):
+    def run_raw_skill(self, skill_path, parameters = [], reset = False):
+        # reset here only used for skill test
+        if (reset):
+            self.env.reset(
+            options={
+                "mode": "soft",
+                "wait_ticks": self.env_wait_ticks,
+                "username": self.username
+            }
+        )
         retry = 3
         while retry > 0:
             try:

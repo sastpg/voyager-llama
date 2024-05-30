@@ -160,9 +160,10 @@ def test_farming():
     farming_benchmark = [
                     # Single-goal tasks
                     "hoe a farmland", "collect 1 wool by shears or collect 1 bucket of milk",
-                    "cook meat (beef / mutton / pork / chicken)", "plant 1 seed (wheat / melon / pumpkin)"
+                    "cook meat (beef / mutton / pork / chicken)", "breed 1 chicken",
                     # Multi-goal tasks
-                    "plant 1 seed (wheat / melon / pumpkin) and cook 1 meat (beef / mutton / pork / chicken)",
+                    "plant 1 seed (wheat / melon / pumpkin)",
+                    "hoe a farmland and cook 1 meat (beef / mutton / pork / chicken)",
                     "collect 1 wool by shears and collect 1 bucket of milk",
                     ]
     while True:
@@ -186,5 +187,19 @@ def test_farming():
                 logger.critical(e)
                 traceback.print_exc()                
 
+def test_skill(skill_name):
+    voyager_skill = Voyager(
+        mc_port=mc_port,
+        mc_host=mc_host,
+        env_wait_ticks=env_wait_ticks,
+        skill_library_dir="./skill_library",
+        reload=True, # set to True if the skill_json updated
+        embedding_dir=embedding_dir, # your model path
+        resume=False,
+        server_port=node_port,
+    )
+    voyager_skill.run_raw_skill(f"D:\DESKTOP/Voyager/skill_library/skill/code/{skill_name}", reset=True)
+
 if __name__ == '__main__':
-    test_subgoal()
+    while True:
+        test_subgoal()
