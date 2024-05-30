@@ -405,7 +405,7 @@ class Voyager:
                     }
                 )
                 # use red color background to print the error
-                self.logger.critical("Your last round rollout terminated due to error: "+e)
+                self.logger.critical(f"Your last round rollout terminated due to error: {e}")
                 continue
 
             # if info["success"]:
