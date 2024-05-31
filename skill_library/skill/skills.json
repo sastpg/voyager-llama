@@ -496,7 +496,7 @@
         "description": "Name: craftWoodenSword; Description:This function ensures the bot has sufficient sticks and planks in its inventory, crafts them if needed, and then crafts a crafting table if not already available, placing it nearby and finally using it to craft a wooden sword.\n"
     },
     "depositIntoChest": {
-        "code": "async function depositIntoChest(bot) {\n    let pos = await placeChest(bot);\n    await bot.chat(JSON.stringify(bot.inventory))\n    for (let item of bot.inventory) {\n        if (item) {\n            let item_name = item.name;\n            // deposit none-iron and none-diamond items into chest\n            if (!item_name.includes('diamond') && !item_name.includes('iron')) {\n                await depositItemIntoChest(bot, pos, item_name);\n            }\n        }\n    }\n}",
+        "code": "async function depositIntoChest(bot) {\n    let pos = await placeChest(bot);\n    for (let slot = 0; slot < bot.inventory.slots.length; slot++) {\n        let item = bot.inventory.slots[slot];\n        if (item) {\n            let item_name = item.name;\n            let item_count = item.count;\n            let item_dict = {[item_name]: item_count};\n            await bot.chat(JSON.stringify(item_dict));\n            // deposit non-iron and non-diamond items into chest\n            if (!item_name.includes('diamond') && !item_name.includes('iron')) {\n                await depositItemIntoChest(bot, pos, item_dict);\n            }\n        }\n    }\n}",
         "description": "Name: depositIntoChest; Description:This function deposits non-iron and non-diamond items from the bot's inventory into a chest at a specified position, using a placed chest as a deposit location.\n"
     },
     "equipArmor": {
