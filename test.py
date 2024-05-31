@@ -202,4 +202,4 @@ def test_skill(skill_name):
 
 if __name__ == '__main__':
     while True:
-        test_subgoal()
+        test_skill("depositIntoChest.js")

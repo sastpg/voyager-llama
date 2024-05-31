@@ -331,7 +331,7 @@ class Voyager:
             info["program_name"] = parsed_result["program_name"]
         # else:
         #     self.logger.debug(f"****Action Agent human message****\n{self.messages[-1].content}")
-        return self.messages, events[-1][1]["inventory"], done, info
+        return self.messages, self.last_events[-1][1]["inventory"], done, info
 
     def rollout(self, *, task, context, reset_env=True):
         self.reset(task=task, context=context, reset_env=reset_env)

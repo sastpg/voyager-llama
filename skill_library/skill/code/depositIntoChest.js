@@ -1,8 +1,8 @@
 async function depositIntoChest(bot) {
     let pos = await placeChest(bot);
-    await bot.chat(JSON.stringify(bot.inventory))
     for (let slot = 0; slot < bot.inventory.slots.length; slot++) {
         let item = bot.inventory.slots[slot];
+        await bot.chat(JSON.stringify(item));
         if (item) {
             let item_name = item.name;
             // deposit non-iron and non-diamond items into chest
