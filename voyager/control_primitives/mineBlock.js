@@ -33,5 +33,6 @@ async function mineBlock(bot, name, count = 1) {
         ignoreNoPath: true,
         count: count,
     });
+    console.log('Mine Block, targets:', targets, 'count:', count, 'name:', name);
     bot.save(`${name}_mined`);
 }
