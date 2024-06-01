@@ -520,6 +520,11 @@ class Voyager:
                 with Timer('decompose task again based on feedback'):
                     sub_goals = self.decompose_task(task, last_tasklist=equipment, critique=cirtiques, health=health)
                     self.logger.debug('Decomposed sub_goals based on feedback: {sub_goals}')
+                
+            except Exception as e:
+                U.f_mkdir(f"./results/{self.environment}")
+                U.dump_text(f"Route {i}: Plan list: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, failed, caused by {e}\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
+            finally:
                 self.run_raw_skill("./test_env/respawnAndClear.js")
                 self.env.reset(
                     options={
@@ -530,11 +535,6 @@ class Voyager:
                 )
                 self.curriculum_agent.completed_tasks = []
                 self.curriculum_agent.failed_tasks = []
-            except Exception as e:
-                U.f_mkdir(f"./results/{self.environment}")
-                U.dump_text(f"Route {i}: Plan list: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, failed, caused by {e}\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
-            finally:
-                pass
 
     def inference_sub_goal(self, task:str=None, sub_goals=[], reset_mode="hard", reset_env=True):
         if not sub_goals:
