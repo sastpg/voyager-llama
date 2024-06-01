@@ -160,7 +160,7 @@ def test_farming():
     farming_benchmark = [
                     # Single-goal tasks
                     "hoe a farmland", "collect 1 wool by shears or collect 1 bucket of milk",
-                    "cook meat (beef / mutton / pork / chicken)", "breed 1 chicken",
+                    "cook meat (beef / mutton / pork / chicken)",
                     # Multi-goal tasks
                     "plant 1 seed (wheat / melon / pumpkin)",
                     "hoe a farmland and cook 1 meat (beef / mutton / pork / chicken)",
@@ -200,6 +200,45 @@ def test_skill(skill_name):
     )
     voyager_skill.run_raw_skill(f"D:\DESKTOP/Voyager/skill_library/skill/code/{skill_name}", reset=True)
 
+def test_explore():
+    voyager_l3_8b = Voyager(
+        mc_port=mc_port,
+        mc_host=mc_host,
+        env_wait_ticks=env_wait_ticks,
+        skill_library_dir="./skill_library",
+        reload=True, # set to True if the skill_json updated
+        embedding_dir=embedding_dir, # your model path
+        # embedding_dir="/home/MCagent/paraphrase-multilingual-MiniLM-L12-v2", # linux model path
+        environment='explore',
+        resume=False,
+        server_port=node_port,
+        critic_agent_model_name = ModelType.LLAMA3_8B_V3,
+        comment_agent_model_name = ModelType.LLAMA3_8B_V3,
+        curriculum_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
+        curriculum_agent_model_name = ModelType.LLAMA3_8B_V3,
+        action_agent_model_name = ModelType.LLAMA3_8B_V3,
+        username='bot1_8b_v3'
+    )
+    voyager_l3_70b = Voyager(
+        mc_port=mc_port,
+        mc_host=mc_host,
+        env_wait_ticks=env_wait_ticks,
+        skill_library_dir="./skill_library",
+        reload=True, # set to True if the skill_json updated
+        embedding_dir=embedding_dir, # your model path
+        # embedding_dir="/home/MCagent/paraphrase-multilingual-MiniLM-L12-v2", # linux model path
+        environment='explore',
+        resume=False,
+        server_port=node_port,
+        critic_agent_model_name = ModelType.LLAMA3_70B_V1,
+        comment_agent_model_name = ModelType.LLAMA3_70B_V1,
+        curriculum_agent_qa_model_name = ModelType.LLAMA3_70B_V1,
+        curriculum_agent_model_name = ModelType.LLAMA3_70B_V1,
+        action_agent_model_name = ModelType.LLAMA3_70B_V1,
+        username='bot1_70b_v1'
+    )
+    voyager_l3_8b.learn()
+    voyager_l3_70b.learn()
+
 if __name__ == '__main__':
-    while True:
-        test_subgoal()
+    test_farming()
