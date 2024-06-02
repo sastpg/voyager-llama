@@ -236,6 +236,7 @@ class CurriculumAgent:
         #             break
         if goals:
             content += "Ultimate goal: " + goals +"\n"
+            content += "Note that your proposed tasks should directly related to the goals!\n"
         for key in self.curriculum_observations:
             content += observation[key]
             # if self.progress >= self.warm_up[key]:
