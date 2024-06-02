@@ -36,7 +36,7 @@ class Voyager:
         action_agent_task_max_retries: int = 4,
         action_agent_show_chat_log: bool = True,
         action_agent_show_execution_error: bool = True,
-        curriculum_agent_model_name: str = ModelType.LLAMA2_70B,
+        curriculum_agent_model_name: str = ModelType.LLAMA3_70B_V1,
         curriculum_agent_temperature: float = 0,
         curriculum_agent_qa_model_name: str = ModelType.LLAMA3_8B_V3,
         curriculum_agent_qa_temperature: float = 0,
@@ -423,8 +423,9 @@ class Voyager:
                     break
             self.logger.success(f"Completed tasks: {', '.join(self.curriculum_agent.completed_tasks)}")
             self.logger.failed(f"Failed tasks: {', '.join(self.curriculum_agent.failed_tasks)}")
-
+        
         U.f_mkdir(f"./results/{self.environment}")
+        self.logger.info(f"\n\nTicks on each step: {self.step_time}, LLM iters: {self.total_iter}, Completed: {completed}")
         U.dump_text(f"\n\nTicks on each step: {self.step_time}, LLM iters: {self.total_iter}, Completed: {completed}", f"./results/{self.environment}/{goals.replace(' ', '_')}.txt")
         return {
             "completed_tasks": self.curriculum_agent.completed_tasks,
