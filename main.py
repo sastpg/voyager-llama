@@ -259,21 +259,21 @@ def test_farming():
         i = 0
         while i < len(farming_benchmark):
             try:
-                voyager_l3_8b.learn(goals=farming_benchmark[i], reset_env=False)
-                i += 1
-            except Exception as e:
-                logger.critical(farming_benchmark[i]+' failed. retry...')
-                logger.critical(e)
-                traceback.print_exc()
-        i = 0
-        while i < len(farming_benchmark):
-            try:
                 voyager_l3_70b.learn(goals=farming_benchmark[i], reset_env=False)
                 i += 1
             except Exception as e:
                 logger.critical(farming_benchmark[i]+' failed. retry...')
                 logger.critical(e)
                 traceback.print_exc() 
+        i = 0
+        while i < len(farming_benchmark):
+            try:
+                voyager_l3_8b.learn(goals=farming_benchmark[i], reset_env=False)
+                i += 1
+            except Exception as e:
+                logger.critical(farming_benchmark[i]+' failed. retry...')
+                logger.critical(e)
+                traceback.print_exc()
 
 if __name__ == '__main__':
     test_combat()
