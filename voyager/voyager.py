@@ -214,8 +214,6 @@ class Voyager:
             self.skills = self.skill_manager.retrieve_skills(query=self.context)
             self.logger.info(f"Render Action Agent system message with {len(self.skills[0])} skills")
         system_message = self.action_agent.render_system_message()
-        # skills: [code, description] code �??? description �???长度相同的列�???
-        # skills[0] �???技能code，skills[1] �???技能的description
         human_message = self.action_agent.render_human_message(
             events=events, code="", task=self.task, context=context, critique="", skills=self.skills[1]
         )
@@ -426,7 +424,7 @@ class Voyager:
         
         U.f_mkdir(f"./results/{self.environment}")
         self.logger.info(f"\n\nTicks on each step: {self.step_time}, LLM iters: {self.total_iter}, Completed: {completed}")
-        U.dump_text(f"\n\nTicks on each step: {self.step_time}, LLM iters: {self.total_iter}, Completed: {completed}", f"./results/{self.environment}/{goals.replace(' ', '_')}.txt")
+        U.dump_text(f"\n\nTicks on each step: {self.step_time}, LLM iters: {self.total_iter}, Completed: {completed}", f"./results/{self.environment}/{goals.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
         return {
             "completed_tasks": self.curriculum_agent.completed_tasks,
             "failed_tasks": self.curriculum_agent.failed_tasks,
