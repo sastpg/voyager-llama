@@ -214,8 +214,8 @@ class Voyager:
             self.skills = self.skill_manager.retrieve_skills(query=self.context)
             self.logger.info(f"Render Action Agent system message with {len(self.skills[0])} skills")
         system_message = self.action_agent.render_system_message()
-        # skills: [code, description] code �??? description �???长度相同的列�???
-        # skills[0] �???技能code，skills[1] �???技能的description
+        # skills: [code, description] code �??? description �???长度相同的列�???
+        # skills[0] �???技能code，skills[1] �???技能的description
         human_message = self.action_agent.render_human_message(
             events=events, code="", task=self.task, context=context, critique="", skills=self.skills[1]
         )
