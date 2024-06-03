@@ -347,45 +347,50 @@ class Voyager:
         self.step_time = []
         self.critic_agent.last_inventory = "Empty"
         self.critic_agent.last_inventory_used = 0
-        if self.resume:
-            # keep the inventory
-            self.env.reset(
-                options={
-                    "mode": "soft",
-                    "wait_ticks": self.env_wait_ticks,
-                    "username": self.username
-                }
-            )
-        else:
-            # clear the inventory
-            self.env.reset(
-                options={
-                    "mode": "hard",
-                    "wait_ticks": self.env_wait_ticks,
-                    "username": self.username
-                }
-            )
-            self.resume = True
+        with Timer('env reset'):
+            self.logger.debug(f'resume: {self.resume}')
+            if self.resume:
+                # keep the inventory
+                self.env.reset(
+                    options={
+                        "mode": "soft",
+                        "wait_ticks": self.env_wait_ticks,
+                        "username": self.username
+                    }
+                )
+            else:
+                # clear the inventory
+                self.env.reset(
+                    options={
+                        "mode": "hard",
+                        "wait_ticks": self.env_wait_ticks,
+                        "username": self.username
+                    }
+                )
+                self.resume = True
         self.run_raw_skill("./test_env/respawnAndClear.js") # clear inventory without reset
-        self.last_events = self.env.step("")
+        with Timer('env step empty string'):
+            self.last_events = self.env.step("")
         while True:
             if self.recorder.iteration > self.max_iterations:
                 self.logger.warning("Iteration limit reached")
                 break
-            task, context = self.curriculum_agent.propose_next_task(
-                events=self.last_events,
-                environment=self.environment,
-                chest_observation=self.action_agent.render_chest_observation(),
-                goals=goals,
-                max_retries=500,
-            )
+            with Timer('Curriculum Agent propose_next_task'):
+                task, context = self.curriculum_agent.propose_next_task(
+                    events=self.last_events,
+                    environment=self.environment,
+                    chest_observation=self.action_agent.render_chest_observation(),
+                    goals=goals,
+                    max_retries=500,
+                )
             self.logger.info(f"Starting task {task} for at most {self.action_agent_task_max_retries} times")
             try:
-                messages, inventory, done, info = self.rollout(
-                    task=task,
-                    context=context,
-                    reset_env=reset_env,
-                )
+                with Timer('learn: rollout'):
+                    messages, inventory, done, info = self.rollout(
+                        task=task,
+                        context=context,
+                        reset_env=reset_env,
+                    )
             except Exception as e:
                 time.sleep(3)  # wait for mineflayer to exit
                 info = {
@@ -412,11 +417,12 @@ class Voyager:
             new_inventory = [key for key in inventory if key not in self.inventory]
             self.inventory += new_inventory
             U.dump_text(f"Iteration: {self.recorder.iteration}, Inventory obtained: {new_inventory}, Total inventory: {self.inventory}, Num: {len(self.inventory)}\n", f"./results/{self.environment}{self.action_agent_model_name.replace(' ', '_')}.txt")
-
-            self.curriculum_agent.update_exploration_progress(info)
+            with Timer('Update Exploration Progress'):
+                self.curriculum_agent.update_exploration_progress(info)
             completed = None
             if goals is not None:
-                completed = self.critic_agent.check_goal_success(self.last_events, self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals, mode = "program")
+                with Timer('Critic Check Goal Success'):
+                    completed = self.critic_agent.check_goal_success(self.last_events, self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals, mode = "program")
                 if completed or self.step_time[-1] >= 30000:
                     break
             self.logger.success(f"Completed tasks: {', '.join(self.curriculum_agent.completed_tasks)}")
