@@ -1,6 +1,7 @@
 main_bingxing.py
 ckpt*
 results/
+skill_library/skill/vectordb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
