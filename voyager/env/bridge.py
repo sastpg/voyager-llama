@@ -13,7 +13,7 @@ import voyager.utils as U
 
 from .minecraft_launcher import MinecraftInstance
 from .process_monitor import SubprocessMonitor
-from voyager.utils.logger import get_logger
+from voyager.utils.logger import get_logger, Timer
 
 class VoyagerEnv(gym.Env):
     def __init__(
@@ -124,16 +124,18 @@ class VoyagerEnv(gym.Env):
         }
         while retry > 0:
             try:
-                res = requests.post(
-                    f"{self.server}/step", json=data, timeout=self.request_timeout
-                )
-                if res.status_code == 200:
-                    break
-                else:
-                    retry -= 1
-                    self.logger.warning(f"Step Minecraft server failed, retrying")
-                    if retry == 0:
-                        raise RuntimeError("Step Minecraft server failed!")
+                with Timer('post step'):
+                    res = requests.post(
+                        f"{self.server}/step", json=data, timeout=self.request_timeout
+                    )
+                    if res.status_code == 200:
+                        self.logger.debug(f'response:{res.json()}')
+                        break
+                    else:
+                        retry -= 1
+                        self.logger.warning(f"Step Minecraft server failed, retrying")
+                        if retry == 0:
+                            raise RuntimeError("Step Minecraft server failed!")
             except requests.exceptions.Timeout:
                 retry -= 1
                 self.logger.warning(f"Step Minecraft server timeout, retrying")
