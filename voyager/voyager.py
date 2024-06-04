@@ -347,45 +347,50 @@ class Voyager:
         self.step_time = []
         self.critic_agent.last_inventory = "Empty"
         self.critic_agent.last_inventory_used = 0
-        if self.resume:
-            # keep the inventory
-            self.env.reset(
-                options={
-                    "mode": "soft",
-                    "wait_ticks": self.env_wait_ticks,
-                    "username": self.username
-                }
-            )
-        else:
-            # clear the inventory
-            self.env.reset(
-                options={
-                    "mode": "hard",
-                    "wait_ticks": self.env_wait_ticks,
-                    "username": self.username
-                }
-            )
-            self.resume = True
+        with Timer('env reset'):
+            self.logger.debug(f'resume: {self.resume}')
+            if self.resume:
+                # keep the inventory
+                self.env.reset(
+                    options={
+                        "mode": "soft",
+                        "wait_ticks": self.env_wait_ticks,
+                        "username": self.username
+                    }
+                )
+            else:
+                # clear the inventory
+                self.env.reset(
+                    options={
+                        "mode": "hard",
+                        "wait_ticks": self.env_wait_ticks,
+                        "username": self.username
+                    }
+                )
+                self.resume = True
         self.run_raw_skill("./test_env/respawnAndClear.js") # clear inventory without reset
-        self.last_events = self.env.step("")
+        with Timer('env step empty string'):
+            self.last_events = self.env.step("")
         while True:
             if self.recorder.iteration > self.max_iterations:
                 self.logger.warning("Iteration limit reached")
                 break
-            task, context = self.curriculum_agent.propose_next_task(
-                events=self.last_events,
-                environment=self.environment,
-                chest_observation=self.action_agent.render_chest_observation(),
-                goals=goals,
-                max_retries=500,
-            )
+            with Timer('Curriculum Agent propose_next_task'):
+                task, context = self.curriculum_agent.propose_next_task(
+                    events=self.last_events,
+                    environment=self.environment,
+                    chest_observation=self.action_agent.render_chest_observation(),
+                    goals=goals,
+                    max_retries=500,
+                )
             self.logger.info(f"Starting task {task} for at most {self.action_agent_task_max_retries} times")
             try:
-                messages, inventory, done, info = self.rollout(
-                    task=task,
-                    context=context,
-                    reset_env=reset_env,
-                )
+                with Timer('learn: rollout'):
+                    messages, inventory, done, info = self.rollout(
+                        task=task,
+                        context=context,
+                        reset_env=reset_env,
+                    )
             except Exception as e:
                 time.sleep(3)  # wait for mineflayer to exit
                 info = {
@@ -412,11 +417,12 @@ class Voyager:
             new_inventory = [key for key in inventory if key not in self.inventory]
             self.inventory += new_inventory
             U.dump_text(f"Iteration: {self.recorder.iteration}, Inventory obtained: {new_inventory}, Total inventory: {self.inventory}, Num: {len(self.inventory)}\n", f"./results/{self.environment}{self.action_agent_model_name.replace(' ', '_')}.txt")
-
-            self.curriculum_agent.update_exploration_progress(info)
+            with Timer('Update Exploration Progress'):
+                self.curriculum_agent.update_exploration_progress(info)
             completed = None
             if goals is not None:
-                completed = self.critic_agent.check_goal_success(self.last_events, self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals, mode = "program")
+                with Timer('Critic Check Goal Success'):
+                    completed = self.critic_agent.check_goal_success(self.last_events, self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals, mode = "program")
                 if completed or self.step_time[-1] >= 36000:
                     break
             self.logger.success(f"Completed tasks: {', '.join(self.curriculum_agent.completed_tasks)}")
@@ -424,7 +430,7 @@ class Voyager:
         
         U.f_mkdir(f"./results/{self.environment}")
         self.logger.info(f"\n\nTicks on each step: {self.step_time}, LLM iters: {self.total_iter}, Completed: {completed}")
-        U.dump_text(f"\n\nTicks on each step: {self.step_time}, LLM iters: {self.total_iter}, Completed: {completed}", f"./results/{self.environment}/{goals.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
+        U.dump_text(f"\n\nTicks on each step: {self.step_time}; LLM iters: {self.total_iter}; Completed: {completed}", f"./results/{self.environment}/{goals.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
         return {
             "completed_tasks": self.curriculum_agent.completed_tasks,
             "failed_tasks": self.curriculum_agent.failed_tasks,
@@ -501,20 +507,31 @@ class Voyager:
                     summon_para.insert(1, 5)  # idx =1, r=5
                     self.run_raw_skill("./test_env/summonMob.js", summon_para)
 
-                for monster in combat_order:
-                    para = monster.split(' ')
-                    combat_para2 = int(para[0])
-                    combat_para1 = para[1].lower() # ensure no uppercase
-                    with Timer('kill monsters'):
-                        self.logger.debug(f'kill monster skill parameter: {combat_para1}, {combat_para2}')
-                        kill_res = self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para1, combat_para2])
-                    if 'lost' in kill_res:
-                        break
+                monster_origin = task.split(',')
+                try:
+                    for monster in combat_order:
+                        para = monster.split(' ')
+                        combat_para2 = int(para[0])
+                        combat_para1 = para[1].lower() # ensure no uppercase
+                except:
+                    # if error happens, use the origin order to kill monster
+                    combat_order = monster_origin
+                finally:
+                    for monster in combat_order:
+                        para = monster.split(' ')
+                        combat_para2 = int(para[0])
+                        combat_para1 = para[1].lower() # ensure no uppercase
+                        with Timer('kill monsters'):
+                            self.logger.debug(f'kill monster skill parameter: {combat_para1}, {combat_para2}')
+                            kill_res = self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para1, combat_para2])
+                        if 'lost' in kill_res:
+                            break
+                
                 with Timer('Comment Check Task Success'):
                     health, cirtiques, result, equipment = \
                         self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
                 U.f_mkdir(f"./results/{self.environment}")
-                U.dump_text(f"Route {i}: Plan list: {sub_goals}, Equipments obtained: {equipment}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Health: {health:.1f}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
+                U.dump_text(f"Route {i}; Plan list: {sub_goals}; Equipments obtained: {equipment}; Ticks on each step: {self.step_time}; LLM iters: {self.total_iter}; Health: {health:.1f}; Combat result: {result}\n\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
 
                 with Timer('decompose task again based on feedback'):
                     sub_goals = self.decompose_task(task, last_tasklist=equipment, critique=cirtiques, health=health)
@@ -522,7 +539,7 @@ class Voyager:
                 
             except Exception as e:
                 U.f_mkdir(f"./results/{self.environment}")
-                U.dump_text(f"Route {i}: Plan list: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, failed, caused by {e}\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
+                U.dump_text(f"Route {i}; Plan list: {sub_goals}; Ticks on each step: {self.step_time}; LLM iters: {self.total_iter}; failed; caused by {e}\n\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
             finally:
                 self.run_raw_skill("./test_env/respawnAndClear.js")
                 self.env.reset(

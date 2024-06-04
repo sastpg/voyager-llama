@@ -13,7 +13,7 @@ import voyager.utils as U
 
 from .minecraft_launcher import MinecraftInstance
 from .process_monitor import SubprocessMonitor
-from voyager.utils.logger import get_logger
+from voyager.utils.logger import get_logger, Timer
 
 class VoyagerEnv(gym.Env):
     def __init__(
@@ -96,15 +96,34 @@ class VoyagerEnv(gym.Env):
             self.logger.info(f'mineflayer ready line: {self.mineflayer.ready_line}')
             if self.mineflayer.ready_line is None:
                 self.logger.critical('mineflayer read line is None.')
-            res = requests.post(
-                f"{self.server}/start",
-                json=self.reset_options,
-                timeout=self.request_timeout,
-            )
-            if res.status_code != 200:
-                self.mineflayer.stop()
-                raise RuntimeError(
-                    f"Minecraft server reply with code {res.status_code}"
+            
+            start_retry = 3
+            try:
+                res = requests.post(
+                    f"{self.server}/start",
+                    json=self.reset_options,
+                    timeout=self.request_timeout,
+                )
+                if res.status_code == 200:
+                    self.logger.debug(f'response:{res.json()}')
+                    break
+                else:
+                    start_retry -= 1
+                    self.mineflayer.stop()
+                    self.logger.warning(f"Reset Minecraft server failed, retrying")
+                    self.logger.info('Sleep 3 seconds before retry')
+                    time.sleep(3)
+                    if start_retry == 0:
+                        raise RuntimeError("Reset Minecraft server failed!")
+            except requests.exceptions.Timeout:
+                start_retry -= 1
+                self.logger.warning(f"Reset Minecraft server timeout, retrying")
+                if start_retry == 0:
+                    raise RuntimeError("Reset Minecraft server timeout!")
+                res = requests.post(
+                    f"{self.server}/start",
+                    json=self.reset_options,
+                    timeout=self.request_timeout,
                 )
             return res.json()
 
@@ -124,16 +143,18 @@ class VoyagerEnv(gym.Env):
         }
         while retry > 0:
             try:
-                res = requests.post(
-                    f"{self.server}/step", json=data, timeout=self.request_timeout
-                )
-                if res.status_code == 200:
-                    break
-                else:
-                    retry -= 1
-                    self.logger.warning(f"Step Minecraft server failed, retrying")
-                    if retry == 0:
-                        raise RuntimeError("Step Minecraft server failed!")
+                with Timer('post step'):
+                    res = requests.post(
+                        f"{self.server}/step", json=data, timeout=self.request_timeout
+                    )
+                    if res.status_code == 200:
+                        self.logger.debug(f'response:{res.json()}')
+                        break
+                    else:
+                        retry -= 1
+                        self.logger.warning(f"Step Minecraft server failed, retrying")
+                        if retry == 0:
+                            raise RuntimeError("Step Minecraft server failed!")
             except requests.exceptions.Timeout:
                 retry -= 1
                 self.logger.warning(f"Step Minecraft server timeout, retrying")

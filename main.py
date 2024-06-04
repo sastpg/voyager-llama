@@ -13,7 +13,7 @@ embedding_dir = config.get('SENTENT_EMBEDDING_DIR')
 # mc_port = 25576
 # embedding_dir = '/home/jovyan/notebook/mc_voyager/sentent-embedding'
 mc_host = "10.214.211.110"
-mc_port = 25576
+mc_port = 26665
 node_port = 3000
 # embedding_dir = "D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2" # local dir
 # mc_host = "127.0.0.1"
@@ -253,6 +253,7 @@ def test_farming():
                     # Multi-goal tasks
                     "collect and plant 1 seed (wheat or melon or pumpkin)"
                     ]
+    MAX_RETRY = 3
     while True:
         # for task in farming_benchmark:
         i = 0
@@ -260,19 +261,31 @@ def test_farming():
             try:
                 voyager_l3_70b.learn(goals=farming_benchmark[i], reset_env=False)
                 i += 1
+                retry = MAX_RETRY
             except Exception as e:
                 logger.critical(farming_benchmark[i]+' failed. retry...')
                 logger.critical(e)
                 traceback.print_exc() 
+                if retry > 0:
+                    retry -= 1
+                    continue
+                i += 1
+                retry = MAX_RETRY
         i = 0
         while i < len(farming_benchmark):
             try:
                 voyager_l3_8b.learn(goals=farming_benchmark[i], reset_env=False)
                 i += 1
+                retry = MAX_RETRY
             except Exception as e:
                 logger.critical(farming_benchmark[i]+' failed. retry...')
                 logger.critical(e)
                 traceback.print_exc()
+                if retry > 0:
+                    retry -= 1
+                    continue
+                i += 1
+                retry = MAX_RETRY
 
 if __name__ == '__main__':
     test_combat()
