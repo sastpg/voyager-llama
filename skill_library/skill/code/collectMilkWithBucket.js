@@ -2,7 +2,8 @@ async function collectMilkWithBucket(bot) {
     // check bucket
     let bucket = bot.inventory.findInventoryItem(mcData.itemsByName.bucket.id);
     if (!bucket) {
-        await craftBucket(bot);
+        await bot.chat("No bucket in inventory! Craft bucket first!");
+        // await craftBucket(bot);
     }
     // Equip the bucket
     await bot.equip(bucket, "hand");

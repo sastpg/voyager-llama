@@ -288,4 +288,4 @@ def test_farming():
                 retry = MAX_RETRY
 
 if __name__ == '__main__':
-    test_combat()
+    test_farming()
