@@ -85,7 +85,6 @@ class VoyagerEnv(gym.Env):
             self.reset_options["port"] = self.mc_instance.port
             self.logger.info(f"Server started on port {self.reset_options['port']}")
         retry = 0
-        res = None
         while not self.mineflayer.is_running:
             self.logger.info('Mineflayer process has exited, restarting')
             self.mineflayer.run()
@@ -98,7 +97,7 @@ class VoyagerEnv(gym.Env):
             if self.mineflayer.ready_line is None:
                 self.logger.critical('mineflayer read line is None.')
             
-            
+            res = None            
             start_retry = 3
             try:
                 res = requests.post(
@@ -111,23 +110,22 @@ class VoyagerEnv(gym.Env):
                     break
                 else:
                     start_retry -= 1
-                    self.mineflayer.stop()
                     self.logger.warning(f"Reset Minecraft server failed, retrying")
                     self.logger.info('Sleep 3 seconds before retry')
                     time.sleep(3)
                     if start_retry == 0:
+                        self.mineflayer.stop()
                         raise RuntimeError("Reset Minecraft server failed!")
             except requests.exceptions.Timeout:
                 start_retry -= 1
                 self.logger.warning(f"Reset Minecraft server timeout, retrying")
                 if start_retry == 0:
+                    self.mineflayer.stop()
                     raise RuntimeError("Reset Minecraft server timeout!")
-                res = requests.post(
-                    f"{self.server}/start",
-                    json=self.reset_options,
-                    timeout=self.request_timeout,
-                )
-        return res.json()
+            if res is None:
+                self.mineflayer.stop()
+                raise RuntimeError("Reset Minecraft server failed!")
+            return res.json()
 
     def step(
         self,
