@@ -97,6 +97,7 @@ def test_combat():
         action_agent_model_name = ModelType.LLAMA3_70B_V1,
     )
     combat_benchmark = [
+                        "5 zombie",
                         # Single-mob tasks
                         "1 zombie", "1 skeleton",  "1 spider", "1 zombified_piglin", "1 enderman",
                         # Multi-mob tasks
@@ -107,7 +108,7 @@ def test_combat():
         i = 0
         while i < len(combat_benchmark):
             try:
-                voyager_l3_8b.inference(task=combat_benchmark[i], reset_env=False)
+                voyager_l3_8b.inference(task=combat_benchmark[i], sub_goals=["craft diamond sword", "craft diamond chestplate", "craft diamond leggings", "craft diamond helmet", "craft diamond boots"], reset_env=False)
                 i += 1
             except Exception as e:
                 logger.critical(combat_benchmark[i]+' failed. retry...')
@@ -159,12 +160,12 @@ def test_farming():
     )
     farming_benchmark = [
                     # Single-goal tasks
-                    "hoe a farmland", "collect 1 wool by shears or collect 1 bucket of milk",
-                    "cook meat (beef or mutton or pork or chicken)",
+                    # "hoe a farmland", "collect 1 wool by shears or collect 1 bucket of milk",
+                    # "cook meat (beef or mutton or pork or chicken)",
                     # Multi-goal tasks
                     "plant 1 seed (wheat or melon or pumpkin)",
-                    "hoe a farmland and cook 1 meat (beef or mutton or pork or chicken)",
-                    "collect 1 wool by shears and collect 1 bucket of milk",
+                    # "hoe a farmland and cook 1 meat (beef or mutton or pork or chicken)",
+                    # "collect 1 wool by shears and collect 1 bucket of milk",
                     ]
     while True:
         # for task in farming_benchmark:

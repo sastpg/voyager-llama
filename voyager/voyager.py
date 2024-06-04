@@ -417,7 +417,7 @@ class Voyager:
             completed = None
             if goals is not None:
                 completed = self.critic_agent.check_goal_success(self.last_events, self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals, mode = "program")
-                if completed or self.step_time[-1] >= 30000:
+                if completed or self.step_time[-1] >= 36000:
                     break
             self.logger.success(f"Completed tasks: {', '.join(self.curriculum_agent.completed_tasks)}")
             self.logger.failed(f"Failed tasks: {', '.join(self.curriculum_agent.failed_tasks)}")

@@ -291,14 +291,16 @@ class CriticAgent:
             seed_nearby = 'wheat_seed' in observations["nearby_blocks"] or 'melon_seed' in observations["nearby_blocks"] or 'pumpkin_seed' in observations["nearby_blocks"]
             if goals == 'hoe a farmland':
                 return farmland_nearby
-            if goals == 'collect 1 wool by shears or collect 1 bucket of milk':
-                return wool_in_inventory or milk_in_inventory
-            if goals == 'plant 1 seed (wheat / melon / pumpkin)':
-                return seed_nearby
-            if goals == 'cook meat (beef / mutton / pork / chicken)':
+            if goals == "collect 1 wool by shearing 1 sheep":
+                return wool_in_inventory
+            if goals == "collect 1 bucket of milk":
+                return milk_in_inventory
+            if goals == "cook 1 meat (beef or mutton or pork or chicken)":
                 return meat_in_inventory
-            if goals == 'hoe a farmland and cook 1 meat (beef / mutton / pork / chicken)':
-                return farmland_nearby and meat_in_inventory
-            if goals == 'collect 1 wool by shears and collect 1 bucket of milk':
+            if goals == "collect and plant 1 seed (wheat or melon or pumpkin)":
+                return seed_nearby
+            if goals == 'collect 1 wool by shearing 1 sheep or collect 1 bucket of milk':
+                return wool_in_inventory or milk_in_inventory
+            if goals == 'collect 1 wool by shearing 1 sheep and collect 1 bucket of milk':
                 return wool_in_inventory and milk_in_inventory
 
