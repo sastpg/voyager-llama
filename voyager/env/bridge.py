@@ -85,6 +85,7 @@ class VoyagerEnv(gym.Env):
             self.reset_options["port"] = self.mc_instance.port
             self.logger.info(f"Server started on port {self.reset_options['port']}")
         retry = 0
+        res = None
         while not self.mineflayer.is_running:
             self.logger.info('Mineflayer process has exited, restarting')
             self.mineflayer.run()
@@ -97,7 +98,7 @@ class VoyagerEnv(gym.Env):
             if self.mineflayer.ready_line is None:
                 self.logger.critical('mineflayer read line is None.')
             
-            res = None
+            
             start_retry = 3
             try:
                 res = requests.post(
@@ -126,7 +127,7 @@ class VoyagerEnv(gym.Env):
                     json=self.reset_options,
                     timeout=self.request_timeout,
                 )
-            return res.json()
+        return res.json()
 
     def step(
         self,
