@@ -39,6 +39,7 @@ class CommentAgent:
         observation += f"Used Time: {time_ticks} ticks"
         observation += f"Toal iteration: {iteration}"
         observation += f"Task: {task_list}\n\n"
+        result = 'failed'
         for event in reversed(events):
             if event[0] == 'onChat':
                 result = event[1]['onChat']

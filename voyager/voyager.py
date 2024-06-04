@@ -430,7 +430,7 @@ class Voyager:
         
         U.f_mkdir(f"./results/{self.environment}")
         self.logger.info(f"\n\nTicks on each step: {self.step_time}, LLM iters: {self.total_iter}, Completed: {completed}")
-        U.dump_text(f"\n\nTicks on each step: {self.step_time}, LLM iters: {self.total_iter}, Completed: {completed}", f"./results/{self.environment}/{goals.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
+        U.dump_text(f"\n\nTicks on each step: {self.step_time}; LLM iters: {self.total_iter}; Completed: {completed}", f"./results/{self.environment}/{goals.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
         return {
             "completed_tasks": self.curriculum_agent.completed_tasks,
             "failed_tasks": self.curriculum_agent.failed_tasks,
@@ -507,20 +507,31 @@ class Voyager:
                     summon_para.insert(1, 5)  # idx =1, r=5
                     self.run_raw_skill("./test_env/summonMob.js", summon_para)
 
-                for monster in combat_order:
-                    para = monster.split(' ')
-                    combat_para2 = int(para[0])
-                    combat_para1 = para[1].lower() # ensure no uppercase
-                    with Timer('kill monsters'):
-                        self.logger.debug(f'kill monster skill parameter: {combat_para1}, {combat_para2}')
-                        kill_res = self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para1, combat_para2])
-                    if 'lost' in kill_res:
-                        break
+                monster_origin = task.split(',')
+                try:
+                    for monster in combat_order:
+                        para = monster.split(' ')
+                        combat_para2 = int(para[0])
+                        combat_para1 = para[1].lower() # ensure no uppercase
+                except:
+                    # if error happens, use the origin order to kill monster
+                    combat_order = monster_origin
+                finally:
+                    for monster in combat_order:
+                        para = monster.split(' ')
+                        combat_para2 = int(para[0])
+                        combat_para1 = para[1].lower() # ensure no uppercase
+                        with Timer('kill monsters'):
+                            self.logger.debug(f'kill monster skill parameter: {combat_para1}, {combat_para2}')
+                            kill_res = self.run_raw_skill("skill_library/skill/primitive/killMonsters.js", [combat_para1, combat_para2])
+                        if 'lost' in kill_res:
+                            break
+                
                 with Timer('Comment Check Task Success'):
                     health, cirtiques, result, equipment = \
                         self.comment_agent.check_task_success(events=self.last_events, task=sub_goals, time=self.totoal_time, iter=self.total_iter)
                 U.f_mkdir(f"./results/{self.environment}")
-                U.dump_text(f"Route {i}: Plan list: {sub_goals}, Equipments obtained: {equipment}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, Health: {health:.1f}, Combat result: {result}\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
+                U.dump_text(f"Route {i}; Plan list: {sub_goals}; Equipments obtained: {equipment}; Ticks on each step: {self.step_time}; LLM iters: {self.total_iter}; Health: {health:.1f}; Combat result: {result}\n\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
 
                 with Timer('decompose task again based on feedback'):
                     sub_goals = self.decompose_task(task, last_tasklist=equipment, critique=cirtiques, health=health)
@@ -528,7 +539,7 @@ class Voyager:
                 
             except Exception as e:
                 U.f_mkdir(f"./results/{self.environment}")
-                U.dump_text(f"Route {i}: Plan list: {sub_goals}, Ticks on each step: {self.step_time}, LLM iters: {self.total_iter}, failed, caused by {e}\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
+                U.dump_text(f"Route {i}; Plan list: {sub_goals}; Ticks on each step: {self.step_time}; LLM iters: {self.total_iter}; failed; caused by {e}\n\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
             finally:
                 self.run_raw_skill("./test_env/respawnAndClear.js")
                 self.env.reset(
