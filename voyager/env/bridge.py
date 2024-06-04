@@ -97,6 +97,7 @@ class VoyagerEnv(gym.Env):
             if self.mineflayer.ready_line is None:
                 self.logger.critical('mineflayer read line is None.')
             
+            res = None
             start_retry = 3
             try:
                 res = requests.post(
