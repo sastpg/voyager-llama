@@ -594,12 +594,12 @@ class Voyager:
         # reset here only used for skill test
         if (reset):
             self.env.reset(
-            options={
-                "mode": "soft",
-                "wait_ticks": self.env_wait_ticks,
-                "username": self.username
-            }
-        )
+                options={
+                    "mode": "soft",
+                    "wait_ticks": self.env_wait_ticks,
+                    "username": self.username
+                }
+            )
         retry = 3
         while retry > 0:
             try:

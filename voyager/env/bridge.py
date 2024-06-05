@@ -219,6 +219,10 @@ class VoyagerEnv(gym.Env):
         # All the reset in step will be soft
         self.reset_options["reset"] = "soft"
         self.pause()
+
+        if returned_data is None:
+            self.logger.warning('reset return None')
+            return None        
         return json.loads(returned_data)
 
     def close(self):
