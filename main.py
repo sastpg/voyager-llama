@@ -242,12 +242,32 @@ def explore():
         environment='explore',
         resume=False,
         server_port=node_port,
+        critic_agent_model_name = ModelType.LLAMA3_8B,
+        comment_agent_model_name = ModelType.LLAMA3_8B,
+        curriculum_agent_qa_model_name = ModelType.LLAMA3_8B,
+        curriculum_agent_model_name = ModelType.LLAMA3_8B,
+        action_agent_model_name = ModelType.LLAMA3_8B,
+        # because I wrongly added username bot1_13b in minecraft, so use this name
+        # rather then bot1_8b
+        username='bot1_13b'
+    )
+    voyager_l3_8b_v3 = Voyager(
+        mc_port=mc_port,
+        mc_host=mc_host,
+        env_wait_ticks=env_wait_ticks,
+        skill_library_dir="./skill_library",
+        reload=True, # set to True if the skill_json updated
+        embedding_dir=embedding_dir, # your model path
+        # embedding_dir="/home/MCagent/paraphrase-multilingual-MiniLM-L12-v2", # linux model path
+        environment='explore',
+        resume=False,
+        server_port=node_port,
         critic_agent_model_name = ModelType.LLAMA3_8B_V3,
         comment_agent_model_name = ModelType.LLAMA3_8B_V3,
         curriculum_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
         curriculum_agent_model_name = ModelType.LLAMA3_8B_V3,
         action_agent_model_name = ModelType.LLAMA3_8B_V3,
-        username='bot1_8b_v3'
+        username='bot1_13b_v3'
     )
     voyager_l3_70b = Voyager(
         mc_port=mc_port,
@@ -267,6 +287,7 @@ def explore():
         action_agent_model_name = ModelType.LLAMA3_70B_V1,
         username='bot1_70b_v1'
     )
+    voyager_l3_8b_v3.learn()
     voyager_l3_8b.learn()
     voyager_l3_70b.learn()
 
@@ -335,4 +356,4 @@ def test_farming():
                 traceback.print_exc()
 
 if __name__ == '__main__':
-    test_farming()
+    test_combat()
