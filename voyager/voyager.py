@@ -368,7 +368,7 @@ class Voyager:
                     }
                 )
                 self.resume = True
-        self.run_raw_skill("./test_env/respawnAndClear.js") # clear inventory without reset
+        # self.run_raw_skill("./test_env/respawnAndClear.js") # clear inventory without reset
         with Timer('env step empty string'):
             self.last_events = self.env.step("")
         while True:
