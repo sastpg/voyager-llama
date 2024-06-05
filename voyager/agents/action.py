@@ -209,6 +209,8 @@ class ActionAgent:
                 self.logger.debug(f'code name: {code_name}')
 
                 code = [c for c in skills if code_name in c]
+                if len(code) == 0:
+                    code = skills[0]
                 parsed = babel.parse(code[0])
                 functions = []
                 assert len(list(parsed.program.body)) > 0, "No functions found"
