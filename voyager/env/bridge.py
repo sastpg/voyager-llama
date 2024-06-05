@@ -89,7 +89,8 @@ class VoyagerEnv(gym.Env):
             retry = 3
             while retry > 0:
                 self.logger.info('Start Mineflayer process')
-                self.mineflayer.run()
+                with Timer('check process run mineflayer'):
+                    self.mineflayer.run()
                 if not self.mineflayer.is_running:
                     if retry == 0:
                         raise RuntimeError("Mineflayer process failed to start")
@@ -112,7 +113,7 @@ class VoyagerEnv(gym.Env):
                         timeout=self.request_timeout,
                     )
                     if res.status_code == 200:
-                        self.logger.debug(f'start response:{res.json()}')
+                        # self.logger.debug(f'start response:{res.json()}')
                         return res.json()
                     else:
                         if retry == 0:

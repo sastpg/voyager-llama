@@ -74,6 +74,7 @@ class SubprocessMonitor:
         self.thread = threading.Thread(target=self._start)
         self.thread.start()
         # block until read_event is set
+        print('wait ready_event to set')
         self.ready_event.wait()
 
     def stop(self):
