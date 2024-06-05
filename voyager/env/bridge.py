@@ -2,6 +2,7 @@ import os.path
 import time
 import warnings
 from typing import SupportsFloat, Any, Tuple, Dict
+from voyager.utils.run_utils import retry
 
 import requests
 import json
@@ -238,38 +239,25 @@ class VoyagerEnv(gym.Env):
         self.mineflayer.stop()
         return not self.connected
 
+    @retry(retry_count=3)
     def pause(self):
         if self.mineflayer.is_running and not self.server_paused:
-            while retry > 0:
-                res = requests.post(f"{self.server}/pause")
-                if res.status_code == 200:
-                    self.server_paused = True
-                    break
-                else:
-                    self.logger.debug(res.json())
-                    if retry == 0:
-                        raise RuntimeError("Failed to unpause Minecraft server")
-                    else:
-                        time.sleep(1)
-                        self.logger.warning(f"Failed to unpause Minecraft server {res.status_code}, retrying")
-                    retry -= 1
+            res = requests.post(f"{self.server}/pause")
+            if res.status_code == 200:
+                self.server_paused = True
+            else:
+                self.logger.warning(f"Failed to pause Minecraft server {res.status_code}")
+                raise RuntimeError("Failed to pause Minecraft server")
         return self.server_paused
 
+    @retry(retry_count=3)
     def unpause(self):
         if self.mineflayer.is_running and self.server_paused:
-            retry = 3
-            while retry > 0:
-                res = requests.post(f"{self.server}/pause")
-                if res.status_code == 200:
-                    self.server_paused = False
-                    break
-                else:
-                    self.logger.debug(res.json())
-                    if retry == 0:
-                        raise RuntimeError("Failed to unpause Minecraft server")
-                    else:
-                        time.sleep(1)
-                        self.logger.warning(f"Failed to unpause Minecraft server {res.status_code}, retrying")
-                    retry -= 1
+            res = requests.post(f"{self.server}/pause")
+            if res.status_code == 200:
+                self.server_paused = False
+            else:
+                self.logger.warning(f"Failed to unpause Minecraft server {res.status_code}")
+                raise RuntimeError("Failed to unpause Minecraft server")
                     
         return self.server_paused
