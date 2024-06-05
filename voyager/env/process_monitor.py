@@ -75,6 +75,8 @@ class SubprocessMonitor:
         self.thread.start()
         # block until read_event is set
         print('wait ready_event to set')
+        # is it possible that the ready_event is never set?
+        # self.ready_event.wait(timeout=60)
         self.ready_event.wait()
 
     def stop(self):

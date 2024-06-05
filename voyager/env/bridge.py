@@ -85,7 +85,6 @@ class VoyagerEnv(gym.Env):
             self.reset_options["port"] = self.mc_instance.port
             self.logger.info(f"Server started on port {self.reset_options['port']}")
 
-
         if not self.mineflayer.is_running:
             retry = 3
             while retry > 0:
