@@ -416,7 +416,7 @@ class Voyager:
             #     self.skill_manager.add_new_skill(info)
             new_inventory = [key for key in inventory if key not in self.inventory]
             self.inventory += new_inventory
-            U.dump_text(f"Iteration: {self.recorder.iteration}, Inventory obtained: {new_inventory}, Total inventory: {self.inventory}, Num: {len(self.inventory)}\n", f"./results/{self.environment}{self.action_agent_model_name.replace(' ', '_')}.txt")
+            U.dump_text(f"Iteration: {self.recorder.iteration}, Inventory obtained: {new_inventory}, Total inventory: {self.inventory}, Num: {len(self.inventory)}\n", f"./results/{self.environment}/{self.action_agent_model_name.replace(' ', '_')}.txt")
             with Timer('Update Exploration Progress'):
                 self.curriculum_agent.update_exploration_progress(info)
             completed = None
