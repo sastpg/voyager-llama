@@ -78,54 +78,62 @@ class VoyagerEnv(gym.Env):
             # if self.mc_instance:
             #     self.mc_instance.check_process()
             #     if not self.mc_instance.is_running:
-
             self.logger.info('Start Minecraft server')
             self.mc_instance.run()
             self.mc_port = self.mc_instance.port
             self.reset_options["port"] = self.mc_instance.port
             self.logger.info(f"Server started on port {self.reset_options['port']}")
-        retry = 0
-        while not self.mineflayer.is_running:
-            self.logger.info('Mineflayer process has exited, restarting')
-            self.mineflayer.run()
-            if not self.mineflayer.is_running:
-                if retry > 3:
-                    raise RuntimeError("Mineflayer process failed to start")
+
+
+        if not self.mineflayer.is_running:
+            retry = 3
+            while retry > 0:
+                self.logger.info('Start Mineflayer process')
+                self.mineflayer.run()
+                if not self.mineflayer.is_running:
+                    if retry == 0:
+                        raise RuntimeError("Mineflayer process failed to start")
+                    else:
+                        self.logger.warning('Try to restart mineflayer again, after sleep 1 second')
+                        time.sleep(1)
+                    retry -= 1
                 else:
-                    continue
-            self.logger.info(f'mineflayer ready line: {self.mineflayer.ready_line}')
-            if self.mineflayer.ready_line is None:
-                self.logger.critical('mineflayer read line is None.')
-            
-            res = None            
-            start_retry = 3
-            try:
-                res = requests.post(
-                    f"{self.server}/start",
-                    json=self.reset_options,
-                    timeout=self.request_timeout,
-                )
-                if res.status_code == 200:
-                    self.logger.debug(f'response:{res.json()}')
+                    self.logger.info(f'mineflayer ready line: {self.mineflayer.ready_line}')
+                    if self.mineflayer.ready_line is None:
+                        self.logger.critical('mineflayer read line is None.')
                     break
-                else:
-                    start_retry -= 1
-                    self.logger.warning(f"Reset Minecraft server failed, retrying")
-                    self.logger.info('Sleep 3 seconds before retry')
-                    time.sleep(3)
-                    if start_retry == 0:
+            
+            retry = 3
+            while retry > 0:
+                try:
+                    res = requests.post(
+                        f"{self.server}/start",
+                        json=self.reset_options,
+                        timeout=self.request_timeout,
+                    )
+                    if res.status_code == 200:
+                        self.logger.debug(f'start response:{res.json()}')
+                        return res.json()
+                    else:
+                        if retry == 0:
+                            self.mineflayer.stop()
+                            raise RuntimeError("Reset Minecraft server failed!")
+                        else:
+                            self.logger.warning(f'Reset Minecraft server {res.status_code}')
+                            time.sleep(3)
+                        retry -= 1
+                except requests.exceptions.Timeout:
+                    if retry == 0:
                         self.mineflayer.stop()
-                        raise RuntimeError("Reset Minecraft server failed!")
-            except requests.exceptions.Timeout:
-                start_retry -= 1
-                self.logger.warning(f"Reset Minecraft server timeout, retrying")
-                if start_retry == 0:
-                    self.mineflayer.stop()
-                    raise RuntimeError("Reset Minecraft server timeout!")
-            if res is None:
-                self.mineflayer.stop()
-                raise RuntimeError("Reset Minecraft server failed!")
-            return res.json()
+                        raise RuntimeError("Reset Minecraft server timeout!")
+                    else:
+                        self.logger.warning(f"Reset Minecraft server timeout, retrying")
+                        time.sleep(1)
+                    retry -= 1
+        else:
+            self.logger.info('Mineflayer process is running')
+            return None
+
 
     def step(
         self,
