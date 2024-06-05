@@ -311,6 +311,7 @@ class Voyager:
             self.totoal_time, self.total_iter = self.recorder.record([], self.task)
             self.logger.warning(f"{parsed_result} Trying again!")
         self.step_time.append(self.totoal_time)
+        self.logger.info(self.totoal_time)
         assert len(self.messages) == 2
         self.action_agent_rollout_num_iter += 1
         done = (

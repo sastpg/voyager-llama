@@ -2,6 +2,7 @@ import os.path
 import time
 import warnings
 from typing import SupportsFloat, Any, Tuple, Dict
+from voyager.utils.run_utils import retry
 
 import requests
 import json
@@ -84,12 +85,12 @@ class VoyagerEnv(gym.Env):
             self.reset_options["port"] = self.mc_instance.port
             self.logger.info(f"Server started on port {self.reset_options['port']}")
 
-
         if not self.mineflayer.is_running:
             retry = 3
             while retry > 0:
                 self.logger.info('Start Mineflayer process')
-                self.mineflayer.run()
+                with Timer('check process run mineflayer'):
+                    self.mineflayer.run()
                 if not self.mineflayer.is_running:
                     if retry == 0:
                         raise RuntimeError("Mineflayer process failed to start")
@@ -112,7 +113,7 @@ class VoyagerEnv(gym.Env):
                         timeout=self.request_timeout,
                     )
                     if res.status_code == 200:
-                        self.logger.debug(f'start response:{res.json()}')
+                        # self.logger.debug(f'start response:{res.json()}')
                         return res.json()
                     else:
                         if retry == 0:
@@ -208,12 +209,13 @@ class VoyagerEnv(gym.Env):
             "position": options.get("position", None),
             "username": options.get('username', 'bot')
         }
-
-        self.unpause()
-        self.mineflayer.stop()
+        with Timer('reset unpause mc server'):
+            self.unpause()
+        with Timer('reset stop mc_server'):
+            self.mineflayer.stop()
         time.sleep(1)  # wait for mineflayer to exit
-
-        returned_data = self.check_process()
+        with Timer('reset check_process'):
+            returned_data = self.check_process()
         self.has_reset = True
         self.connected = True
         # All the reset in step will be soft
@@ -236,18 +238,25 @@ class VoyagerEnv(gym.Env):
         self.mineflayer.stop()
         return not self.connected
 
+    @retry(retry_count=3)
     def pause(self):
         if self.mineflayer.is_running and not self.server_paused:
             res = requests.post(f"{self.server}/pause")
             if res.status_code == 200:
                 self.server_paused = True
+            else:
+                self.logger.warning(f"Failed to pause Minecraft server {res.status_code}")
+                raise RuntimeError("Failed to pause Minecraft server")
         return self.server_paused
 
+    @retry(retry_count=3)
     def unpause(self):
         if self.mineflayer.is_running and self.server_paused:
             res = requests.post(f"{self.server}/pause")
             if res.status_code == 200:
                 self.server_paused = False
             else:
-                self.logger.debug(res.json())
+                self.logger.warning(f"Failed to unpause Minecraft server {res.status_code}")
+                raise RuntimeError("Failed to unpause Minecraft server")
+                    
         return self.server_paused
