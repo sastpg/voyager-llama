@@ -191,7 +191,7 @@ def explore():
 
 ## Prompts
 
-1. 
+
 
 ## Game Videos
 
@@ -217,12 +217,11 @@ def explore():
 
 ## TODOs
 
-- [ ] 
+
 
 ## FAQ
 
 1. LLaMa api application [LLaMa2大语言模型有哪些API接口_模型服务灵积(DashScope)-阿里云帮助中心 (aliyun.com)](https://help.aliyun.com/zh/dashscope/developer-reference/api-details-11)
-2. 
 
 ## Related Works
 
