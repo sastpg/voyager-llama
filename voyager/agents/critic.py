@@ -284,7 +284,7 @@ class CriticAgent:
         elif mode == "program":
             print("observations = " + str(observations))
             inventory = self.get_inventory(events=events)
-            wool_in_inventory = '_wool' in inventory.keys()
+            wool_in_inventory = 'white_wool' in inventory or 'black_wool' in inventory or 'gray_wool' in inventory or 'light_gray_wool' in inventory
             milk_in_inventory = 'milk_bucket' in inventory
             meat_in_inventory = 'cooked_porkchop' in inventory or 'cooked_mutton' in inventory or 'cooked_beef' in inventory or 'cooked_chicken' in inventory
             farmland_nearby = 'farmland' in observations["nearby_blocks"]
