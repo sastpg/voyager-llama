@@ -211,10 +211,11 @@ class VoyagerEnv(gym.Env):
         }
         with Timer('reset unpause mc server'):
             self.unpause()
-        self.mineflayer.stop()
+        with Timer('reset stop mc_server'):
+            self.mineflayer.stop()
         time.sleep(1)  # wait for mineflayer to exit
-
-        returned_data = self.check_process()
+        with Timer('reset check_process'):
+            returned_data = self.check_process()
         self.has_reset = True
         self.connected = True
         # All the reset in step will be soft
