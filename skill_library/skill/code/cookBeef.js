@@ -5,7 +5,8 @@ async function cookBeef(bot) {
     const beef = bot.inventory.findInventoryItem(mcData.itemsByName.beef.id);
     // If not, craft a furnace using the available cobblestone
     if (!beef)
-        await killOneCow(bot);
+        await bot.chat("No beef in inventory! Kill one cow first!");
+        // await killOneCow(bot);
     if (!furnaceItem) 
         await craftFurnace(bot);
     if (!coal)
