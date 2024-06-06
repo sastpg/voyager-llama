@@ -288,7 +288,7 @@ class CriticAgent:
             milk_in_inventory = 'milk_bucket' in inventory
             meat_in_inventory = 'cooked_porkchop' in inventory or 'cooked_mutton' in inventory or 'cooked_beef' in inventory or 'cooked_chicken' in inventory
             farmland_nearby = 'farmland' in observations["nearby_blocks"]
-            seed_nearby = 'wheat_seed' in observations["nearby_blocks"] or 'melon_seed' in observations["nearby_blocks"] or 'pumpkin_seed' in observations["nearby_blocks"]
+            seed_nearby = 'wheat' in observations["nearby_blocks"] or 'melon_stem' in observations["nearby_blocks"] or 'pumpkin_stem' in observations["nearby_blocks"]
             if goals == 'hoe a farmland':
                 return farmland_nearby
             if goals == "collect 1 wool by shearing 1 sheep":

@@ -696,7 +696,7 @@
         "description": "Name: plantPumpkinSeeds; Description:This function ensures the bot has pumpkin seeds in its inventory, collecting them if necessary, and then plants them.\n"
     },
     "plantWheatSeeds": {
-        "code": "async function plantWheatSeeds(bot) {\n  // check seeds\n  const seeds = bot.inventory.findInventoryItem(mcData.itemsByName.wheat_seeds.id);\n  if (!seeds) {\n    await bot.chat(\"No wheat seeds found in inventory, collect wheat seeds first!\");\n  }\n  await plantSeeds(bot, \"wheat_seeds\");\n  return bot.entity.position;\n}",
+        "code": "async function plantWheatSeeds(bot) {\n  // check seeds\n  const seeds = bot.inventory.findInventoryItem(mcData.itemsByName.wheat_seeds.id);\n  if (!seeds) {\n    // await bot.chat(\"No wheat seeds found in inventory, collect wheat seeds first!\");\n    await collectWheatSeeds(bot);\n  }\n  await plantSeeds(bot, \"wheat_seeds\");\n  return bot.entity.position;\n}",
         "description": "Name: plantWheatSeeds; Description:This function ensures the bot has wheat seeds in its inventory, collecting them if necessary, and then plants them.\n"
     },
     "shearOneSheep": {
