@@ -1,4 +1,4 @@
-async function summonMob(bot, n = 1, r = 8, type = "zombie") {
+async function summonMob(bot, n = 1, r = 8, type = null) {
     // let n = 1;              number of monsters
     // let r = 8;              env size
     // let type = "zombie";    type of monsters

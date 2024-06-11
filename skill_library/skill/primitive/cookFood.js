@@ -1,4 +1,4 @@
-async function cookFood(bot, type = null) {
+async function cookFood(bot, type = null, count = 1) {
     // Check if there is a furnace and some coals and food in the inventory
     const furnaceItem = bot.inventory.findInventoryItem(mcData.itemsByName.furnace.id);
     const coal = bot.inventory.findInventoryItem(mcData.itemsByName.coal.id);
@@ -15,9 +15,9 @@ async function cookFood(bot, type = null) {
     if (!coal) {
       await bot.chat(`No coal found in inventory.`);
     }
-    // Place the furnace near the bot, Smelt 1 porkchops using the available coal as fuel
+    // Place the furnace near the bot, Smelt food using the available coal as fuel
     const furnacePosition = await findSuitablePosition(bot);
     await placeItem(bot, "furnace", furnacePosition);
-    await smeltItem(bot, type, "coal", 1);
+    await smeltItem(bot, type, "coal", count);
     bot.chat(`1 ${type} cooked.`);
   }
