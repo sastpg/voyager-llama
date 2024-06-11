@@ -1,7 +1,12 @@
 # Voyager-llama
 
 <div align="center">
-  [![Python Version](https://img.shields.io/badge/python-3.9-blue)](https://github.com/MineDojo/Voyager)
+    <a href="https://github.com/sastpg/voyager-llama/tree/main">
+        <img src="https://img.shields.io/badge/python-3.9-blue" alt="Python Version"/>
+    </a>
+    <a href="https://github.com/sastpg/voyager-llama/blob/main/LICENSE">
+        <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT"/>
+    </a>
 </div>
 
 
