@@ -42,7 +42,7 @@ npx tsc
 
 ### Minecraft Server
 
-You can deploy a Minecraft server using docker. See [here](installation/run_using_docker.md#MineCraft Server Deployment)
+You can deploy a Minecraft server using docker. See [here](installation/run_using_docker.md#MineCraft Server Deployment).
 
 ### Embedding Model
 
@@ -193,10 +193,6 @@ def explore():
     )
     voyager_l3_8b.learn()
 ```
-
-## Prompts
-
-
 
 ## Game Videos
 
