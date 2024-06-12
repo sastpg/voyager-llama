@@ -8,7 +8,6 @@ class CriticAgent:
     def __init__(
         self,
         model_name=ModelType.LLAMA2_70B,
-        temperature=0,
         request_timout=120,
         mode="auto",
     ):
