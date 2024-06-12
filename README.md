@@ -59,7 +59,7 @@ You can deploy a Minecraft server using docker. See [here](installation/run_usin
 
 ## Config
 
-You need create `config.json` according to the format of `conf/config.json.keep.this` in `conf` directory.
+You need to create `config.json` according to the format of `conf/config.json.keep.this` in `conf` directory.
 
 - `server_host`: LLaMa backend server ip.
 - `server_port`: LLaMa backend server port.
