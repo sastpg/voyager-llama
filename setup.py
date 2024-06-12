@@ -4,7 +4,7 @@ import pkg_resources
 from setuptools import setup, find_packages
 
 
-PKG_NAME = "voyager"
+PKG_NAME = "odyssey"
 VERSION = "0.1"
 EXTRAS = {}
 
@@ -33,7 +33,7 @@ setup(
     name=PKG_NAME,
     version=VERSION,
     author=f"MineDojo Team",
-    url="https://github.com/MineDojo/Voyager",
+    url="https://github.com/zju-vipa/Odyssey",
     description="research project",
     long_description=_read_file("README.md"),
     long_description_content_type="text/markdown",

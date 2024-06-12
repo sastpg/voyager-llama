@@ -1,4 +1,4 @@
-from odyssey import Voyager
+from odyssey import Odyssey
 from odyssey.utils import config
 from odyssey.utils.logger import get_logger
 from odyssey.agents.llama import ModelType
@@ -20,7 +20,7 @@ node_port = 3000
 # mc_port = 49741 # local server
 env_wait_ticks = 100
 def test_subgoal():
-    voyager_l3_8b = Voyager(
+    voyager_l3_8b = Odyssey(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
@@ -37,7 +37,7 @@ def test_subgoal():
         curriculum_agent_model_name = ModelType.LLAMA3_8B_V3,
         action_agent_model_name = ModelType.LLAMA3_8B_V3,
     )
-    voyager_l3_70b = Voyager(
+    voyager_l3_70b = Odyssey(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
@@ -64,7 +64,7 @@ def test_subgoal():
             logger.critical(e)
             traceback.print_exc()
 def test_combat():
-    voyager_l3_8b_v3 = Voyager(
+    voyager_l3_8b_v3 = Odyssey(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
@@ -81,7 +81,7 @@ def test_combat():
         curriculum_agent_model_name = ModelType.LLAMA3_8B_V3,
         action_agent_model_name = ModelType.LLAMA3_8B_V3,
     )
-    voyager_l3_8b = Voyager(
+    voyager_l3_8b = Odyssey(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
@@ -98,7 +98,7 @@ def test_combat():
         curriculum_agent_model_name = ModelType.LLAMA3_8B,
         action_agent_model_name = ModelType.LLAMA3_8B,
     )
-    voyager_l3_70b = Voyager(
+    voyager_l3_70b = Odyssey(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
@@ -231,7 +231,7 @@ def test_combat():
                 retry = MAX_RETRY
 
 def explore():
-    voyager_l3_8b = Voyager(
+    voyager_l3_8b = Odyssey(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
@@ -251,7 +251,7 @@ def explore():
         # rather then bot1_8b
         username='bot1_13b'
     )
-    voyager_l3_8b_v3 = Voyager(
+    voyager_l3_8b_v3 = Odyssey(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
@@ -269,7 +269,7 @@ def explore():
         action_agent_model_name = ModelType.LLAMA3_8B_V3,
         username='bot1_13b_v3'
     )
-    voyager_l3_70b = Voyager(
+    voyager_l3_70b = Odyssey(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
@@ -292,7 +292,7 @@ def explore():
     voyager_l3_70b.learn()
 
 def test_farming():
-    voyager_l3_8b = Voyager(
+    voyager_l3_8b = Odyssey(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,
@@ -309,7 +309,7 @@ def test_farming():
         curriculum_agent_model_name = ModelType.LLAMA3_8B_V3,
         action_agent_model_name = ModelType.LLAMA3_8B_V3,
     )
-    voyager_l3_70b = Voyager(
+    voyager_l3_70b = Odyssey(
         mc_port=mc_port,
         mc_host=mc_host,
         env_wait_ticks=env_wait_ticks,

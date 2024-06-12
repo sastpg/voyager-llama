@@ -37,9 +37,7 @@ class Odyssey:
         action_agent_show_chat_log: bool = True,
         action_agent_show_execution_error: bool = True,
         planer_agent_model_name: str = ModelType.LLAMA3_70B_V1,
-        planer_agent_temperature: float = 0,
         planer_agent_qa_model_name: str = ModelType.LLAMA3_8B_V3,
-        planer_agent_qa_temperature: float = 0,
         planer_agent_warm_up: Dict[str, int] = None,
         planer_agent_core_inventory_items: str = r".*_log|.*_planks|stick|crafting_table|furnace"
         r"|cobblestone|dirt|coal|.*_pickaxe|.*_sword|.*_axe",
@@ -59,7 +57,7 @@ class Odyssey:
         username = 'bot'
     ):
         """
-        The main class for Voyager.
+        The main class for Odyssey.
         Action agent is the iterative prompting mechanism in paper.
         planer agent is the automatic planer in paper.
         Critic agent is the self-verification in paper.
