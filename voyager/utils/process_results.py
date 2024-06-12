@@ -25,7 +25,8 @@ def extract_infos_and_errors(result_file: Path, task: str = 'combat')->tuple[lis
     errors = []
     # 正则表达式，提取关键信息
     if task == 'combat':
-        pattern = r'Route (\d+):.*Ticks on each step: \[(.*?)\], LLM iters: (\d+), Health: (\d+\.\d+)'
+        pattern1 = r'Route (\d+); Plan list: \[(.*?)\]; Equipments obtained: \[(.*?)\]; Ticks on each step: \[(.*?)\]; LLM iters: (\d+); Health: (\d+\.\d+).*'
+        pattern2 = r'Route (\d+): Plan list: \[(.*?)\], Equipments obtained: \[(.*?)\], Ticks on each step: \[(.*?)\], LLM iters: (\d+), Health: (\d+\.\d+).*'
         error_pattern = r'.*caused by (.*)'
     else:
         raise NotImplementedError(f"Task {task} pattern not implemented.")
@@ -40,17 +41,23 @@ def extract_infos_and_errors(result_file: Path, task: str = 'combat')->tuple[lis
             if error not in errors:
                 errors.append(error)
         else:
-            extracted_info = re.search(pattern, line)
+            extracted_info = re.search(pattern1, line)
+            if not extracted_info:
+                extracted_info = re.search(pattern2, line)
             if extracted_info:
                 route = int(extracted_info.group(1))
-                last_ticks = int(extracted_info.group(2).split(',')[-1])
+                plan_list = [plan.strip() for plan in extracted_info.group(2).split(', ')]
+                equipments_obtained = [equip.strip() for equip in extracted_info.group(3).split(', ')]
+                ticks_on_each_step = [int(tick) for tick in extracted_info.group(4).split(',')]
+                last_ticks = ticks_on_each_step[-1]
                 minutes = last_ticks / 1200
-                llm_iters = int(extracted_info.group(3))
-                health = float(extracted_info.group(4))
-                infos.append({'route': route, 'last_ticks': last_ticks, 'minutes': minutes , 'llm_iters': llm_iters, 'health': health})
+                llm_iters = int(extracted_info.group(5))
+                health = float(extracted_info.group(6))
+                infos.append({'route': route, 'plan_list': plan_list, 'equipments_obtained': equipments_obtained, 'ticks_on_each_step': ticks_on_each_step, 'last_ticks': last_ticks, 'minutes': minutes , 'llm_iters': llm_iters, 'health': health})
                 # print(f"Route: {route}, Last Ticks: {last_ticks}, LLM iters: {llm_iters}, Health: {health}")
             else:
-                print("No match found.")
+                if line not in ['', '\n', '\t']:
+                    print(line)
     errors = [{'error': error} for error in errors]
     return infos, errors
 
@@ -88,14 +95,13 @@ def cal_avg_and_std(csv_file: Path, output_dir:Path):
     avg_std_df = pd.DataFrame({'avg': avg, 'std': std})
     pd.concat([success_rate_df, avg_std_df], axis=1).to_csv(output_dir / 'avg_std_success_rate.csv')
 
-
-if __name__ == '__main__':
+def main():
     # ------need to modify-----
-    all_results_dir = Path(__file__).parent.parent.parent / f'results/combat_results66'
-    suffix = '66'
+    all_results_dir = Path(__file__).parent.parent.parent / f'results/combat_results_66_2'
+    suffix = '66_2'
     # ------need to modify-----
-
     # merge_output_dir = all_results_dir.parent / f'merged_results_{suffix}'
+
     # merge_results(all_results_dir, 'combat', output_dir=merge_output_dir)
 
     # all_errors = []
@@ -110,12 +116,32 @@ if __name__ == '__main__':
     # pd.DataFrame(all_errors).to_csv(all_results_dir.parent / f'all_errors_{suffix}.csv', index=False)
     # pd.concat(all_infos_df, axis=1).to_csv(all_results_dir.parent / f'all_infos_{suffix}.csv', index=False)
 
-    csv_file1 = all_results_dir.parent / 'all_errors_66.csv'
-    csv_file2 = all_results_dir.parent / 'all_errors_64.csv'
-    output_file = all_results_dir.parent / 'all_errors.csv'
-    merge_csvfiles(csv_file1, csv_file2, output_file)
+    csv_file1 = all_results_dir.parent / 'all_infos_66.csv'
+    csv_file2 = all_results_dir.parent / 'all_infos_64.csv'
+    output_file = all_results_dir.parent / 'all_infos.csv'
+    merge_csvfiles(csv_file1, csv_file2, output_file, all_results_dir.parent / 'all_infos_66_2.csv')
     
     # csv_file = all_results_dir.parent / 'all_infos.csv'
     # cal_avg_and_std(csv_file, output_dir=all_results_dir.parent)
+
+def test():
+    line = '''Route 0; Plan list: ['craft wooden sword', 'craft iron helmet', 'craft iron leggings', 'craft iron boots']; Equipments obtained: [None, None, None, None, 'crafting_table', None]; Ticks on each step: [322, 609, 898, 1098, 1329, 12723, 13172, 13489, 13813, 15231, 15549, 15867, 16179, 16489, 16803, 17120]; LLM iters: 16; Health: 0.0; Combat result: failed'''
+    pattern1 = r'Route (\d+);.*Ticks on each step: \[(.*?)\]; LLM iters: (\d+); Health: (\d+\.\d+).*'
+    pattern2 = r'Route (\d+):.*Ticks on each step: \[(.*?)\], LLM iters: (\d+), Health: (\d+\.\d+).*'
+    error_pattern = r'.*caused by (.*)'
+    error_info = re.search(error_pattern, line)
+    extracted_info = re.search(pattern1, line)
+    if not extracted_info:
+        extracted_info = re.search(pattern2, line)
+    if extracted_info:
+        route = int(extracted_info.group(1))
+        last_ticks = int(extracted_info.group(2).split(',')[-1])
+        minutes = last_ticks / 1200
+        llm_iters = int(extracted_info.group(3))
+        health = float(extracted_info.group(4))
+        print(f"Route: {route}, Last Ticks: {last_ticks}, LLM iters: {llm_iters}, Health: {health}")
+
+if __name__ == '__main__':
+    main()
 
 
