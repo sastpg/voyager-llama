@@ -3,7 +3,7 @@ async function shearOneSheep(bot) {
   let shears = bot.inventory.findInventoryItem(mcData.itemsByName.shears.id);
   if (!shears) {
     await bot.chat("No shears in inventory! Craft shears first!");
-    // await craftShears(bot);
+    // await craftShears(bot); // not allowed for farming tasks
   }
   // Equip the shears
   await bot.equip(shears, "hand");

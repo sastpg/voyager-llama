@@ -13,6 +13,7 @@ async function mineDiamond(bot) {
     } else {
       direction = new Vec3(1, 0, 0);
     }
+    // Find diamond_ore or deepslate_diamond_ore
     const oreBlock = await exploreUntil(bot, direction, 60, () => {
       return bot.findBlock({
         matching: block => oreNames.includes(block.name),

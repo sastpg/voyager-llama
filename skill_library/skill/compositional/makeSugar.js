@@ -4,7 +4,7 @@ async function makeSugar(bot) {
         bot.chat("Not enough sugar cane in inventory! collect some first!");
         return;
     }
-    // Craft sugar
+    // Make sugar
     await craftItem(bot, "sugar", 1);
-    bot.chat("Crafted sugar.");
+    bot.chat("Made sugar.");
 }

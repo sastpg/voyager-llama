@@ -25,7 +25,7 @@ async function smeltCactusIntoGreenDye(bot) {
     // Place the furnace at the suitable position
     await placeItem(bot, "furnace", furnacePosition);
   
-    // Smelt 5 cactus using the available coal as fuel
-    await smeltItem(bot, "cactus", "coal", 5);
-    bot.chat("5 cactus smelted into green dye.");
+    // Smelt cactus using the available coal as fuel
+    await smeltItem(bot, "cactus", "coal", cactusCount);
+    bot.chat("Smelted cactus into green dye.");
   }

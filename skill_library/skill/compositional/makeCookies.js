@@ -19,7 +19,7 @@ async function makeCookies(bot) {
     const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
   
-    // Craft cookies using the crafting table
+    // Make cookies using the crafting table
     await craftItem(bot, "cookie", 1);
-    bot.chat("Crafted cookies.");
+    bot.chat("Made cookies.");
 }

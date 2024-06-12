@@ -14,7 +14,7 @@ async function makeBread(bot) {
     const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
   
-    // Craft a bread using the crafting table
+    // Make a bread using the crafting table
     await craftItem(bot, "bread", 1);
-    bot.chat("Crafted a bread.");
+    bot.chat("Made a bread.");
 }

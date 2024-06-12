@@ -18,6 +18,7 @@ async function mineEmerald(bot) {
     } else {
       direction = new Vec3(1, 0, 0);
     }
+    // Find emerald_ore or deepslate_emerald_ore
     const oreBlock = await exploreUntil(bot, direction, 60, () => {
       return bot.findBlock({
         matching: block => oreNames.includes(block.name),

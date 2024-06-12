@@ -15,6 +15,7 @@ async function takeAndMoveMinecart(bot) {
     await bot.activateEntity(minecart);
     // move the minecart along the rails
     let lastPosition = bot.entity.position.clone();
+    // todo: check where the bot is looking at
     do {
         let forward = minecart.velocity.z > 0 ? 1 : -1;
         let left = minecart.velocity.x > 0 ? 1 : -1;
