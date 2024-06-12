@@ -1,5 +1,5 @@
 async function craftCopperBlock(bot) {
-    // smelt all raw copper first
+    // Smelt all raw copper first
     await smeltAllRawCopper(bot);
     // Check if there are enough copper ingots in the inventory
     let copperIngotsCount = bot.inventory.count(mcData.itemsByName.copper_ingot.id);
@@ -9,7 +9,7 @@ async function craftCopperBlock(bot) {
       copperIngotsCount += 1;
     }
     await smeltAllRawCopper(bot);
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
     if (craftingTableCount === 0) {
@@ -18,7 +18,7 @@ async function craftCopperBlock(bot) {
     // Place the crafting table near the bot
     const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
-    // Craft an copper block using the crafting table
+    // Craft a copper block using the crafting table
     await craftItem(bot, "copper_block", 1);
-    bot.chat("Crafted an copper block.");
+    bot.chat("Crafted a copper block.");
 }

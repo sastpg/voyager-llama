@@ -6,10 +6,10 @@ async function cookChicken(bot) {
     // If not, craft a furnace using the available cobblestone
     if (!chicken)
         await bot.chat("No chicken in inventory! Kill one chicken first!");
-        // await killOneChicken(bot);
+        // await killOneChicken(bot); // not allowed for farming tasks
     if (!furnaceItem) 
         await craftFurnace(bot);
     if (!coal)
-        await mineFiveCoalOres(bot); 
+        await mineCoalOre(bot); 
     await cookFood(bot, "chicken");
 }

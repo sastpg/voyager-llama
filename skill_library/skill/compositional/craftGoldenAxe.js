@@ -13,7 +13,7 @@ async function craftGoldenAxe(bot) {
     if (sticksCount < 2) {
       await craftSticks(bot);
     }
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
     if (craftingTableCount === 0) {
@@ -22,7 +22,7 @@ async function craftGoldenAxe(bot) {
     // Place the crafting table near the bot
     const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
-    // Craft an golden axe using the crafting table
+    // Craft a golden axe using the crafting table
     await craftItem(bot, "golden_axe", 1);
-    bot.chat("Crafted an golden axe.");
+    bot.chat("Crafted a golden axe.");
   }

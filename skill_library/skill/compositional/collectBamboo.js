@@ -1,7 +1,4 @@
 async function collectBamboo(bot) {
-  // equip sword if there is one
-  await equipSword(bot);
-
   // Find bamboo plants using the exploreUntil function
   const bambooPlants = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
     const bambooPlants = bot.findBlocks({
@@ -15,7 +12,8 @@ async function collectBamboo(bot) {
     bot.chat("Could not find enough bamboo plants.");
     return;
   }
-
+  // equip sword if there is one
+  await equipSword(bot);
   // Break 10 bamboo plants
   for (const bambooPlant of bambooPlants) {
     const block = bot.blockAt(bambooPlant);

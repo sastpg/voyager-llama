@@ -7,7 +7,7 @@ async function craftEmeraldBlock(bot) {
       emeraldsCount = bot.inventory.count(mcData.itemsByName.emerald.id);
     }
     
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
     if (craftingTableCount === 0) {

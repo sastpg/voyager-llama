@@ -1,5 +1,5 @@
 async function craftLightWeightedPressurePlate(bot) {
-    // smelt all raw gold first
+    // Smelt all raw gold first
     await smeltAllRawGold(bot);
     // Check if there are enough gold ingots in the inventory
     let goldIngotsCount = bot.inventory.count(mcData.itemsByName.gold_ingot.id);

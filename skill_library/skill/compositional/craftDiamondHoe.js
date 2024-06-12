@@ -13,7 +13,7 @@ async function craftDiamondHoe(bot) {
       diamondsCount = bot.inventory.count(mcData.itemsByName.diamond.id);
     }
     bot.chat("Collected diamonds.");
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
     if (craftingTableCount === 0) {
@@ -23,7 +23,7 @@ async function craftDiamondHoe(bot) {
     const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
   
-    // Craft an diamond hoe using the crafting table
+    // Craft a diamond hoe using the crafting table
     await craftItem(bot, "diamond_hoe", 1);
-    bot.chat("Crafted an diamond hoe.");
+    bot.chat("Crafted a diamond hoe.");
   }

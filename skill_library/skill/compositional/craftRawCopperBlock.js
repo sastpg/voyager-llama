@@ -1,4 +1,4 @@
-async function craftCopperBlock(bot) {
+async function craftRawCopperBlock(bot) {
     // Check if there are enough raw copper in the inventory
     let rawCopperCount = bot.inventory.count(mcData.itemsByName.raw_copper.id);
     // If not enough raw copper, mine copper ores and smelt them into raw copper
@@ -6,7 +6,7 @@ async function craftCopperBlock(bot) {
       await mineCopperOre(bot);
       rawCopperCount = bot.inventory.count(mcData.itemsByName.raw_copper.id);
     }
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
     if (craftingTableCount === 0) {

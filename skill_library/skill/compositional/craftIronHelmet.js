@@ -1,5 +1,5 @@
 async function craftIronHelmet(bot) {
-  // smelt all raw iron first
+  // Smelt all raw iron first
   console.log('Craft Iron Helmet: start to smelt all raw iron');
   await smeltAllRawIron(bot);
   console.log('Craft Iron Helmet: smelt all raw iron done');
@@ -14,7 +14,7 @@ async function craftIronHelmet(bot) {
   console.log('Craft Iron Helmet: start to smelt all raw iron again');
   await smeltAllRawIron(bot);
   console.log('Craft Iron Helmet: smelt all raw iron done again');
-  // check if crafting table is in the inventory
+  // Check if crafting table is in the inventory
   const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
   // If not, craft a crafting table
   if (craftingTableCount === 0) {

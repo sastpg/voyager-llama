@@ -1,5 +1,5 @@
 async function craftIronTrapdoor(bot) {
-    // smelt all raw iron first
+    // Smelt all raw iron first
     await smeltAllRawIron(bot);
     // Check if there are enough iron ingots in the inventory
     let ironIngotsCount = bot.inventory.count(mcData.itemsByName.iron_ingot.id);
@@ -11,5 +11,5 @@ async function craftIronTrapdoor(bot) {
     await smeltAllRawIron(bot);
 
     await craftItem(bot, "iron_trapdoor", 1);
-    bot.chat("Crafted an iron_trapdoor.");
+    bot.chat("Crafted an iron trapdoor.");
   }

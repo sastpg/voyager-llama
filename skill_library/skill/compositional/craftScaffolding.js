@@ -10,7 +10,7 @@ async function craftScaffolding(bot) {
         return;
     }
 
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
     if (craftingTableCount === 0) {
@@ -20,7 +20,7 @@ async function craftScaffolding(bot) {
     const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
   
-    // Craft a fishing_rod using the crafting table
+    // Craft a scaffolding using the crafting table
     await craftItem(bot, "scaffolding", 1);
     bot.chat("Crafted a scaffolding.");
   }

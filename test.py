@@ -241,4 +241,4 @@ def test_explore():
     voyager_l3_70b.learn()
 
 if __name__ == '__main__':
-    test_explore()
+    test_skill("craftFurnace.js")

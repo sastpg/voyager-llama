@@ -1,4 +1,4 @@
-async function craftGoldBlock(bot) {
+async function craftRawGoldBlock(bot) {
     // Check if there are enough raw gold in the inventory
     let rawGoldCount = bot.inventory.count(mcData.itemsByName.raw_gold.id);
     // If not enough raw gold, mine gold ores and smelt them into raw gold
@@ -6,7 +6,7 @@ async function craftGoldBlock(bot) {
       await mineGoldOre(bot);
       rawGoldCount = bot.inventory.count(mcData.itemsByName.raw_gold.id);
     }
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
     if (craftingTableCount === 0) {

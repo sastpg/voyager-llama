@@ -9,7 +9,7 @@ async function craftGoldenBoots(bot) {
       goldIngotsCount += 1;
     }
     await smeltAllRawgold(bot);
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
     if (craftingTableCount === 0) {
@@ -18,7 +18,7 @@ async function craftGoldenBoots(bot) {
     // Place the crafting table near the bot
     const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
-    // Craft an golden boots using the crafting table
+    // Craft golden boots using the crafting table
     await craftItem(bot, "golden_boots", 1);
-    bot.chat("Crafted an golden boots.");
+    bot.chat("Crafted golden boots.");
   }

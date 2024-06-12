@@ -3,11 +3,11 @@ async function collectMilkWithBucket(bot) {
     let bucket = bot.inventory.findInventoryItem(mcData.itemsByName.bucket.id);
     if (!bucket) {
         await bot.chat("No bucket in inventory! Craft bucket first!");
-        // await craftBucket(bot);
+        // await craftBucket(bot); // not allowed for farming tasks
     }
-    // Equip the bucket
+    // equip the bucket
     await bot.equip(bucket, "hand");
-    // Find the nearest cow
+    // find the nearest cow
     let cow = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
         let cow = bot.nearestEntity(entity => {
             return entity.name === "cow" && entity.position.distanceTo(bot.entity.position) < 32;

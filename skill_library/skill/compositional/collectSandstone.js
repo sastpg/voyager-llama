@@ -3,7 +3,7 @@ async function collectSandstone(bot) {
     // Use the exploreUntil function to find sandstone blocks
     const sandstoneBlocks = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
       const sandstoneBlocks = bot.findBlocks({
-        matching: block => block.name === "stone",
+        matching: block => block.name === "sandstone",
         maxDistance: 32,
         count: 10
       });

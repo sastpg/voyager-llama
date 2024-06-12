@@ -13,7 +13,7 @@ async function craftAnvil(bot) {
       ironIngotsCount += 1;
     }
     await smeltAllRawIron(bot);
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
     if (craftingTableCount === 0) {
@@ -22,7 +22,7 @@ async function craftAnvil(bot) {
     // Place the crafting table near the bot
     const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
-    // Craft a anvil using the crafting table
+    // Craft an anvil using the crafting table
     await craftItem(bot, "anvil", 1);
     bot.chat("Crafted a anvil.");
 }

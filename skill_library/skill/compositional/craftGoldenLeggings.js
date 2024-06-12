@@ -1,5 +1,5 @@
 async function craftGoldenLeggings(bot) {
-    // smelt all raw gold first
+    // Smelt all raw gold first
     await smeltAllRawGold(bot);
     // Check if there are enough gold ingots in the inventory
     const goldIngotsCount = bot.inventory.count(mcData.itemsByName.gold_ingot.id);
@@ -9,7 +9,7 @@ async function craftGoldenLeggings(bot) {
       goldIngotsCount += 1;
     }
     await smeltAllRawgold(bot);
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
     if (craftingTableCount === 0) {
@@ -18,7 +18,7 @@ async function craftGoldenLeggings(bot) {
     // Place the crafting table near the bot
     const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
-    // Craft an golden leggings using the crafting table
+    // Craft golden leggings using the crafting table
     await craftItem(bot, "golden_leggings", 1);
-    bot.chat("Crafted an golden leggings.");
+    bot.chat("Crafted golden leggings.");
   }

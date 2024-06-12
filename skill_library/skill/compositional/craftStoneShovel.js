@@ -10,7 +10,7 @@ async function craftStoneShovel(bot) {
     if (cobblestoneCount < 1) {
       await mineCobblestone(bot);
     }
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(
       mcData.itemsByName.crafting_table.id
     );

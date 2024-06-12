@@ -1,4 +1,4 @@
-async function killMonsters(bot, type = null, n = 1) {
+async function killMonsters(bot, type = null, count = 1) {
   await bot.chat("/gamemode survival");
   isAlive = true;
   // Listen for bot's death
@@ -9,7 +9,7 @@ async function killMonsters(bot, type = null, n = 1) {
   });
   await equipSword(bot);
   await equipArmor(bot);
-  for (i = 0; i < n; i++) {
+  for (i = 0; i < count; i++) {
     if (!isAlive) {
       return false;
     }

@@ -1,6 +1,4 @@
 async function collectCocoaBeans(bot) {
-  // equip axe if there is one
-  await equipAxe(bot);
   // Find bamboo plants using the exploreUntil function
   const cocoaPods = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
     const cocoaPods = bot.findBlocks({
@@ -10,6 +8,8 @@ async function collectCocoaBeans(bot) {
     });
     return cocoaPods.length >= 1 ? cocoaPods : null;
   });
+  // equip axe if there is one
+  await equipAxe(bot);
   if (!cocoaPods) {
     bot.chat("Could not find cocoaPods.");
     return;

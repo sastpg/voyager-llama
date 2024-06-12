@@ -1,5 +1,5 @@
 async function craftIronNugget(bot) {
-    // smelt all raw iron first
+    // Smelt all raw iron first
     await smeltAllRawIron(bot);
     // Check if there are enough iron ingots in the inventory
     let ironIngotsCount = bot.inventory.count(mcData.itemsByName.iron_ingot.id);

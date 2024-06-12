@@ -1,16 +1,11 @@
 async function craftFurnace(bot) {
   // Check if there are enough cobblestones in the inventory
   const cobblestoneCount = bot.inventory.count(mcData.itemsByName.cobblestone.id);
-
-  // If not, check wooden pickaxe and mine the required cobblestones
-  const woodenPickaxe = bot.inventory.count(mcData.itemsByName.wooden_pickaxe.id)
   if (cobblestoneCount < 8) {
-    if (woodenPickaxe < 1)
-      await craftWoodenPickaxe(bot);
-    await mineBlock(bot, "stone", 8 - cobblestoneCount);
-    bot.chat("Collected cobblestone.");
+    await collectCobblestone(bot);
+    cobblestonesCount = bot.inventory.count(mcData.itemsByName.cobblestone.id);
   }
-  // check if crafting table is in the inventory
+  // Check if crafting table is in the inventory
   const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
   // If not, craft a crafting table
   if (craftingTableCount === 0) {

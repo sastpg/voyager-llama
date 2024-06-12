@@ -6,7 +6,7 @@ async function craftSandstoneStairs(bot) {
       await collectSandstone(bot);
       sandstoneCount = bot.inventory.count(mcData.itemsByName.sandstone.id);
     }
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(
       mcData.itemsByName.crafting_table.id
     );
@@ -17,7 +17,7 @@ async function craftSandstoneStairs(bot) {
     // Place the crafting table near the bot
     const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
-    // Craft a sandstone_stairs using the crafting table
+    // Craft sandstone_stairs using the crafting table
     await craftItem(bot, "sandstone_stairs", 1);
     bot.chat("Crafted sandstone stairs.");
   }

@@ -1,5 +1,5 @@
 async function craftGoldBlock(bot) {
-    // smelt all raw gold first
+    // Smelt all raw gold first
     await smeltAllRawGold(bot);
     // Check if there are enough gold ingots in the inventory
     let goldIngotsCount = bot.inventory.count(mcData.itemsByName.gold_ingot.id);
@@ -9,7 +9,7 @@ async function craftGoldBlock(bot) {
       goldIngotsCount += 1;
     }
     await smeltAllRawgold(bot);
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
     if (craftingTableCount === 0) {

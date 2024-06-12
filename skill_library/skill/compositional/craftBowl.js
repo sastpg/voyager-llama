@@ -5,7 +5,7 @@ async function craftBowl(bot) {
     if (planksCount < 3) {
       await craftWoodenPlanks(bot);
     }
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(
       mcData.itemsByName.crafting_table.id
     );

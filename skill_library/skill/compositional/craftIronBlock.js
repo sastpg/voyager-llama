@@ -1,5 +1,5 @@
 async function craftIronBlock(bot) {
-    // smelt all raw iron first
+    // Smelt all raw iron first
     await smeltAllRawIron(bot);
     // Check if there are enough iron ingots in the inventory
     let ironIngotsCount = bot.inventory.count(mcData.itemsByName.iron_ingot.id);
@@ -9,7 +9,7 @@ async function craftIronBlock(bot) {
       ironIngotsCount += 1;
     }
     await smeltAllRawIron(bot);
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
     if (craftingTableCount === 0) {

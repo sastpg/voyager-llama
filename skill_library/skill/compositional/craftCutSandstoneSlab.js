@@ -5,7 +5,7 @@ async function craftSandstoneSlab(bot) {
     if (cutSandstoneCount < 3) {
       await craftCutSandstone(bot);
     }
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(
       mcData.itemsByName.crafting_table.id
     );

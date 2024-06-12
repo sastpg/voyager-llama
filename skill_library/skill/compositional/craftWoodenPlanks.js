@@ -6,9 +6,6 @@ async function craftWoodenPlanks(bot) {
   if (!logInInventory) {
     bot.chat("No wooden log in inventory. Mining a wooden log...");
     await mineWoodLog(bot);
-    // TODO: 
-    // 可能木头还没捡到？等待一下，但讲道理mineWoodLog里有等待捡到了
-    // await sleep(1000);
   }
   console.log('Craft Wooden Planks, after Mine Wood Log, bot inventory:', bot.inventory);
   logInInventory = logNames.find(logName => bot.inventory.count(mcData.itemsByName[logName].id) > 0);

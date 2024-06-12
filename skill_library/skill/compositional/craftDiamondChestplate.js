@@ -7,7 +7,7 @@ async function craftDiamondChestplate(bot) {
       await mineDiamond(bot);
       diamondsCount = bot.inventory.count(mcData.itemsByName.diamond.id);
     }
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
     if (craftingTableCount === 0) {
@@ -17,7 +17,7 @@ async function craftDiamondChestplate(bot) {
     const craftingTablePosition = await findSuitablePosition(bot);
     await placeItem(bot, "crafting_table", craftingTablePosition);
   
-    // Craft an diamond chestplate using the crafting table
+    // Craft a diamond chestplate using the crafting table
     await craftItem(bot, "diamond_chestplate", 1);
-    bot.chat("Crafted an diamond chestplate.");
+    bot.chat("Crafted a diamond chestplate.");
   }

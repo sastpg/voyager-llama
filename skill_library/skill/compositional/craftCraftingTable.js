@@ -7,9 +7,9 @@ async function craftCraftingTable(bot) {
     await craftItem(bot, "crafting_table", 1);
     bot.chat("Crafted a crafting table.");
   }
-  // if no enough planks
+  // If no enough planks
   const logInInventory = logNames.find(logName => bot.inventory.count(mcData.itemsByName[logName].id) > 0);
-  // if no logs, mine logs first
+  // If no logs, mine logs first
   if (!logInInventory) {
     bot.chat("No wooden log in inventory. Mining a wooden log...");
     await mineWoodLog(bot);

@@ -1,5 +1,5 @@
 async function craftSpyglass(bot) {
-    // smelt all raw copper first
+    // Smelt all raw copper first
     await smeltAllRawCopper(bot);
     // Check if there are enough copper ingots and amethyst_shard in the inventory
     let copperIngotsCount = bot.inventory.count(mcData.itemsByName.copper_ingot.id);
@@ -14,7 +14,7 @@ async function craftSpyglass(bot) {
     if (amethystShardCount < 1) {
         await mineAmethystCluster(bot);
     }
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
     if (craftingTableCount === 0) {

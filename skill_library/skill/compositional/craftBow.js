@@ -11,7 +11,7 @@ async function craftBow(bot) {
       await craftSticks(bot);
       bot.chat("Crafted sticks.");
     }
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(
       mcData.itemsByName.crafting_table.id
     );

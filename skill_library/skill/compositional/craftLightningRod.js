@@ -1,5 +1,5 @@
 async function craftLightningRod(bot) {
-    // smelt all raw copper first
+    // Smelt all raw copper first
     await smeltAllRawCopper(bot);
     // Check if there are enough copper ingots in the inventory
     let copperIngotsCount = bot.inventory.count(mcData.itemsByName.copper_ingot.id);
@@ -9,7 +9,7 @@ async function craftLightningRod(bot) {
       copperIngotsCount += 1;
     }
     await smeltAllRawCopper(bot);
-    // check if crafting table is in the inventory
+    // Check if crafting table is in the inventory
     const craftingTableCount = bot.inventory.count(mcData.itemsByName.crafting_table.id);
     // If not, craft a crafting table
     if (craftingTableCount === 0) {

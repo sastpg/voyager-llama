@@ -1,6 +1,6 @@
-async function feedAnimals(bot, n = 1, type = null) {
+async function feedAnimals(bot, count = 1, type = null) {
     const fedEntities = new Set(); // Set to store entities that have been fed
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < count; i++) {
         let animal = await exploreUntil(bot, new Vec3(1, 0, 1), 60, () => {
             let entity = bot.nearestEntity(entity => {
                 // Check if the entity is of the specified type, within 32 blocks, not already fed
