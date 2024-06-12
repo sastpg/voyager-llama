@@ -4,7 +4,7 @@ import json
 # this function dumps skills to skill.json
 def generate_skill_json(skill_dir):
     skill_json = {}
-    code_dir = os.path.join(skill_dir, "code")
+    code_dir = os.path.join(skill_dir, "compositional")
     description_dir = os.path.join(skill_dir, "description")
 
     # Iterate through each js file in code directory

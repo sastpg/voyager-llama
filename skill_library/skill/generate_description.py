@@ -44,7 +44,7 @@ def call_llama(js_content):
 
 def main(mode="all"):
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    code_dir = os.path.join(script_dir, "code")
+    code_dir = os.path.join(script_dir, "compositional")
     description_dir = os.path.join(script_dir, "description")
 
     for js_file in os.listdir(code_dir):

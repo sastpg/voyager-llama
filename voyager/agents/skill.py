@@ -21,7 +21,7 @@ class SkillManager:
         reload=False,
         embedding_model="",
     ):
-        U.f_mkdir(f"{ckpt_dir}/skill/code")
+        U.f_mkdir(f"{ckpt_dir}/skill/compositional")
         U.f_mkdir(f"{ckpt_dir}/skill/description")
         U.f_mkdir(f"{ckpt_dir}/skill/vectordb")
         if reload:
@@ -82,7 +82,7 @@ class SkillManager:
             self.logger.warning(f"Skill {program_name} already exists. Rewriting!")
             self.vectordb._collection.delete(ids=[program_name])
             i = 2
-            while f"{program_name}V{i}.js" in os.listdir(f"{self.ckpt_dir}/skill/code"):
+            while f"{program_name}V{i}.js" in os.listdir(f"{self.ckpt_dir}/skill/compositional"):
                 i += 1
             dumped_program_name = f"{program_name}V{i}"
         else:
@@ -100,7 +100,7 @@ class SkillManager:
             self.skills
         ), "vectordb is not synced with skills.json"
         U.dump_text(
-            program_code, f"{self.ckpt_dir}/skill/code/{dumped_program_name}.js"
+            program_code, f"{self.ckpt_dir}/skill/compositional/{dumped_program_name}.js"
         )
         U.dump_text(
             skill_description,

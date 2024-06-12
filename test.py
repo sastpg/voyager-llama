@@ -198,7 +198,7 @@ def test_skill(skill_name):
         resume=False,
         server_port=node_port,
     )
-    voyager_skill.run_raw_skill(f"D:\DESKTOP/Voyager/skill_library/skill/code/{skill_name}", reset=True)
+    voyager_skill.run_raw_skill(f"D:\DESKTOP/Voyager/skill_library/skill/compositional/{skill_name}", reset=True)
 
 def test_explore():
     voyager_l3_8b = Voyager(
@@ -241,4 +241,4 @@ def test_explore():
     voyager_l3_70b.learn()
 
 if __name__ == '__main__':
-    test_farming()
+    test_explore()
