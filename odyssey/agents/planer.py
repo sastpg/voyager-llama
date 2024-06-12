@@ -3,9 +3,9 @@ from __future__ import annotations
 import random
 import re
 
-import voyager.utils as U
-from voyager.prompts import load_prompt
-from voyager.utils.json_utils import fix_and_parse_list, fix_and_parse_json
+import odyssey.utils as U
+from odyssey.prompts import load_prompt
+from odyssey.utils.json_utils import fix_and_parse_list, fix_and_parse_json
 # from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 # from langchain.schema import HumanMessage, SystemMessage
 # from langchain.vectorstores import Chroma
@@ -14,10 +14,10 @@ from langchain_community.embeddings.huggingface import HuggingFaceEmbeddings
 from langchain.schema import HumanMessage, SystemMessage
 from langchain_community.vectorstores import Chroma
 
-from voyager.utils.logger import get_logger
+from odyssey.utils.logger import get_logger
 
 # llama
-from voyager.agents.llama import call_with_messages, ModelType
+from odyssey.agents.llama import call_with_messages, ModelType
 
 env_prompt = {
     'combat': 'combat_sys_prompt',
@@ -26,7 +26,7 @@ env_prompt = {
 }
 
 
-class CurriculumAgent:
+class PlanerAgent:
     def __init__(
         self,
         model_name=ModelType.LLAMA2_70B,

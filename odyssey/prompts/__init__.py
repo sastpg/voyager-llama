@@ -1,5 +1,5 @@
 import pkg_resources
-import voyager.utils as U
+import odyssey.utils as U
 
 
 def load_prompt(prompt):

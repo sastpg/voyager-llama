@@ -1,13 +1,13 @@
 import os
 
-import voyager.utils as U
+import odyssey.utils as U
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from langchain.schema import HumanMessage, SystemMessage
 from langchain.vectorstores import Chroma
 
-from voyager.prompts import load_prompt
-from voyager.control_primitives import load_control_primitives
-from voyager.utils.logger import get_logger
+from odyssey.prompts import load_prompt
+from odyssey.control_primitives import load_control_primitives
+from odyssey.utils.logger import get_logger
 
 class SkillManager:
     def __init__(

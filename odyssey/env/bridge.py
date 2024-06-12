@@ -2,7 +2,7 @@ import os.path
 import time
 import warnings
 from typing import SupportsFloat, Any, Tuple, Dict
-from voyager.utils.run_utils import retry
+from odyssey.utils.run_utils import retry
 
 import requests
 import json
@@ -10,11 +10,11 @@ import json
 import gymnasium as gym
 from gymnasium.core import ObsType
 
-import voyager.utils as U
+import odyssey.utils as U
 
 from .minecraft_launcher import MinecraftInstance
 from .process_monitor import SubprocessMonitor
-from voyager.utils.logger import get_logger, Timer
+from odyssey.utils.logger import get_logger, Timer
 
 class VoyagerEnv(gym.Env):
     def __init__(

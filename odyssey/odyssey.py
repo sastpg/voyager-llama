@@ -5,13 +5,13 @@ import time
 from typing import Dict
 
 from javascript import require
-import voyager.utils as U
+import odyssey.utils as U
 from .env import VoyagerEnv
 
 from .agents import ActionAgent
 from .agents import CommentAgent
 from .agents import CriticAgent
-from .agents import CurriculumAgent
+from .agents import PlanerAgent
 from .agents import SkillManager
 
 # add llama
@@ -19,7 +19,7 @@ from .agents.llama import call_with_messages, ModelType
 from .utils.logger import get_logger, Timer
 
 # TODO: remove event memory
-class Voyager:
+class Odyssey:
     def __init__(
         self,
         mc_host: str = 'localhost',
@@ -36,14 +36,14 @@ class Voyager:
         action_agent_task_max_retries: int = 4,
         action_agent_show_chat_log: bool = True,
         action_agent_show_execution_error: bool = True,
-        curriculum_agent_model_name: str = ModelType.LLAMA3_70B_V1,
-        curriculum_agent_temperature: float = 0,
-        curriculum_agent_qa_model_name: str = ModelType.LLAMA3_8B_V3,
-        curriculum_agent_qa_temperature: float = 0,
-        curriculum_agent_warm_up: Dict[str, int] = None,
-        curriculum_agent_core_inventory_items: str = r".*_log|.*_planks|stick|crafting_table|furnace"
+        planer_agent_model_name: str = ModelType.LLAMA3_70B_V1,
+        planer_agent_temperature: float = 0,
+        planer_agent_qa_model_name: str = ModelType.LLAMA3_8B_V3,
+        planer_agent_qa_temperature: float = 0,
+        planer_agent_warm_up: Dict[str, int] = None,
+        planer_agent_core_inventory_items: str = r".*_log|.*_planks|stick|crafting_table|furnace"
         r"|cobblestone|dirt|coal|.*_pickaxe|.*_sword|.*_axe",
-        curriculum_agent_mode: str = "auto",
+        planer_agent_mode: str = "auto",
         critic_agent_model_name: str = ModelType.LLAMA2_70B,
         comment_agent_model_name: str = ModelType.LLAMA3_8B_V3,
         critic_agent_temperature: float = 0,
@@ -61,7 +61,7 @@ class Voyager:
         """
         The main class for Voyager.
         Action agent is the iterative prompting mechanism in paper.
-        Curriculum agent is the automatic curriculum in paper.
+        planer agent is the automatic planer in paper.
         Critic agent is the self-verification in paper.
         Skill manager is the skill library in paper.
         :param mc_port: minecraft in-game port
@@ -76,11 +76,11 @@ class Voyager:
         :param action_agent_model_name: action agent model name
         :param action_agent_temperature: action agent temperature
         :param action_agent_task_max_retries: how many times to retry if failed
-        :param curriculum_agent_model_name: curriculum agent model name
-        :param curriculum_agent_temperature: curriculum agent temperature
-        :param curriculum_agent_qa_model_name: curriculum agent qa model name
-        :param curriculum_agent_qa_temperature: curriculum agent qa temperature
-        :param curriculum_agent_warm_up: info will show in curriculum human message
+        :param planer_agent_model_name: planer agent model name
+        :param planer_agent_temperature: planer agent temperature
+        :param planer_agent_qa_model_name: planer agent qa model name
+        :param planer_agent_qa_temperature: planer agent qa temperature
+        :param planer_agent_warm_up: info will show in planer human message
         if completed task larger than the value in dict, available keys are:
         {
             "context": int,
@@ -95,9 +95,9 @@ class Voyager:
             "chests": int,
             "optional_inventory_items": int,
         }
-        :param curriculum_agent_core_inventory_items: only show these items in inventory before optional_inventory_items
+        :param planer_agent_core_inventory_items: only show these items in inventory before optional_inventory_items
         reached in warm up
-        :param curriculum_agent_mode: "auto" for automatic curriculum, "manual" for human curriculum
+        :param planer_agent_mode: "auto" for automatic planer, "manual" for human planer
         :param critic_agent_model_name: critic agent model name
         :param critic_agent_temperature: critic agent temperature
         :param critic_agent_mode: "auto" for automatic critic ,"manual" for human critic
@@ -126,8 +126,8 @@ class Voyager:
         self.total_iter = 0 
         self.step_time = []
         self.action_agent_model_name = action_agent_model_name
-        self.curriculum_agent_model_name = curriculum_agent_model_name
-        self.curriculum_agent_qa_model_name = curriculum_agent_qa_model_name
+        self.planer_agent_model_name = planer_agent_model_name
+        self.planer_agent_qa_model_name = planer_agent_qa_model_name
         self.critic_agent_model_name = critic_agent_model_name
         self.comment_agent_model_name = comment_agent_model_name
 
@@ -144,17 +144,17 @@ class Voyager:
             execution_error=action_agent_show_execution_error,
         )
         self.action_agent_task_max_retries = action_agent_task_max_retries
-        self.curriculum_agent = CurriculumAgent(
-            model_name=curriculum_agent_model_name,
-            # temperature=curriculum_agent_temperature,
-            qa_model_name=curriculum_agent_qa_model_name,
-            # qa_temperature=curriculum_agent_qa_temperature,
+        self.planer_agent = PlanerAgent(
+            model_name=planer_agent_model_name,
+            # temperature=planer_agent_temperature,
+            qa_model_name=planer_agent_qa_model_name,
+            # qa_temperature=planer_agent_qa_temperature,
             request_timout=openai_api_request_timeout,
             ckpt_dir=ckpt_dir,
             resume=resume,
-            mode=curriculum_agent_mode,
-            warm_up=curriculum_agent_warm_up,
-            core_inventory_items=curriculum_agent_core_inventory_items,
+            mode=planer_agent_mode,
+            warm_up=planer_agent_warm_up,
+            core_inventory_items=planer_agent_core_inventory_items,
             embedding_model=embedding_dir,
         )
         self.critic_agent = CriticAgent(
@@ -203,7 +203,7 @@ class Voyager:
                 }
             )
         difficulty = (
-            "easy" if len(self.curriculum_agent.completed_tasks) > 15 else "peaceful"
+            "easy" if len(self.planer_agent.completed_tasks) > 15 else "peaceful"
         )
         # step to peek an observation
         events = self.env.step(
@@ -376,8 +376,8 @@ class Voyager:
             if self.recorder.iteration > self.max_iterations:
                 self.logger.warning("Iteration limit reached")
                 break
-            with Timer('Curriculum Agent propose_next_task'):
-                task, context = self.curriculum_agent.propose_next_task(
+            with Timer('planer Agent propose_next_task'):
+                task, context = self.planer_agent.propose_next_task(
                     events=self.last_events,
                     environment=self.environment,
                     chest_observation=self.action_agent.render_chest_observation(),
@@ -420,22 +420,22 @@ class Voyager:
             U.f_mkdir(f"./results/{self.environment}")
             U.dump_text(f"Iteration: {self.recorder.iteration}, Inventory obtained: {new_inventory}, Total inventory: {self.inventory}, Num: {len(self.inventory)}\n", f"./results/{self.environment}/{self.action_agent_model_name.replace(' ', '_')}.txt")
             with Timer('Update Exploration Progress'):
-                self.curriculum_agent.update_exploration_progress(info)
+                self.planer_agent.update_exploration_progress(info)
             completed = None
             if goals is not None:
                 with Timer('Critic Check Goal Success'):
-                    completed = self.critic_agent.check_goal_success(self.last_events, self.curriculum_agent.completed_tasks, self.curriculum_agent.failed_tasks, goals, mode = "program")
+                    completed = self.critic_agent.check_goal_success(self.last_events, self.planer_agent.completed_tasks, self.planer_agent.failed_tasks, goals, mode = "program")
                 if completed or self.step_time[-1] >= 36000:
                     break
-            self.logger.success(f"Completed tasks: {', '.join(self.curriculum_agent.completed_tasks)}")
-            self.logger.failed(f"Failed tasks: {', '.join(self.curriculum_agent.failed_tasks)}")
+            self.logger.success(f"Completed tasks: {', '.join(self.planer_agent.completed_tasks)}")
+            self.logger.failed(f"Failed tasks: {', '.join(self.planer_agent.failed_tasks)}")
         
         U.f_mkdir(f"./results/{self.environment}")
         self.logger.info(f"\n\nTicks on each step: {self.step_time}, LLM iters: {self.total_iter}, Completed: {completed}")
         U.dump_text(f"\n\nTicks on each step: {self.step_time}; LLM iters: {self.total_iter}; Completed: {completed}", f"./results/{self.environment}/{goals.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
         return {
-            "completed_tasks": self.curriculum_agent.completed_tasks,
-            "failed_tasks": self.curriculum_agent.failed_tasks,
+            "completed_tasks": self.planer_agent.completed_tasks,
+            "failed_tasks": self.planer_agent.failed_tasks,
             "skills": self.skill_manager.skills,
         }
 
@@ -448,7 +448,7 @@ class Voyager:
                     "username": self.username
                 }
             )
-        return self.curriculum_agent.decompose_task(self.environment, task, last_tasklist, critique, health)
+        return self.planer_agent.decompose_task(self.environment, task, last_tasklist, critique, health)
 
     def inference(self, task:str=None, sub_goals=[], reset_mode="hard", reset_env=True, feedback_rounds:int=1):
         if not task and not sub_goals:
@@ -467,8 +467,8 @@ class Voyager:
                 sub_goals = self.decompose_task(task)
                 self.logger.debug(f'Decomposed sub_goals: {sub_goals}')
         
-        self.curriculum_agent.completed_tasks = []
-        self.curriculum_agent.failed_tasks = []
+        self.planer_agent.completed_tasks = []
+        self.planer_agent.failed_tasks = []
         self.last_events = self.env.step("")
         for i in range(feedback_rounds):
             try:
@@ -477,11 +477,11 @@ class Voyager:
                 self.step_time = []
                 self.critic_agent.last_inventory = "Empty"
                 self.critic_agent.last_inventory_used = 0
-                while self.curriculum_agent.progress < len(sub_goals):
-                    next_task = sub_goals[self.curriculum_agent.progress]
+                while self.planer_agent.progress < len(sub_goals):
+                    next_task = sub_goals[self.planer_agent.progress]
                     self.logger.debug(f'Next subgoal: {next_task}, All subgoals: {sub_goals}')
                     with Timer('get task context'):
-                        context = self.curriculum_agent.get_task_context(next_task)
+                        context = self.planer_agent.get_task_context(next_task)
                         self.logger.debug(f'Got task context: {context}')
                     with Timer('rollout'):
                         messages, reward, done, info = self.rollout(
@@ -491,9 +491,9 @@ class Voyager:
                         )
                         # self.logger.debug(f'info: {info}')
                     with Timer('Update Exploration Progress'):
-                        self.curriculum_agent.update_exploration_progress(info)
-                        self.logger.success(f"Completed tasks: {', '.join(self.curriculum_agent.completed_tasks)}")
-                        self.logger.failed(f"Failed tasks: {', '.join(self.curriculum_agent.failed_tasks)}")
+                        self.planer_agent.update_exploration_progress(info)
+                        self.logger.success(f"Completed tasks: {', '.join(self.planer_agent.completed_tasks)}")
+                        self.logger.failed(f"Failed tasks: {', '.join(self.planer_agent.failed_tasks)}")
                     if (self.step_time[-1] >= 24000):
                         self.logger.warning('Inference Time limit reached >=24000')
                         break
@@ -501,7 +501,7 @@ class Voyager:
                 # TODO: hard coding
                 self.run_raw_skill("test_env/combatEnv.js", [10, 15, 100])
                 with Timer('rerank monsters'):
-                    combat_order = self.curriculum_agent.rerank_monster(task=task)
+                    combat_order = self.planer_agent.rerank_monster(task=task)
                     self.logger.debug(f'Combat order: {combat_order}')
 
                 for task_item in task.split(','):
@@ -551,8 +551,8 @@ class Voyager:
                         "username": self.username
                     }
                 )
-                self.curriculum_agent.completed_tasks = []
-                self.curriculum_agent.failed_tasks = []
+                self.planer_agent.completed_tasks = []
+                self.planer_agent.failed_tasks = []
 
     def inference_sub_goal(self, task:str=None, sub_goals=[], reset_mode="hard", reset_env=True):
         if not sub_goals:
@@ -567,23 +567,23 @@ class Voyager:
         self.recorder.elapsed_time = 0
         self.recorder.iteration = 0
         self.step_time = []
-        self.curriculum_agent.completed_tasks = []
-        self.curriculum_agent.failed_tasks = []
+        self.planer_agent.completed_tasks = []
+        self.planer_agent.failed_tasks = []
         self.last_events = self.env.step("")
         self.run_raw_skill("test_env/respawnAndClear.js")
         
-        while self.curriculum_agent.progress < len(sub_goals):
-            next_task = sub_goals[self.curriculum_agent.progress]
-            context = self.curriculum_agent.get_task_context(next_task)
+        while self.planer_agent.progress < len(sub_goals):
+            next_task = sub_goals[self.planer_agent.progress]
+            context = self.planer_agent.get_task_context(next_task)
             self.logger.info(f"Starting task {next_task} for at most {self.action_agent_task_max_retries} times")
             messages, reward, done, info = self.rollout(
                 task=next_task,
                 context=context,
                 reset_env=reset_env,
             )
-            self.curriculum_agent.update_exploration_progress(info)
-            self.logger.success(f"Completed tasks: {', '.join(self.curriculum_agent.completed_tasks)}")
-            self.logger.failed(f"Failed tasks: {', '.join(self.curriculum_agent.failed_tasks)}")
+            self.planer_agent.update_exploration_progress(info)
+            self.logger.success(f"Completed tasks: {', '.join(self.planer_agent.completed_tasks)}")
+            self.logger.failed(f"Failed tasks: {', '.join(self.planer_agent.failed_tasks)}")
             U.f_mkdir(f"./results/{self.environment}")
             if info['success']:
                 U.dump_text(f"Subgoal: {next_task}, Ticks: {self.step_time[-1]}\n", f"./results/{self.environment}/{task.replace(' ', '_')}.txt")

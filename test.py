@@ -1,7 +1,7 @@
-from voyager import Voyager
-from voyager.utils import config
-from voyager.utils.logger import get_logger
-from voyager.agents.llama import ModelType
+from odyssey import Voyager
+from odyssey.utils import config
+from odyssey.utils.logger import get_logger
+from odyssey.agents.llama import ModelType
 import traceback
 logger = get_logger('main')
 mc_port = config.get('MC_SERVER_PORT')

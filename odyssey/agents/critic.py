@@ -1,9 +1,9 @@
 import re
-from voyager.prompts import load_prompt
-from voyager.utils.json_utils import fix_and_parse_json
+from odyssey.prompts import load_prompt
+from odyssey.utils.json_utils import fix_and_parse_json
 from langchain.schema import HumanMessage, SystemMessage
-from voyager.agents.llama import call_with_messages, ModelType
-from voyager.utils.logger import get_logger, Timer
+from odyssey.agents.llama import call_with_messages, ModelType
+from odyssey.utils.logger import get_logger, Timer
 class CriticAgent:
     def __init__(
         self,

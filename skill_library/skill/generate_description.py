@@ -2,7 +2,7 @@ import os
 import http
 import dashscope
 import json
-from voyager.utils import config
+from odyssey.utils import config
 
 dashscope.api_key = config.get('api_key')
 

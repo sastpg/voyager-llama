@@ -12,7 +12,7 @@ import json
 import dashscope
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
 from pathlib import Path
-from voyager.utils import config
+from odyssey.utils import config
 # with open(Path(__file__).parent.parent.parent / "conf/config.json", "r") as config_file:
 #     config = json.load(config_file)
 
