@@ -9,11 +9,7 @@
     </a>
 </div>
 
-
-
-![](./images/framework_page-0001.jpg)
-
-
+![](./images/framework.png)
 
 ## Installation
 
@@ -103,7 +99,7 @@ def test_subgoal():
 | critic_agent_model_name        | Action critic                                                |
 | comment_agent_model_name       | Give the critic about the last combat result, in order to reschedule subtasks for combat |
 
-### Combat
+### Long-term Planning Task
 
 ```python
 def test_combat():
@@ -137,7 +133,7 @@ def test_combat():
         voyager_l3_70b.inference(task=task, reset_env=False, feedback_rounds=3)
 ```
 
-### Farming
+### Dynamic-Immediate Planning Task
 
 ```python
 def test_farming():
@@ -170,7 +166,7 @@ def test_farming():
 	      voyager_l3_8b.learn(goals=goal, reset_env=False)
 ```
 
-### Explore
+### Autonomous Exploration Task
 
 ```python
 def explore():
@@ -194,31 +190,8 @@ def explore():
     voyager_l3_8b.learn()
 ```
 
-## Game Videos
-
-### Mine wood log
-
-<div>
-    <video id="video" controls="" preload="none" poster="">
-  <source id="webm" src="./images/MineWoodLog.webm" type="video/webm">
-</videos>
-</div>
-
-
-
-### Craft a crafting table
-
-<div>
-<video id="video" controls="" preload="none" poster="">
-      <source id="webm" src="./images/CraftTable.webm" type="video/webm">
-	</videos>
-</div>
-
-
 
 ## TODOs
-
-
 
 ## FAQ
 
@@ -228,7 +201,7 @@ def explore():
 
 1. **MineRL: A Large-Scale Dataset of Minecraft Demonstrations** *William H. Guss, Brandon Houghton, Nicholay Topin, Phillip Wang, Cayden Codel, Manuela Veloso, Ruslan Salakhutdinov* IJCAI 2019. [paper](https://arxiv.org/abs/1907.13440)  
 2. **Video PreTraining (VPT): Learning to Act by Watching Unlabeled Online Videos** *Bowen Baker, Ilge Akkaya, Peter Zhokhov, Joost Huizinga, Jie Tang, Adrien Ecoffet, Brandon Houghton, Raul Sampedro, Jeff Clune* arXiv 2022. [paper](https://arxiv.org/abs/2206.11795)
-3. **MineDojo: Building Open-Ended Embodied Agents with Internet-Scale Knowledge** *Linxi Fan, Guanzhi Wang, Yunfan Jiang, Ajay Mandlekar, Yuncong Yang, Haoyi Zhu, Andrew Tang, De-An Huang, Yuke Zhu, Anima Anandkumar* NIPS 2022. [paper](https://arxiv.org/abs/2206.08853)
+3. **MineDojo: Building Open-Ended Embodied Agents with Internet-Scale Knowledge** *Linxi Fan, Guanzhi Wang, Yunfan Jiang, Ajay Mandlekar, Yuncong Yang, Haoyi Zhu, Andrew Tang, De-An Huang, Yuke Zhu, Anima Anandkumar* NeurIPS 2022. [paper](https://arxiv.org/abs/2206.08853)
 4. **Creative Agents: Empowering Agents with Imagination for Creative Tasks** *Chi Zhang, Penglin Cai, Yuhui Fu, Haoqi Yuan, Zongqing Lu* arXiv 2023. [paper](https://arxiv.org/abs/2312.02519)
 5. **GROOT: Learning to Follow Instructions by Watching Gameplay Videos** *Shaofei Cai, Bowei Zhang, Zihao Wang, Xiaojian Ma, Anji Liu, Yitao Liang* arXiv 2023. [paper](https://arxiv.org/abs/2310.08235)
 6. **Ghost in the Minecraft: Generally Capable Agents for Open-World Environments via Large Language Models with Text-based Knowledge and Memory** *Xizhou Zhu, Yuntao Chen, Hao Tian, Chenxin Tao, Weijie Su, Chenyu Yang, Gao Huang, Bin Li, Lewei Lu, Xiaogang Wang, Yu Qiao, Zhaoxiang Zhang, Jifeng Dai* arXiv 2023. [paper](https://arxiv.org/abs/2305.17144)
@@ -238,9 +211,9 @@ def explore():
 10. **See and Think: Embodied Agent in Virtual Environment** *Zhonghan Zhao, Wenhao Chai, Xuan Wang, Li Boyi, Shengyu Hao, Shidong Cao, Tian Ye, Jenq-Neng Hwang, Gaoang Wang* arXiv 2023. [paper](https://arxiv.org/abs/2311.15209)
 11. **Voyager: An Open-Ended Embodied Agent with Large Language Models** *Guanzhi Wang, Yuqi Xie, Yunfan Jiang, Ajay Mandlekar, Chaowei Xiao, Yuke Zhu, Linxi Fan, Anima Anandkumar* arXiv 2023. [paper](https://arxiv.org/abs/2305.16291)
 12. **Open-World Multi-Task Control Through Goal-Aware Representation Learning and Adaptive Horizon Prediction** *Shaofei Cai, Zihao Wang, Xiaojian Ma, Anji Liu, Yitao Liang* CVPR 2023. [paper](https://arxiv.org/abs/2301.10034)
-13. **Describe, Explain, Plan and Select: Interactive Planning with Large Language Models Enables Open-World Multi-Task Agents** *Zihao Wang, Shaofei Cai, Guanzhou Chen, Anji Liu, Xiaojian Ma, Yitao Liang* NIPS 2023. [paper](https://arxiv.org/abs/2302.01560)
-14. **STEVE-1: A Generative Model for Text-to-Behavior in Minecraft** *Shalev Lifshitz, Keiran Paster, Harris Chan, Jimmy Ba, Sheila McIlraith* NIPS 2023. [paper](https://arxiv.org/abs/2306.00937)
-15. **Skill Reinforcement Learning and Planning for Open-World Long-Horizon Tasks** *Haoqi Yuan, Chi Zhang, Hongcheng Wang, Feiyang Xie, Penglin Cai, Hao Dong, Zongqing Lu* NIPSW 2023. [paper](https://arxiv.org/abs/2303.16563)
+13. **Describe, Explain, Plan and Select: Interactive Planning with Large Language Models Enables Open-World Multi-Task Agents** *Zihao Wang, Shaofei Cai, Guanzhou Chen, Anji Liu, Xiaojian Ma, Yitao Liang* NeurIPS 2023. [paper](https://arxiv.org/abs/2302.01560)
+14. **STEVE-1: A Generative Model for Text-to-Behavior in Minecraft** *Shalev Lifshitz, Keiran Paster, Harris Chan, Jimmy Ba, Sheila McIlraith* NeurIPS 2023. [paper](https://arxiv.org/abs/2306.00937)
+15. **Skill Reinforcement Learning and Planning for Open-World Long-Horizon Tasks** *Haoqi Yuan, Chi Zhang, Hongcheng Wang, Feiyang Xie, Penglin Cai, Hao Dong, Zongqing Lu* NeurIPSW 2023. [paper](https://arxiv.org/abs/2303.16563)
 16. **A Survey on Game Playing Agents and Large Models: Methods, Applications, and Challenges** *Xinrun Xu, Yuxin Wang, Chaoyi Xu, Ziluo Ding, Jiechuan Jiang, Zhiming Ding, Börje F. Karlsson* arXiv 2024. [paper](https://arxiv.org/abs/2403.10249)
 17. **Auto MC-Reward: Automated Dense Reward Design with Large Language Models for Minecraft** *Hao Li, Xue Yang, Zhaokai Wang, Xizhou Zhu, Jie Zhou, Yu Qiao, Xiaogang Wang, Hongsheng Li, Lewei Lu, Jifeng Dai* arXiv 2024. [paper](https://arxiv.org/abs/2312.09238)
 18. **MP5: A Multi-modal Open-ended Embodied System in Minecraft via Active Perception** *Yiran Qin, Enshen Zhou, Qichang Liu, Zhenfei Yin, Lu Sheng, Ruimao Zhang, Yu Qiao, Jing Shao* arXiv 2024. [paper](https://arxiv.org/abs/2312.07472)

@@ -4,13 +4,9 @@
 
 ### [Download Server of the Required Version](https://mcversions.net/)
 
-We use [1.19 version](https://mcversions.net/download/1.19). Put it at `/path/to/your/server-1.9.jar`
+We use [1.19 version](https://fabricmc.net/use/server/). Put it at `/path/to/your/server-1.9.jar`
 
-1.19.4-fabric-0.14.21
-
-fabric-api-0.87.1 至少要0.14.21 fabric server
-
-使用fabric-0.15.11 加载 multiserverpause-fabric-1.1.0会报错
+![image-20240613上午110129926](./run_using_docker.assets/image-20240613上午110129926.png)
 
 ### Download Mods
 
@@ -144,3 +140,24 @@ services:
 
 - Run: `docker-compose -f /path/to/your/docker-compose.yaml up -d `
 - If you want to stop and remove the container: `docker-compose -f /path/to/your/docker-compose.yml down`
+
+## FAQ
+
+1. Can not connect to minecraft server caused by 缺少个人信息公钥
+
+   - You can try to modify `enforce-secure-profile`, set it to `false`.
+
+     ![image-20240613上午105810997](./run_using_docker.assets/image-20240613上午105810997.png)
+
+   - Change server version
+
+     Use `1.19.4-fabric-0.14.21`(fabric-api-0.87.1 requires the fabric server version >= 0.14.21)
+
+     ![image-20240613上午110201780](./run_using_docker.assets/image-20240613上午110201780.png)
+
+   
+
+2. fabric-0.15.11 server reports errors when loading multiserverpause-fabric-1.1.0
+
+   Downgrade fabric version to 0.14.21.
+
