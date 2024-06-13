@@ -2,7 +2,7 @@
 
 ## MineCraft Server Deployment
 
-### [Download Server of the Required Version](https://mcversions.net/)
+### Download Server of the Required Version
 
 We use [1.19 version](https://fabricmc.net/use/server/). Put it at `/path/to/your/server-1.9.jar`
 
