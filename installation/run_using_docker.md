@@ -6,7 +6,7 @@
 
 We use [1.19 version](https://fabricmc.net/use/server/). Put it at `/path/to/your/server-1.9.jar`
 
-![image-20240613上午110129926](./run_using_docker.assets/image-20240613上午110129926.png)
+![image-20240613上午110129926](../images/image-20240613上午110129926.png)
 
 ### Download Mods
 
@@ -147,13 +147,13 @@ services:
 
    - You can try to modify `enforce-secure-profile`, set it to `false`.
 
-     ![image-20240613上午105810997](./run_using_docker.assets/image-20240613上午105810997.png)
+     ![image-20240613上午105810997](../images/image-20240613上午105810997.png)
 
    - Change server version
 
      Use `1.19.4-fabric-0.14.21`(fabric-api-0.87.1 requires the fabric server version >= 0.14.21)
 
-     ![image-20240613上午110201780](./run_using_docker.assets/image-20240613上午110201780.png)
+     ![image-20240613上午110201780](../images/image-20240613上午110201780.png)
 
    
 
