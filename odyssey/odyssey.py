@@ -339,7 +339,7 @@ class Odyssey:
                 break
         return messages, reward, done, info
 
-    def learn(self, goals=None, reset_env=True):
+    def learn(self, goals=None, reset_env=True, tick_limit:int=36000):
         self.inventory = []
         self.recorder.elapsed_time = 0
         self.recorder.iteration = 0
@@ -423,7 +423,7 @@ class Odyssey:
             if goals is not None:
                 with Timer('Critic Check Goal Success'):
                     completed = self.critic_agent.check_goal_success(self.last_events, self.planer_agent.completed_tasks, self.planer_agent.failed_tasks, goals, mode = "program")
-                if completed or self.step_time[-1] >= 36000:
+                if completed or self.step_time[-1] >= tick_limit:
                     break
             self.logger.success(f"Completed tasks: {', '.join(self.planer_agent.completed_tasks)}")
             self.logger.failed(f"Failed tasks: {', '.join(self.planer_agent.failed_tasks)}")
@@ -448,7 +448,7 @@ class Odyssey:
             )
         return self.planer_agent.decompose_task(self.environment, task, last_tasklist, critique, health)
 
-    def inference(self, task:str=None, sub_goals=[], reset_mode="hard", reset_env=True, feedback_rounds:int=1):
+    def inference(self, task:str=None, sub_goals=[], reset_mode="hard", reset_env=True, feedback_rounds:int=1, tick_limit:int=24000):
         if not task and not sub_goals:
             raise ValueError("Either task or sub_goals must be provided")
         self.logger.debug(f"Starting inference for task: {task}")
@@ -492,19 +492,21 @@ class Odyssey:
                         self.planer_agent.update_exploration_progress(info)
                         self.logger.success(f"Completed tasks: {', '.join(self.planer_agent.completed_tasks)}")
                         self.logger.failed(f"Failed tasks: {', '.join(self.planer_agent.failed_tasks)}")
-                    if (self.step_time[-1] >= 24000):
+                    if (self.step_time[-1] >= tick_limit):
                         self.logger.warning('Inference Time limit reached >=24000')
                         break
                 # str_list = task.split()
-                # TODO: hard coding
-                self.run_raw_skill("test_env/combatEnv.js", [10, 15, 100])
+                combat_env_height = 10
+                combat_env_r = 15
+                combat_env_y = 100
+                self.run_raw_skill("test_env/combatEnv.js", [combat_env_height, combat_env_r, combat_env_y])
                 with Timer('rerank monsters'):
                     combat_order = self.planer_agent.rerank_monster(task=task)
                     self.logger.debug(f'Combat order: {combat_order}')
-
+                summon_r = 5
                 for task_item in task.split(','):
                     summon_para = task_item.split()
-                    summon_para.insert(1, 5)  # idx =1, r=5
+                    summon_para.insert(1, summon_r)  # idx =1, insert summon_para_r
                     self.run_raw_skill("test_env/summonMob.js", summon_para)
 
                 monster_origin = task.split(',')
