@@ -12,9 +12,6 @@ embedding_dir = config.get('SENTENT_EMBEDDING_DIR')
 # mc_host = "localhost"
 # mc_port = 25576
 # embedding_dir = '/home/jovyan/notebook/mc_voyager/sentent-embedding'
-mc_host = "10.214.211.110"
-mc_port = 26665
-node_port = 3000
 # embedding_dir = "D:\DESKTOP\paraphrase-multilingual-MiniLM-L12-v2" # local dir
 # mc_host = "127.0.0.1"
 # mc_port = 49741 # local server
@@ -116,104 +113,11 @@ def test_combat():
         action_agent_model_name = ModelType.LLAMA3_70B_V1,
     )
     
-    multi_rounds_tasks = ["1 enderman", "3 zombie"]
-    l8_v3_combat_benchmark = [
-                        # Single-mob tasks
-                        "1 spider", 
-                        # Multi-mob tasks
-                        "1 zombie, 1 skeleton", "1 zombie, 1 spider", "1 zombie, 1 skeleton, 1 spider"
-                        ]
-    l8_combat_benchmark = [
-                        # Single-mob tasks
-                         "1 skeleton",  "1 spider", "1 zombified_piglin", "1 zombie",
-                        # Multi-mob tasks
-                        "1 zombie, 1 skeleton", "1 zombie, 1 spider", "1 zombie, 1 skeleton, 1 spider"
-                        ]
-    l70_v1_combat_benchmark = [
-                        # Single-mob tasks
-                         "1 skeleton",  "1 spider", "1 zombified_piglin", "1 zombie",
-                        # Multi-mob tasks
-                        "1 zombie, 1 skeleton", "1 zombie, 1 spider", "1 zombie, 1 skeleton, 1 spider"
-                        ]
+    multi_rounds_tasks = ["1 zombie", "3 zombie"]
     MAX_RETRY  = 3
     while True:
         # for task in combat_benchmark:
-        retry = MAX_RETRY
-        i = 0
-        while i < len(l8_combat_benchmark):
-            try:
-                voyager_l3_8b.inference(task=l8_combat_benchmark[i], reset_env=False, feedback_rounds=1)
-                i += 1
-                retry = MAX_RETRY
-            except Exception as e:
-                logger.critical(l8_combat_benchmark[i]+' failed. retry...')
-                logger.critical(e)
-                traceback.print_exc()
-                if retry > 0:
-                    retry -= 1
-                    continue
-                i += 1
-                retry = MAX_RETRY
-        i = 0
-        while i < len(multi_rounds_tasks):
-            try:
-                voyager_l3_8b.inference(task=multi_rounds_tasks[i], reset_env=False, feedback_rounds=3)
-                i += 1
-                retry = MAX_RETRY
-            except Exception as e:
-                logger.critical(multi_rounds_tasks[i]+' failed. retry...')
-                logger.critical(e)
-                traceback.print_exc()
-                if retry > 0:
-                    retry -= 1
-                    continue
-                i += 1
-                retry = MAX_RETRY
-        i = 0
-        while i < len(l70_v1_combat_benchmark):
-            try:
-                voyager_l3_70b.inference(task=l70_v1_combat_benchmark[i], reset_env=False, feedback_rounds=1)
-                i += 1
-                retry = MAX_RETRY
-            except Exception as e:
-                logger.critical(l70_v1_combat_benchmark[i]+' failed. retry...')
-                logger.critical(e)
-                traceback.print_exc()
-                if retry > 0:
-                    retry -= 1
-                    continue
-                i += 1
-                retry = MAX_RETRY
-        i = 0
-        while i < len(multi_rounds_tasks):
-            try:
-                voyager_l3_70b.inference(task=multi_rounds_tasks[i], reset_env=False, feedback_rounds=3)
-                i += 1
-                retry = MAX_RETRY
-            except Exception as e:
-                logger.critical(multi_rounds_tasks[i]+' failed. retry...')
-                logger.critical(e)
-                traceback.print_exc()
-                if retry > 0:
-                    retry -= 1
-                    continue
-                i += 1
-                retry = MAX_RETRY
-        i = 0
-        while i < len(l8_v3_combat_benchmark):
-            try:
-                voyager_l3_8b_v3.inference(task=l8_v3_combat_benchmark[i], reset_env=False, feedback_rounds=1)
-                i += 1
-                retry = MAX_RETRY
-            except Exception as e:
-                logger.critical(l8_v3_combat_benchmark[i]+' failed. retry...')
-                logger.critical(e)
-                traceback.print_exc()
-                if retry > 0:
-                    retry -= 1
-                    continue
-                i += 1
-                retry = MAX_RETRY
+        retry = MAX_RETRY  
         i = 0
         while i < len(multi_rounds_tasks):
             try:
@@ -327,11 +231,6 @@ def test_farming():
         action_agent_model_name = ModelType.LLAMA3_70B_V1,
     )
     farming_benchmark = [
-                    # Single-goal tasks
-                    "collect 1 wool by shearing 1 sheep",
-                    "collect 1 bucket of milk",
-                    "cook 1 meat (beef or mutton or pork or chicken)",
-                    # Multi-goal tasks
                     "collect and plant 1 seed (wheat or melon or pumpkin)"
                     ]
     while True:
