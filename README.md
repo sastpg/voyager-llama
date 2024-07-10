@@ -13,7 +13,7 @@
 
 ## Installation
 
-We use Python ≥ 3.9 and Node.js ≥ 16.13.0. We have tested on Ubuntu 20.04, Windows 10, and macOS.
+We use Python �? 3.9 and Node.js �? 16.13.0. We have tested on Ubuntu 20.04, Windows 10, and macOS.
 
 ### Python Install
 
@@ -79,8 +79,8 @@ def test_subgoal():
         server_port=node_port,
         critic_agent_model_name = ModelType.LLAMA3_8B_V3,
         comment_agent_model_name = ModelType.LLAMA3_8B_V3,
-        curriculum_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
-        curriculum_agent_model_name = ModelType.LLAMA3_8B_V3,
+        planer_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
+        planer_agent_model_name = ModelType.LLAMA3_8B_V3,
         action_agent_model_name = ModelType.LLAMA3_8B_V3,
     )
     # 5 classic MC tasks
@@ -94,8 +94,8 @@ def test_subgoal():
 | Model                          | For what                                                     |
 | ------------------------------ | ------------------------------------------------------------ |
 | action_agent_model_name        | Choose one of the k retrieved skills to execute              |
-| curriculum_agent_model_name    | Propose tasks for farming and explore                        |
-| curriculum_agent_qa_model_name | Schedule subtasks for combat, generate QA context, and rank the order to kill monsters |
+| planer_agent_model_name    | Propose tasks for farming and explore                        |
+| planer_agent_qa_model_name | Schedule subtasks for combat, generate QA context, and rank the order to kill monsters |
 | critic_agent_model_name        | Action critic                                                |
 | comment_agent_model_name       | Give the critic about the last combat result, in order to reschedule subtasks for combat |
 
@@ -115,8 +115,8 @@ def test_combat():
         server_port=node_port,
         critic_agent_model_name = ModelType.LLAMA3_70B_V1,
         comment_agent_model_name = ModelType.LLAMA3_70B_V1,
-        curriculum_agent_qa_model_name = ModelType.LLAMA3_70B_V1,
-        curriculum_agent_model_name = ModelType.LLAMA3_70B_V1,
+        planer_agent_qa_model_name = ModelType.LLAMA3_70B_V1,
+        planer_agent_model_name = ModelType.LLAMA3_70B_V1,
         action_agent_model_name = ModelType.LLAMA3_70B_V1,
     )
     
@@ -149,8 +149,8 @@ def test_farming():
         server_port=node_port,
         critic_agent_model_name = ModelType.LLAMA3_8B_V3,
         comment_agent_model_name = ModelType.LLAMA3_8B_V3,
-        curriculum_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
-        curriculum_agent_model_name = ModelType.LLAMA3_8B_V3,
+        planer_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
+        planer_agent_model_name = ModelType.LLAMA3_8B_V3,
         action_agent_model_name = ModelType.LLAMA3_8B_V3,
     )
 
@@ -182,8 +182,8 @@ def explore():
         server_port=node_port,
         critic_agent_model_name = ModelType.LLAMA3_8B,
         comment_agent_model_name = ModelType.LLAMA3_8B,
-        curriculum_agent_qa_model_name = ModelType.LLAMA3_8B,
-        curriculum_agent_model_name = ModelType.LLAMA3_8B,
+        planer_agent_qa_model_name = ModelType.LLAMA3_8B,
+        planer_agent_model_name = ModelType.LLAMA3_8B,
         action_agent_model_name = ModelType.LLAMA3_8B,
         username='bot1_8b'
     )
@@ -195,7 +195,7 @@ def explore():
 
 ## FAQ
 
-1. LLaMa api application [LLaMa2大语言模型有哪些API接口_模型服务灵积(DashScope)-阿里云帮助中心 (aliyun.com)](https://help.aliyun.com/zh/dashscope/developer-reference/api-details-11)
+1. LLaMa api application [LLaMa2大�??言模型有哪些API接口_模型服务灵积(DashScope)-阿里云帮助中�? (aliyun.com)](https://help.aliyun.com/zh/dashscope/developer-reference/api-details-11)
 
 ## Related Works
 

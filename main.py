@@ -33,8 +33,8 @@ def test_subgoal():
         server_port=node_port,
         critic_agent_model_name = ModelType.LLAMA3_8B_V3,
         comment_agent_model_name = ModelType.LLAMA3_8B_V3,
-        curriculum_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
-        curriculum_agent_model_name = ModelType.LLAMA3_8B_V3,
+        planer_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
+        planer_agent_model_name = ModelType.LLAMA3_8B_V3,
         action_agent_model_name = ModelType.LLAMA3_8B_V3,
     )
     voyager_l3_70b = Odyssey(
@@ -50,8 +50,8 @@ def test_subgoal():
         server_port=node_port,
         critic_agent_model_name = ModelType.LLAMA3_70B_V1,
         comment_agent_model_name = ModelType.LLAMA3_70B_V1,
-        curriculum_agent_qa_model_name = ModelType.LLAMA3_70B_V1,
-        curriculum_agent_model_name = ModelType.LLAMA3_70B_V1,
+        planer_agent_qa_model_name = ModelType.LLAMA3_70B_V1,
+        planer_agent_model_name = ModelType.LLAMA3_70B_V1,
         action_agent_model_name = ModelType.LLAMA3_70B_V1,
     )
     # 5 classic MC tasks
@@ -77,8 +77,8 @@ def test_combat():
         server_port=node_port,
         critic_agent_model_name = ModelType.LLAMA3_8B_V3,
         comment_agent_model_name = ModelType.LLAMA3_8B_V3,
-        curriculum_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
-        curriculum_agent_model_name = ModelType.LLAMA3_8B_V3,
+        planer_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
+        planer_agent_model_name = ModelType.LLAMA3_8B_V3,
         action_agent_model_name = ModelType.LLAMA3_8B_V3,
     )
     voyager_l3_8b = Odyssey(
@@ -94,8 +94,8 @@ def test_combat():
         server_port=node_port,
         critic_agent_model_name = ModelType.LLAMA3_8B,
         comment_agent_model_name = ModelType.LLAMA3_8B,
-        curriculum_agent_qa_model_name = ModelType.LLAMA3_8B,
-        curriculum_agent_model_name = ModelType.LLAMA3_8B,
+        planer_agent_qa_model_name = ModelType.LLAMA3_8B,
+        planer_agent_model_name = ModelType.LLAMA3_8B,
         action_agent_model_name = ModelType.LLAMA3_8B,
     )
     voyager_l3_70b = Odyssey(
@@ -111,8 +111,8 @@ def test_combat():
         server_port=node_port,
         critic_agent_model_name = ModelType.LLAMA3_70B_V1,
         comment_agent_model_name = ModelType.LLAMA3_70B_V1,
-        curriculum_agent_qa_model_name = ModelType.LLAMA3_70B_V1,
-        curriculum_agent_model_name = ModelType.LLAMA3_70B_V1,
+        planer_agent_qa_model_name = ModelType.LLAMA3_70B_V1,
+        planer_agent_model_name = ModelType.LLAMA3_70B_V1,
         action_agent_model_name = ModelType.LLAMA3_70B_V1,
     )
     
@@ -244,8 +244,8 @@ def explore():
         server_port=node_port,
         critic_agent_model_name = ModelType.LLAMA3_8B,
         comment_agent_model_name = ModelType.LLAMA3_8B,
-        curriculum_agent_qa_model_name = ModelType.LLAMA3_8B,
-        curriculum_agent_model_name = ModelType.LLAMA3_8B,
+        planer_agent_qa_model_name = ModelType.LLAMA3_8B,
+        planer_agent_model_name = ModelType.LLAMA3_8B,
         action_agent_model_name = ModelType.LLAMA3_8B,
         # because I wrongly added username bot1_13b in minecraft, so use this name
         # rather then bot1_8b
@@ -264,8 +264,8 @@ def explore():
         server_port=node_port,
         critic_agent_model_name = ModelType.LLAMA3_8B_V3,
         comment_agent_model_name = ModelType.LLAMA3_8B_V3,
-        curriculum_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
-        curriculum_agent_model_name = ModelType.LLAMA3_8B_V3,
+        planer_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
+        planer_agent_model_name = ModelType.LLAMA3_8B_V3,
         action_agent_model_name = ModelType.LLAMA3_8B_V3,
         username='bot1_13b_v3'
     )
@@ -282,8 +282,8 @@ def explore():
         server_port=node_port,
         critic_agent_model_name = ModelType.LLAMA3_70B_V1,
         comment_agent_model_name = ModelType.LLAMA3_70B_V1,
-        curriculum_agent_qa_model_name = ModelType.LLAMA3_70B_V1,
-        curriculum_agent_model_name = ModelType.LLAMA3_70B_V1,
+        planer_agent_qa_model_name = ModelType.LLAMA3_70B_V1,
+        planer_agent_model_name = ModelType.LLAMA3_70B_V1,
         action_agent_model_name = ModelType.LLAMA3_70B_V1,
         username='bot1_70b_v1'
     )
@@ -305,8 +305,8 @@ def test_farming():
         server_port=node_port,
         critic_agent_model_name = ModelType.LLAMA3_8B_V3,
         comment_agent_model_name = ModelType.LLAMA3_8B_V3,
-        curriculum_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
-        curriculum_agent_model_name = ModelType.LLAMA3_8B_V3,
+        planer_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
+        planer_agent_model_name = ModelType.LLAMA3_8B_V3,
         action_agent_model_name = ModelType.LLAMA3_8B_V3,
     )
     voyager_l3_70b = Odyssey(
@@ -322,8 +322,8 @@ def test_farming():
         server_port=node_port,
         critic_agent_model_name = ModelType.LLAMA3_70B_V1,
         comment_agent_model_name = ModelType.LLAMA3_70B_V1,
-        curriculum_agent_qa_model_name = ModelType.LLAMA3_70B_V1,
-        curriculum_agent_model_name = ModelType.LLAMA3_70B_V1,
+        planer_agent_qa_model_name = ModelType.LLAMA3_70B_V1,
+        planer_agent_model_name = ModelType.LLAMA3_70B_V1,
         action_agent_model_name = ModelType.LLAMA3_70B_V1,
     )
     farming_benchmark = [
