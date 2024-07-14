@@ -367,7 +367,7 @@ class Odyssey:
                     }
                 )
                 self.resume = True
-        self.run_raw_skill("test_env/respawnAndClear.js") # clear inventory without reset
+        self.run_raw_skill("odyssey/test_env/respawnAndClear.js") # clear inventory without reset
         with Timer('env step empty string'):
             self.last_events = self.env.step("")
         while True:
@@ -499,7 +499,7 @@ class Odyssey:
                 combat_env_height = 10
                 combat_env_r = 15
                 combat_env_y = 100
-                self.run_raw_skill("test_env/combatEnv.js", [combat_env_height, combat_env_r, combat_env_y])
+                self.run_raw_skill("odyssey/test_env/combatEnv.js", [combat_env_height, combat_env_r, combat_env_y])
                 with Timer('rerank monsters'):
                     combat_order = self.planer_agent.rerank_monster(task=task)
                     self.logger.debug(f'Combat order: {combat_order}')
@@ -507,7 +507,7 @@ class Odyssey:
                 for task_item in task.split(','):
                     summon_para = task_item.split()
                     summon_para.insert(1, summon_r)  # idx =1, insert summon_para_r
-                    self.run_raw_skill("test_env/summonMob.js", summon_para)
+                    self.run_raw_skill("odyssey/test_env/summonMob.js", summon_para)
 
                 monster_origin = task.split(',')
                 try:
@@ -543,7 +543,7 @@ class Odyssey:
                 U.f_mkdir(f"./results/{self.environment}")
                 U.dump_text(f"Route {i}; Plan list: {sub_goals}; Ticks on each step: {self.step_time}; LLM iters: {self.total_iter}; failed; caused by {e}\n\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
             finally:
-                self.run_raw_skill("test_env/respawnAndClear.js")
+                self.run_raw_skill("odyssey/test_env/respawnAndClear.js")
                 self.env.reset(
                     options={
                         "mode": "hard",
@@ -570,7 +570,7 @@ class Odyssey:
         self.planer_agent.completed_tasks = []
         self.planer_agent.failed_tasks = []
         self.last_events = self.env.step("")
-        self.run_raw_skill("test_env/respawnAndClear.js")
+        self.run_raw_skill("odyssey/test_env/respawnAndClear.js")
         
         while self.planer_agent.progress < len(sub_goals):
             next_task = sub_goals[self.planer_agent.progress]
