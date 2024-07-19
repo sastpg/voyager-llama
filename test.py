@@ -164,7 +164,7 @@ def test_farming():
                     # "collect 1 bucket of milk",
                     # "cook 1 meat (beef or mutton or pork or chicken)",
                     # Multi-goal tasks
-                    "collect and plant 1 seed (wheat or melon or pumpkin)"
+                    "collect 1 seed (wheat or melon or pumpkin)"
                     ]
     while True:
         # for task in farming_benchmark:
@@ -241,4 +241,4 @@ def test_explore():
     voyager_l3_70b.learn()
 
 if __name__ == '__main__':
-    test_explore()
+    test_farming()

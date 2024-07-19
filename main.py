@@ -231,7 +231,7 @@ def test_farming():
         action_agent_model_name = ModelType.LLAMA3_70B_V1,
     )
     farming_benchmark = [
-                    "collect and plant 1 seed (wheat or melon or pumpkin)"
+                    "collect 1 seed (wheat or melon or pumpkin)"
                     ]
     while True:
         # for task in farming_benchmark:
@@ -255,4 +255,4 @@ def test_farming():
                 traceback.print_exc()
 
 if __name__ == '__main__':
-    test_combat()
+    test_farming()
