@@ -26,7 +26,7 @@ env_prompt = {
 }
 
 
-class PlanerAgent:
+class PlannerAgent:
     def __init__(
         self,
         model_name=ModelType.LLAMA2_70B,
@@ -43,17 +43,17 @@ class PlanerAgent:
             "auto",
             "manual",
         ], f"mode {mode} not supported"
-        self.logger = get_logger("planerAgent")
+        self.logger = get_logger("CurriculumAgent")
         self.mode = mode
         self.ckpt_dir = ckpt_dir
-        U.f_mkdir(f"{ckpt_dir}/planer/vectordb")
+        U.f_mkdir(f"{ckpt_dir}/curriculum/vectordb")
         if resume:
-            self.logger.info(f"Loading planer Agent from {ckpt_dir}/planer")
+            self.logger.info(f"Loading Curriculum Agent from {ckpt_dir}/curriculum")
             self.completed_tasks = U.load_json(
-                f"{ckpt_dir}/planer/completed_tasks.json"
+                f"{ckpt_dir}/curriculum/completed_tasks.json"
             )
-            self.failed_tasks = U.load_json(f"{ckpt_dir}/planer/failed_tasks.json")
-            self.qa_cache = U.load_json(f"{ckpt_dir}/planer/qa_cache.json")
+            self.failed_tasks = U.load_json(f"{ckpt_dir}/curriculum/failed_tasks.json")
+            self.qa_cache = U.load_json(f"{ckpt_dir}/curriculum/qa_cache.json")
         else:
             self.completed_tasks = []
             self.failed_tasks = []
@@ -62,12 +62,12 @@ class PlanerAgent:
         self.qa_cache_questions_vectordb = Chroma(
             collection_name="qa_cache_questions_vectordb",
             embedding_function=HuggingFaceEmbeddings(model_name=embedding_model),
-            persist_directory=f"{ckpt_dir}/planer/vectordb",
+            persist_directory=f"{ckpt_dir}/curriculum/vectordb",
         )
         assert self.qa_cache_questions_vectordb._collection.count() == len(
             self.qa_cache
         ), (
-            f"planer Agent's qa cache question vectordb is not synced with qa_cache.json.\n"
+            f"Curriculum Agent's qa cache question vectordb is not synced with qa_cache.json.\n"
             f"There are {self.qa_cache_questions_vectordb._collection.count()} questions in vectordb "
             f"but {len(self.qa_cache)} questions in qa_cache.json.\n"
             f"Did you set resume=False when initializing the agent?\n"
@@ -85,7 +85,7 @@ class PlanerAgent:
             ]
         else:
             self.warm_up["optional_inventory_items"] = 0
-        for key in self.planer_observations:
+        for key in self.curriculum_observations:
             self.warm_up[key] = warm_up.get(key, self.default_warmup[key])
         self.warm_up["nearby_blocks"] = 0
         self.warm_up["inventory"] = 0
@@ -115,7 +115,7 @@ class PlanerAgent:
         }
 
     @property
-    def planer_observations(self):
+    def curriculum_observations(self):
         return [
             # "context",
             "biome",
@@ -237,7 +237,7 @@ class PlanerAgent:
         if goals:
             content += "Ultimate goal: " + goals +"\n"
             content += "Note that your proposed tasks should directly related to the goals!\n"
-        for key in self.planer_observations:
+        for key in self.curriculum_observations:
             content += observation[key]
             # if self.progress >= self.warm_up[key]:
             #     if self.warm_up[key] != 0:
@@ -252,7 +252,7 @@ class PlanerAgent:
                 result = event[1]['onChat']
                 break
         content += f"Logs: {result}"
-        self.logger.info(f"****planer Agent human message****\n{content}")
+        self.logger.info(f"****Curriculum Agent human message****\n{content}")
         return HumanMessage(content=content)
 
     def propose_next_task(self, environment, events, chest_observation, goals=None, max_retries=5):
@@ -280,25 +280,25 @@ class PlanerAgent:
         elif self.mode == "manual":
             return self.propose_next_manual_task()
         else:
-            raise ValueError(f"Invalid planer agent mode: {self.mode}")
+            raise ValueError(f"Invalid curriculum agent mode: {self.mode}")
 
     def propose_next_ai_task(self, *, messages, max_retries=5):
         if max_retries == 0:
             raise RuntimeError("Max retries reached, failed to propose ai task.")
-        planer = call_with_messages(messages, self.model_name).content
-        self.logger.info(f"****planer Agent ai message****\n{planer}")
+        curriculum = call_with_messages(messages, self.model_name).content
+        self.logger.info(f"****Curriculum Agent ai message****\n{curriculum}")
         code_pattern = re.compile(r"{(.*?)}", re.DOTALL)
-        code_name = "".join(code_pattern.findall(planer))
-        planer = "{" + code_name + "}"
+        code_name = "".join(code_pattern.findall(curriculum))
+        curriculum = "{" + code_name + "}"
         try:
-            response = fix_and_parse_json(planer)
+            response = fix_and_parse_json(curriculum)
             assert "task" in response
             if "reasoning" not in response:
                 response["reasoning"] = ""
             context = self.get_task_context(response["task"])
             return response["task"], context
         except Exception as e:
-            self.logger.warning(f"Error parsing planer response: {e}. Trying again!")
+            self.logger.warning(f"Error parsing curriculum response: {e}. Trying again!")
             return self.propose_next_ai_task(
                 messages=messages,
                 max_retries=max_retries - 1,
@@ -309,7 +309,7 @@ class PlanerAgent:
         for line in message.split("\n"):
             if line.startswith("Task:"):
                 task = line[5:].replace(".", "").strip()
-        assert task, "Task not found in planer Agent response"
+        assert task, "Task not found in Curriculum Agent response"
         return {"next_task": task}
 
     def propose_next_manual_task(self):
@@ -356,9 +356,9 @@ class PlanerAgent:
 
         # dump to json
         U.dump_json(
-            self.completed_tasks, f"{self.ckpt_dir}/planer/completed_tasks.json"
+            self.completed_tasks, f"{self.ckpt_dir}/curriculum/completed_tasks.json"
         )
-        U.dump_json(self.failed_tasks, f"{self.ckpt_dir}/planer/failed_tasks.json")
+        U.dump_json(self.failed_tasks, f"{self.ckpt_dir}/curriculum/failed_tasks.json")
 
     def decompose_task(self, environment, monster, last_tasklist, critique, health):
         # for different test env, modify prompt here
@@ -369,7 +369,7 @@ class PlanerAgent:
             # self.render_human_message(events=events, chest_observation=""),
             HumanMessage(content=f"Equipment obtained in last round: {last_tasklist};\n Health after last combat:{health};\n Critique: {critique};\n Monster: {monster}.\n"),
         ]
-        # print(f"\033[31m****planer Agent task decomposition****\nFinal task: {task}\033[0m")
+        # print(f"\033[31m****Curriculum Agent task decomposition****\nFinal task: {task}\033[0m")
         response = call_with_messages(messages, self.qa_model_name).content
         return fix_and_parse_list(response)
     
@@ -387,7 +387,7 @@ class PlanerAgent:
         while retry > 0:
             try:
                 response = call_with_messages(messages, self.qa_model_name).content
-                self.logger.debug(f"****planer Agent monster rerank****\n{response}")
+                self.logger.debug(f"****Curriculum Agent monster rerank****\n{response}")
                 monster_order = fix_and_parse_list(response)
                 break
             except Exception as e:
@@ -432,7 +432,7 @@ class PlanerAgent:
             self.qa_cache_questions_vectordb.add_texts(
                 texts=[question],
             )
-            U.dump_json(self.qa_cache, f"{self.ckpt_dir}/planer/qa_cache.json")
+            U.dump_json(self.qa_cache, f"{self.ckpt_dir}/curriculum/qa_cache.json")
             self.qa_cache_questions_vectordb.persist()
             questions.append(question)
             answers.append(answer)
@@ -453,20 +453,20 @@ class PlanerAgent:
             self.qa_cache_questions_vectordb.add_texts(
                 texts=[question],
             )
-            U.dump_json(self.qa_cache, f"{self.ckpt_dir}/planer/qa_cache.json")
+            U.dump_json(self.qa_cache, f"{self.ckpt_dir}/curriculum/qa_cache.json")
             self.qa_cache_questions_vectordb.persist()
         context = f"Question: {question}\n{answer}"
         return context
 
     def render_system_message_qa_step1_ask_questions(self):
-        return SystemMessage(content=load_prompt("planer_qa_step1_ask_questions"))
+        return SystemMessage(content=load_prompt("curriculum_qa_step1_ask_questions"))
 
     def render_human_message_qa_step1_ask_questions(self, *, events, chest_observation):
         observation = self.render_observation(
             events=events, chest_observation=chest_observation
         )
         content = ""
-        for key in self.planer_observations:
+        for key in self.curriculum_observations:
             content += observation[key]
         return HumanMessage(content=content)
 
@@ -498,13 +498,13 @@ class PlanerAgent:
             concepts.extend(concepts_new)
         except Exception as e:
             self.logger.warning(
-                f"Error parsing planer response for QA step 1 ask questions: {e}."
+                f"Error parsing curriculum response for QA step 1 ask questions: {e}."
             )
         return questions, concepts
 
     def render_system_message_qa_step2_answer_questions(self):
         return SystemMessage(
-            content=load_prompt("planer_qa_step2_answer_questions")
+            content=load_prompt("curriculum_qa_step2_answer_questions")
         )
 
     def render_human_message_qa_step2_answer_questions(self, question):
@@ -516,9 +516,9 @@ class PlanerAgent:
             self.render_system_message_qa_step2_answer_questions(),
             self.render_human_message_qa_step2_answer_questions(question=question),
         ]
-        # self.logger.debug(f"planer Agent Question: {question}")
+        # self.logger.debug(f"Curriculum Agent Question: {question}")
         # qa_answer = self.qa_llm(messages).content
         # ï¿????æ¹è°ï¿????
         qa_answer = call_with_messages(messages, model_name=self.qa_model_name).content
-        # self.logger.debug(f"planer Agent Answer: {qa_answer}")
+        # self.logger.debug(f"Curriculum Agent Answer: {qa_answer}")
         return qa_answer

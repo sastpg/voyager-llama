@@ -280,6 +280,7 @@ class CriticAgent:
                 HumanMessage(content=content)
             ]
             return self.ai_check_goal_success(messages=messages)
+        # program mode is used for checking farming benchmark tasks success
         elif mode == "program":
             print("observations = " + str(observations))
             inventory = self.get_inventory(events=events)
@@ -287,6 +288,10 @@ class CriticAgent:
             milk_in_inventory = 'milk_bucket' in inventory
             meat_in_inventory = 'cooked_porkchop' in inventory or 'cooked_mutton' in inventory or 'cooked_beef' in inventory or 'cooked_chicken' in inventory
             seed_in_inventory = 'wheat_seeds' in inventory or 'melon_seeds' in inventory or 'pumpkin_seeds' in inventory
+            leather_in_inventory = 'leather' in inventory
+            sugar_in_inventory = 'sugar' in inventory
+            water_bucket_in_inventory = 'water_bucket' in inventory
+            five_dye_in_inventory = 'green_dye' in inventory and inventory["green_dye"] >= 5
             farmland_nearby = 'farmland' in observations["nearby_blocks"]
             if goals == 'hoe a farmland':
                 return farmland_nearby
@@ -298,3 +303,12 @@ class CriticAgent:
                 return meat_in_inventory
             if goals == "collect 1 seed (wheat or melon or pumpkin)":
                 return seed_in_inventory
+            if goals == 'make 1 sugar':
+                return sugar_in_inventory
+            if goals == 'smelt 5 dye':
+                return five_dye_in_inventory
+            if goals == 'obtain 1 leather':
+                return leather_in_inventory
+            if goals == 'collect 1 bucket of water':
+                return water_bucket_in_inventory
+
