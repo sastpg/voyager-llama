@@ -30,7 +30,6 @@ def test_farming():
     )
     farming_benchmark = [
                 # "make 1 sugar",
-                # "smelt 5 dye",
                 "collect 1 bucket of water",
                 "obtain 1 leather",
                 "collect 1 bucket of water",
