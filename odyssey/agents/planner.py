@@ -20,6 +20,7 @@ from odyssey.utils.logger import get_logger
 from odyssey.agents.llama import call_with_messages, ModelType
 
 env_prompt = {
+    'long_term': 'long-term_planning_prompt',
     'combat': 'combat_sys_prompt',
     'farming': 'farming_sys_prompt',
     'explore': 'explore_sys_prompt'
@@ -362,12 +363,16 @@ class PlannerAgent:
 
     def decompose_task(self, environment, monster, last_tasklist, critique, health):
         # for different test env, modify prompt here
+        if environment == "combat":
+            human_msg = f"Equipment obtained in last round: {last_tasklist};\n Health after last combat:{health};\n Critique: {critique};\n Monster: {monster}.\n"
+        elif environment == "long_term":
+            human_msg = f"Task: {monster}.\n"
         messages = [
             SystemMessage(
                 content=load_prompt(env_prompt[environment]),
             ),
             # self.render_human_message(events=events, chest_observation=""),
-            HumanMessage(content=f"Equipment obtained in last round: {last_tasklist};\n Health after last combat:{health};\n Critique: {critique};\n Monster: {monster}.\n"),
+            HumanMessage(content=human_msg),
         ]
         # print(f"\033[31m****Curriculum Agent task decomposition****\nFinal task: {task}\033[0m")
         response = call_with_messages(messages, self.qa_model_name).content

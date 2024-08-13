@@ -10,6 +10,77 @@ mc_host = config.get('MC_SERVER_HOST')
 node_port = config.get('NODE_SERVER_PORT')
 embedding_dir = config.get('SENTENT_EMBEDDING_DIR')
 env_wait_ticks = 100
+
+def test_longterm():
+    odyssey_l3_8b_v3 = Odyssey(
+        mc_port=mc_port,
+        mc_host=mc_host,
+        env_wait_ticks=env_wait_ticks,
+        skill_library_dir="./skill_library",
+        reload=True, # set to True if the skill_json updated
+        embedding_dir=embedding_dir, # your model path
+        environment='long_term',
+        resume=False,
+        server_port=node_port,
+        critic_agent_model_name = ModelType.LLAMA3_8B_V3,
+        comment_agent_model_name = ModelType.LLAMA3_8B_V3,
+        planner_agent_qa_model_name = ModelType.LLAMA3_8B_V3,
+        planner_agent_model_name = ModelType.LLAMA3_8B_V3,
+        action_agent_model_name = ModelType.LLAMA3_8B_V3,
+    )
+    odyssey_l3_8b = Odyssey(
+        mc_port=mc_port,
+        mc_host=mc_host,
+        env_wait_ticks=env_wait_ticks,
+        skill_library_dir="./skill_library",
+        reload=True, # set to True if the skill_json updated
+        embedding_dir=embedding_dir, # your model path
+        environment='long_term',
+        resume=False,
+        server_port=node_port,
+        critic_agent_model_name = ModelType.LLAMA3_8B,
+        comment_agent_model_name = ModelType.LLAMA3_8B,
+        planner_agent_qa_model_name = ModelType.LLAMA3_8B,
+        planner_agent_model_name = ModelType.LLAMA3_8B,
+        action_agent_model_name = ModelType.LLAMA3_8B,
+    )
+    
+    multi_rounds_tasks = [""]
+    MAX_RETRY  = 3
+    while True:
+        # for task in combat_benchmark:
+        retry = MAX_RETRY
+        i = 0
+        while i < len(multi_rounds_tasks):
+            try:
+                odyssey_l3_8b.long_term(task=multi_rounds_tasks[i], reset_env=False, feedback_rounds=1)
+                i += 1
+                retry = MAX_RETRY
+            except Exception as e:
+                logger.critical(multi_rounds_tasks[i]+' failed. retry...')
+                logger.critical(e)
+                traceback.print_exc()
+                if retry > 0:
+                    retry -= 1
+                    continue
+                i += 1
+                retry = MAX_RETRY
+        i = 0
+        while i < len(multi_rounds_tasks):
+            try:
+                odyssey_l3_8b_v3.long_term(task=multi_rounds_tasks[i], reset_env=False, feedback_rounds=1)
+                i += 1
+                retry = MAX_RETRY
+            except Exception as e:
+                logger.critical(multi_rounds_tasks[i]+' failed. retry...')
+                logger.critical(e)
+                traceback.print_exc()
+                if retry > 0:
+                    retry -= 1
+                    continue
+                i += 1
+                retry = MAX_RETRY
+
 def test_subgoal():
     odyssey_l3_8b = Odyssey(
         mc_port=mc_port,

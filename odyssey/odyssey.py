@@ -552,6 +552,78 @@ class Odyssey:
                 self.planner_agent.completed_tasks = []
                 self.planner_agent.failed_tasks = []
 
+    def long_term(self, task:str=None, sub_goals=[], reset_mode="hard", reset_env=True, feedback_rounds:int=1):
+        if not task and not sub_goals:
+            raise ValueError("Either task or sub_goals must be provided")
+        self.logger.debug(f"Starting inference for task: {task}")
+        with Timer('env reset'):
+            self.last_events = self.env.reset(
+                options={
+                    "mode": reset_mode,
+                    "wait_ticks": self.env_wait_ticks,
+                    "username": self.username
+                }
+            )
+        if not sub_goals:
+            with Timer('decompose task'):
+                sub_goals = self.decompose_task(task)
+                self.logger.debug(f'Decomposed sub_goals: {sub_goals}')
+        
+        self.planner_agent.completed_tasks = []
+        self.planner_agent.failed_tasks = []
+        self.last_events = self.env.step("")
+        for i in range(feedback_rounds):
+            try:
+                self.recorder.elapsed_time = 0
+                self.recorder.iteration = 0
+                self.step_time = []
+                self.critic_agent.last_inventory = "Empty"
+                self.critic_agent.last_inventory_used = 0
+                while self.planner_agent.progress < len(sub_goals):
+                    next_task = sub_goals[self.planner_agent.progress]
+                    self.logger.debug(f'Next subgoal: {next_task}, All subgoals: {sub_goals}')
+                    with Timer('get task context'):
+                        context = self.planner_agent.get_task_context(next_task)
+                        self.logger.debug(f'Got task context: {context}')
+                    with Timer('rollout'):
+                        messages, inventory, done, info = self.rollout(
+                            task=next_task,
+                            context=context,
+                            reset_env=reset_env,
+                        )
+                        # self.logger.debug(f'info: {info}')
+                    with Timer('Update Exploration Progress'):
+                        self.planner_agent.update_exploration_progress(info)
+                        self.logger.success(f"Completed tasks: {', '.join(self.planner_agent.completed_tasks)}")
+                        self.logger.failed(f"Failed tasks: {', '.join(self.planner_agent.failed_tasks)}")
+                    if (self.step_time[-1] >= 24000):
+                        self.logger.warning('Inference Time limit reached >=24000')
+                        break
+                # str_list = task.split()
+                # TODO: hard coding
+                
+                U.f_mkdir(f"./results/{self.environment}")
+                U.dump_text(f"Route {i}; Plan list: {sub_goals}; Inventorys obtained: {inventory}; Ticks on each step: {self.step_time}; LLM iters: {self.total_iter}\n\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
+
+                with Timer('decompose task again based on feedback'):
+                    sub_goals = self.decompose_task(task)
+                    self.logger.debug('Decomposed sub_goals based on feedback: {sub_goals}')
+                
+            except Exception as e:
+                U.f_mkdir(f"./results/{self.environment}")
+                U.dump_text(f"Route {i}; Plan list: {sub_goals}; Ticks on each step: {self.step_time}; LLM iters: {self.total_iter}; failed; caused by {e}\n\n", f"./results/{self.environment}/{task.replace(' ', '_')}{self.action_agent_model_name.replace(' ', '_')}.txt")
+            finally:
+                self.run_raw_skill("odyssey/test_env/respawnAndClear.js")
+                self.env.reset(
+                    options={
+                        "mode": "hard",
+                        "wait_ticks": self.env_wait_ticks,
+                        "username": self.username
+                    }
+                )
+                self.planner_agent.completed_tasks = []
+                self.planner_agent.failed_tasks = []
+
     def inference_sub_goal(self, task:str=None, sub_goals=[], reset_mode="hard", reset_env=True):
         if not sub_goals:
             raise ValueError("Sub_goals must be provided")
