@@ -45,7 +45,8 @@ def test_longterm():
         action_agent_model_name = ModelType.LLAMA3_8B,
     )
     
-    multi_rounds_tasks = [""]
+    multi_rounds_tasks = ["Get any two of the following animal products: in wool, leather, milk, and feathers",
+                          "Cook any two of the following meats: in porkchop, mutton, chicken and beef"]
     MAX_RETRY  = 3
     while True:
         # for task in combat_benchmark:
