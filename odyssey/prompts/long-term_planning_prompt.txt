@@ -7,7 +7,7 @@ You must follow the following criteria:
 1) Return a Python list of subgoals that can be completed in order to complete the specified task.
 2) Each subgoal should follow a concise format like "mine [item_name]" or "craft [item_name]".
 3) Your plan list should be as long as possible to get the most done.
-4) In the planning list, a subgoal is as detailed as getting an item, and you don't have to think about breaking that item down into a number of pre-steps, which our skill library already does.
+4) You need to plan out the preconditions for a task, such as "craft bucket" before "milk cow", "craft shears" before "shear sheep", "kill pig" before "cook porkchop".
 5) You need to specify the correct way to get an item, such as "kill chicken" to get a feather instead of "obtian feather", otherwise the skill will not be executed.
 
 You should only respond in JSON format as described below:
